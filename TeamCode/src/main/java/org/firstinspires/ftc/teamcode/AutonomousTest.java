@@ -58,6 +58,7 @@ public class AutonomousTest extends LinearOpMode {
     private DcMotor leftRearMotor;
     private DcMotor rightFrontMotor;
     private DcMotor rightRearMotor;
+    int count;
     static final double     COUNTS_PER_MOTOR_REV    = 537.6 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 3.937 ;     // For figuring circumference
@@ -88,8 +89,11 @@ public class AutonomousTest extends LinearOpMode {
 
 
 
-        moveDistance(.5, 20);
-        turnRightDistance(.5, 23);
+            moveDistance(.5, 5);
+
+
+
+        //turnRightDistance(.5, 23);
         //moveDistance(.5, 10);
         //turnLeftDistance(.5, 15);
 

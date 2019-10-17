@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -58,10 +59,14 @@ public class TeleOp2 extends OpMode
     private DcMotor rightFront = null;
     private DcMotor rightRear = null;
     private DcMotor pivotMotor = null;
+    private CRServo actuatorServo = null;
     private boolean isSlow;
     private boolean slowHeld;
-    static final double     COUNTS_PER_MOTOR_REV    = 235.2;
-    static final double     DRIVE_GEAR_REDUCTION    = 1 ;
+    int xcount;
+    int acount;
+    private boolean turned = false;
+    static final double     COUNTS_PER_MOTOR_REV    = 696.5; //235.2
+    static final double     DRIVE_GEAR_REDUCTION    = 1.75;
     static final double     PIVOT_DIAMETER_INCHES   = .023622;
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (PIVOT_DIAMETER_INCHES * 3.1415);
@@ -77,6 +82,7 @@ public class TeleOp2 extends OpMode
         rightFront = hardwareMap.get(DcMotor.class, "right_front");
         rightRear = hardwareMap.get(DcMotor.class, "right_rear");
         pivotMotor = hardwareMap.get(DcMotor.class, "pivot_motor");
+        actuatorServo = hardwareMap.get(CRServo.class, "actuator_servo");
         //lift_motor
 
         leftFront.setDirection(DcMotor.Direction.FORWARD);
@@ -84,6 +90,7 @@ public class TeleOp2 extends OpMode
         rightFront.setDirection(DcMotor.Direction.REVERSE);
         rightRear.setDirection(DcMotor.Direction.REVERSE);
         pivotMotor.setDirection(DcMotor.Direction.FORWARD);
+        actuatorServo.setDirection(CRServo.Direction.REVERSE);
 
 
         telemetry.addData("Status", "Initialized");
@@ -93,6 +100,7 @@ public class TeleOp2 extends OpMode
     @Override
     public void init_loop()
     {
+
     }
 
     @Override
@@ -110,9 +118,15 @@ public class TeleOp2 extends OpMode
         double leftRearPower;
         double rightFrontPower;
         double rightRearPower;
+        double actuatorServoClosePower;
+        double actuatorServoOpenPower;
+        pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         double drive = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
         double turn  =  Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
         double strafe = gamepad1.right_stick_x;
+        double servoClose = gamepad1.left_trigger;
+        double servoOpen = gamepad1.right_trigger;
+
 
 
 
@@ -120,8 +134,20 @@ public class TeleOp2 extends OpMode
             rightFrontPower = Range.clip(drive * Math.cos(turn) + strafe, -1.0, 1.0);
             rightRearPower = Range.clip(drive * Math.sin(turn) + strafe, -1.0, 1.0);
             leftFrontPower = Range.clip(drive * Math.sin(turn) - strafe, -1.0, 1.0);
-            leftRearPower = Range.clip(drive * Math.cos(turn) - strafe, -1.0, 1.0);
+            leftRearPower = Range.clip(drive * Math.cos(turn) - strafe, 0.0, 1.0);
+            actuatorServoClosePower = Range.clip(servoClose, 0.0, 1.0);
+             actuatorServoOpenPower = Range.clip(servoOpen, 0.0, 1.0);
 
+
+
+             if(gamepad1.left_trigger > 0)
+             {
+                 actuatorServo.setPower(actuatorServoClosePower);
+             }
+             if(gamepad1.right_trigger > 0)
+             {
+                 actuatorServo.setPower(actuatorServoOpenPower);
+             }
 
 
             if (gamepad1.y)
@@ -147,9 +173,37 @@ public class TeleOp2 extends OpMode
 
 
 
-        if(gamepad2.a)
+
+        if(gamepad1.b)
         {
-            moveDistance(.2, 1);
+            if(!turned)
+            {
+
+                    moveDistance(.5, .0394 * 1.75);
+
+                turned = true;
+            }
+        }
+        if(gamepad1.x)
+        {
+            if(turned)
+           {
+
+                    moveDistance(.5, -.0394 * 1.75);
+
+
+                turned = false;
+            }
+        }
+        if(gamepad1.left_bumper)
+        {
+            moveDistance(.2, -.005);
+
+
+        }
+        if(gamepad1.right_bumper)
+        {
+            moveDistance(.2, .005);
         }
 
 
@@ -165,10 +219,7 @@ public class TeleOp2 extends OpMode
     {
 
 
-        leftFront.setPower(power);
-        leftRear.setPower(power);
-        rightFront.setPower(power);
-        rightRear.setPower(power);
+        pivotMotor.setPower(power);
 
 
 
@@ -176,12 +227,9 @@ public class TeleOp2 extends OpMode
 
     public void stopRobot()
     {
-        leftFront.setPower(0);
-        leftRear.setPower(0);
-        rightFront.setPower(0);
-        rightRear.setPower(0);
+        pivotMotor.setPower(0);
     }
-    public void moveDistance(double power, int distance)
+    public void moveDistance(double power, double distance)
     {
         pivotMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         //.4375 157.5 degrees  //304 ticks or 235.2
@@ -193,14 +241,14 @@ public class TeleOp2 extends OpMode
         move(power);
 
 
-        while (leftFront.isBusy() && leftRear.isBusy() && rightFront.isBusy() && rightRear.isBusy())
+        while (pivotMotor.isBusy())
         {
 
 
         }
 
-        stopRobot();
 
+        stopRobot();
         pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
