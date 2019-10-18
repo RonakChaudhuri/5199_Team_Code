@@ -128,43 +128,40 @@ public class TeleOp2 extends OpMode
         double servoOpen = gamepad1.right_trigger;
 
 
+         rightFrontPower = Range.clip(drive * Math.cos(turn) + strafe, -1.0, 1.0);
+         rightRearPower = Range.clip(drive * Math.sin(turn) + strafe, -1.0, 1.0);
+         leftFrontPower = Range.clip(drive * Math.sin(turn) - strafe, -1.0, 1.0);
+         leftRearPower = Range.clip(drive * Math.cos(turn) - strafe, -1.0, 1.0);
+         actuatorServoClosePower = Range.clip(servoClose, 0.0, 1.0);
+         actuatorServoOpenPower = Range.clip(servoOpen, 0.0, 1.0);
 
 
-
-            rightFrontPower = Range.clip(drive * Math.cos(turn) + strafe, -1.0, 1.0);
-            rightRearPower = Range.clip(drive * Math.sin(turn) + strafe, -1.0, 1.0);
-            leftFrontPower = Range.clip(drive * Math.sin(turn) - strafe, -1.0, 1.0);
-            leftRearPower = Range.clip(drive * Math.cos(turn) - strafe, 0.0, 1.0);
-            actuatorServoClosePower = Range.clip(servoClose, 0.0, 1.0);
-             actuatorServoOpenPower = Range.clip(servoOpen, 0.0, 1.0);
-
-
-
-             if(gamepad1.left_trigger > 0)
-             {
-                 actuatorServo.setPower(actuatorServoClosePower);
-             }
-             if(gamepad1.right_trigger > 0)
-             {
-                 actuatorServo.setPower(actuatorServoOpenPower);
-             }
+         //Actuator Servo Controls
+          if(gamepad1.left_trigger > 0)
+          {
+             actuatorServo.setPower(actuatorServoClosePower);
+          }
+          if(gamepad1.right_trigger > 0)
+          {
+             actuatorServo.setPower(actuatorServoOpenPower);
+          }
 
 
-            if (gamepad1.y)
-            {
-                leftFront.setPower(leftFrontPower * .2);
-                leftRear.setPower(leftRearPower * .2);
-                rightFront.setPower(rightFrontPower * .2);
-                rightRear.setPower(rightRearPower * .2);
-            }
-            if (gamepad1.right_bumper)
-            {
-                leftFront.setPower(leftFrontPower);
-                leftRear.setPower(leftRearPower);
-                rightFront.setPower(rightFrontPower);
-                rightRear.setPower(rightRearPower);
-            }
-
+          //Drive Controls
+          if (gamepad1.y)
+           {
+               leftFront.setPower(leftFrontPower * .2);
+               leftRear.setPower(leftRearPower * .2);
+               rightFront.setPower(rightFrontPower * .2);
+               rightRear.setPower(rightRearPower * .2);
+           }
+          if (gamepad1.right_bumper)
+          {
+              leftFront.setPower(leftFrontPower);
+              leftRear.setPower(leftRearPower);
+              rightFront.setPower(rightFrontPower);
+              rightRear.setPower(rightRearPower);
+          }
 
         leftFront.setPower(leftFrontPower * .8);
         leftRear.setPower(leftRearPower * .8);
@@ -173,7 +170,7 @@ public class TeleOp2 extends OpMode
 
 
 
-
+        //Pivot Actuator Controls
         if(gamepad1.b)
         {
             if(!turned)
@@ -217,12 +214,7 @@ public class TeleOp2 extends OpMode
 
     public void move(double power)
     {
-
-
         pivotMotor.setPower(power);
-
-
-
     }
 
     public void stopRobot()
@@ -232,7 +224,7 @@ public class TeleOp2 extends OpMode
     public void moveDistance(double power, double distance)
     {
         pivotMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        //.4375 157.5 degrees  //304 ticks or 235.2
+
         int amountToMove = (int)(distance * COUNTS_PER_INCH );
 
         pivotMotor.setTargetPosition(amountToMove);
@@ -246,7 +238,6 @@ public class TeleOp2 extends OpMode
 
 
         }
-
 
         stopRobot();
         pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
