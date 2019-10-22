@@ -35,8 +35,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
@@ -54,7 +54,7 @@ import java.util.List;
  */
 @Autonomous(name = "Blue Autonomous Skystone Side", group = "Concept")
 @Disabled
-public class BlueAutonomousSkystoneSide extends LinearOpMode
+public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
 {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
@@ -63,15 +63,24 @@ public class BlueAutonomousSkystoneSide extends LinearOpMode
     private DcMotor leftRearMotor;
     private DcMotor rightFrontMotor;
     private DcMotor rightRearMotor;
+    private DcMotor pivotMotor;
     static final double     COUNTS_PER_MOTOR_REV    = 537.6 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 3.937 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
+    static final double     COUNTS_PER_MOTOR_REV_PIVOT   = 696.5; //235.2
+    static final double     DRIVE_GEAR_REDUCTION_PIVOT    = 1.75;
+    static final double     PIVOT_DIAMETER_INCHES_PIVOT  = .023622;
+    static final double     COUNTS_PER_INCH_PIVOT         = (COUNTS_PER_MOTOR_REV_PIVOT * DRIVE_GEAR_REDUCTION_PIVOT) /
+            (PIVOT_DIAMETER_INCHES_PIVOT * 3.1415);
     private static final String VUFORIA_KEY =
             "AVlh/fr/////AAABmbDOVEeXhEIvtSZdmDAQFwpoeLbt2JNrdnl5vpfaSvtzRn2Hzjlh9tTlGfT35TawMAY9hmptf7PzZU4j99x0PX1xFsgc1xIbWGkAzFO6R5Zt42M/povDKHMbbUlgVarwjfyTZr3lcN+m3cU29zTj6zkie5n1q+GhG56whrVsTaWzt7oaZIr+0KIjFzHDfCOWQr9NB1C/jrKkrQT0hR48pbvpZO7t4t/fuCmB0Xp9Bji6T3HG2COQRYV8wThl3HjXJLadeU/Bh6jnOsPgH60FnOiCCnhGzdlhk3ccserQH7UPNnLJS1EaWaFG8n3wH09iLUiF3H56XFO/BbG1sD8RkIFfOT1NThzgOb2HaQjOndHw";
+
     private VuforiaLocalizer vuforia;
+
     private TFObjectDetector tfod;
+
     @Override
     public void runOpMode()
     {
@@ -80,12 +89,15 @@ public class BlueAutonomousSkystoneSide extends LinearOpMode
         leftRearMotor  = hardwareMap.get(DcMotor.class, "left_rear");
         rightFrontMotor = hardwareMap.get(DcMotor.class, "right_front");
         rightRearMotor  = hardwareMap.get(DcMotor.class, "right_rear");
+        pivotMotor = hardwareMap.get(DcMotor.class, "pivot_motor");
         leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         leftRearMotor.setDirection(DcMotor.Direction.REVERSE);
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        moveDistancePivot(.5, .0394 * 1.75);
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector())
         {
@@ -106,37 +118,42 @@ public class BlueAutonomousSkystoneSide extends LinearOpMode
 
         if (opModeIsActive())
         {
-            while (opModeIsActive() && !detected)
+            while (opModeIsActive())
             {
                 if (tfod != null)
                 {
+                    // getUpdatedRecognitions() will return null if no new information is available since
+                    // the last time that call was made.
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                     if (updatedRecognitions != null)
                     {
-                      telemetry.addData("# Object Detected", updatedRecognitions.size());
-                      int i = 0;
-                      for (Recognition recognition : updatedRecognitions)
-                      {
-                        telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                        telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                                          recognition.getLeft(), recognition.getTop());
-                        telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                                recognition.getRight(), recognition.getBottom());
-
-                         if(updatedRecognitions.size() > 0)
-                         {
-                             detected = true;
-                         }
-
-                      }
-
-                      telemetry.update();
+                        telemetry.addData("# Object Detected", updatedRecognitions.size());
+                        // step through the list of recognitions and display boundary info.
+                        int i = 0;
+                        for (Recognition recognition : updatedRecognitions)
+                        {
+                            telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+                            telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+                                    recognition.getLeft(), recognition.getTop());
+                            telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+                                    recognition.getRight(), recognition.getBottom());
+                            if(updatedRecognitions.size() > 0)
+                            {
+                                detected = true;
+                            }
+                        }
+                        telemetry.update();
                     }
                 }
             }
             if(detected)
             {
-                move(.3);
+                //moveDistance()
+                //closeActuator()
+                //moveDistance() move back
+                //turnLeftDistance()
+                //moveDistance()
+
 
             }
         }
@@ -146,7 +163,6 @@ public class BlueAutonomousSkystoneSide extends LinearOpMode
             tfod.shutdown();
         }
     }
-
     public void move(double power)
     {
 
@@ -284,18 +300,41 @@ public class BlueAutonomousSkystoneSide extends LinearOpMode
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+    public void moveDistancePivot(double power, double distance)
+    {
+        pivotMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+
+        int amountToMove = (int)(distance * COUNTS_PER_INCH_PIVOT);
+
+        pivotMotor.setTargetPosition(amountToMove);
+
+        pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        move(power);
+
+
+        while (pivotMotor.isBusy())
+        {
+
+
+        }
+
+        stopRobot();
+        pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
     private void initVuforia()
     {
+
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraDirection = CameraDirection.BACK;
+        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
+
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
     }
     private void initTfod()
     {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-            "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         tfodParameters.minimumConfidence = 0.8;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
