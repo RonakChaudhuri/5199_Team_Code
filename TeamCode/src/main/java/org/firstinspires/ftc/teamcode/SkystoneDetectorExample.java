@@ -1,10 +1,14 @@
 package org.firstinspires.ftc.teamcode;
+
 import com.disnodeteam.dogecv.detectors.skystone.SkystoneDetector;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
+
 import java.util.Locale;
 /*
  * Thanks to EasyOpenCV for the great API (and most of the example)
@@ -16,6 +20,10 @@ import java.util.Locale;
 public class SkystoneDetectorExample extends LinearOpMode {
     private OpenCvCamera phoneCam;
     private SkystoneDetector skyStoneDetector;
+    private DcMotor leftFrontMotor;
+    private DcMotor leftRearMotor;
+    private DcMotor rightFrontMotor;
+    private DcMotor rightRearMotor;
     @Override
     public void runOpMode() {
         /*
@@ -28,6 +36,12 @@ public class SkystoneDetectorExample extends LinearOpMode {
          */
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         phoneCam = new OpenCvInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+        leftFrontMotor  = hardwareMap.get(DcMotor.class, "left_front");
+        leftRearMotor  = hardwareMap.get(DcMotor.class, "left_rear");
+        rightFrontMotor = hardwareMap.get(DcMotor.class, "right_front");
+        rightRearMotor  = hardwareMap.get(DcMotor.class, "right_rear");
+        leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
+        leftRearMotor.setDirection(DcMotor.Direction.REVERSE);
 // OR...  Do Not Activate the Camera Monitor View
 //phoneCam = new OpenCvInternalCamera(OpenCvInternalCamera.CameraDirection.BACK);
         /*
@@ -41,6 +55,7 @@ public class SkystoneDetectorExample extends LinearOpMode {
          */
         skyStoneDetector = new SkystoneDetector();
         phoneCam.setPipeline(skyStoneDetector);
+
         /*
          * Tell the camera to start streaming images to us! Note that you must make sure
          * the resolution you specify is supported by the camera. If it is not, an exception
@@ -76,8 +91,18 @@ public class SkystoneDetectorExample extends LinearOpMode {
              * when it will be automatically stopped for you) *IS* supported. The "if" statement
              * below will stop streaming from the camera when the "A" button on gamepad 1 is pressed.
              */
-            if(gamepad1.a)
+            if(skyStoneDetector.isDetected())
             {
+
+                leftFrontMotor.setPower(-.2);
+                leftRearMotor.setPower(-.2);
+                rightFrontMotor.setPower(-.2);
+                rightRearMotor.setPower(-.2);
+                sleep(1000);
+
+            }
+//            if(gamepad1.a)
+//            {
                 /*
                  * IMPORTANT NOTE: calling stopStreaming() will indeed stop the stream of images
                  * from the camera (and, by extension, stop calling your vision pipeline). HOWEVER,
@@ -97,9 +122,9 @@ public class SkystoneDetectorExample extends LinearOpMode {
                  * time. Of course, this comment is irrelevant in light of the use case described in
                  * the above "important note".
                  */
-                phoneCam.stopStreaming();
+//                phoneCam.stopStreaming();
 //webcam.closeCameraDevice();
-            }
+//            }
             /*
              * The viewport (if one was specified in the constructor) can also be dynamically "paused"
              * and "resumed". The primary use case of this is to reduce CPU, memory, and power load
@@ -112,12 +137,12 @@ public class SkystoneDetectorExample extends LinearOpMode {
              * The "if" statements below will pause the viewport if the "X" button on gamepad1 is pressed,
              * and resume the viewport if the "Y" button on gamepad1 is pressed.
              */
-            else if(gamepad1.x) {
-                phoneCam.pauseViewport();
-            }
-            else if(gamepad1.y) {
-                phoneCam.resumeViewport();
-            }
+//            else if(gamepad1.x) {
+//                phoneCam.pauseViewport();
+//            }
+//            else if(gamepad1.y) {
+//                phoneCam.resumeViewport();
+//            }
         }
     }
 }

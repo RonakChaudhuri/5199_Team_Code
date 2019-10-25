@@ -64,6 +64,7 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
     private DcMotor rightFrontMotor;
     private DcMotor rightRearMotor;
     private DcMotor pivotMotor;
+    boolean detected = false;
     static final double     COUNTS_PER_MOTOR_REV    = 537.6 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 3.937 ;     // For figuring circumference
@@ -114,11 +115,11 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
-        boolean detected = false;
+
 
         if (opModeIsActive())
         {
-            while (opModeIsActive())
+            while (opModeIsActive() && !detected)
             {
                 if (tfod != null)
                 {
@@ -148,14 +149,14 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
             }
             if(detected)
             {
-                //moveDistance()
-                //closeActuator()
-                //moveDistance() move back
-                //turnLeftDistance()
-                //moveDistance()
+                moveDistance(-.2, -.5);
+                turnRightDistance(-.3, -23);
+                moveDistance(-.2, -.1);
+                turnLeftDistance(-.3, -23);
 
 
             }
+            detected = false;
         }
 
         if (tfod != null)
@@ -196,7 +197,7 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
     {
         turnLeft (-power);
     }
-    public void moveDistance(double power, int distance)
+    public void moveDistance(double power, double distance)
     {
         leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         leftRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
@@ -231,7 +232,7 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void turnLeftDistance (double power, int distance)
+    public void turnLeftDistance (double power, double distance)
     {
         leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         leftRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
@@ -266,7 +267,7 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void turnRightDistance (double power, int distance)
+    public void turnRightDistance (double power, double distance)
     {
         leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         leftRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);

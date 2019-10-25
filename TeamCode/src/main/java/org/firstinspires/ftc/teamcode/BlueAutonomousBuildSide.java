@@ -30,7 +30,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -53,7 +52,7 @@ import java.util.List;
  * is explained below.
  */
 @Autonomous(name = "Blue Autonomous Build Side", group = "Concept")
-@Disabled
+//@Disabled
 public class BlueAutonomousBuildSide extends LinearOpMode
 {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
@@ -63,11 +62,18 @@ public class BlueAutonomousBuildSide extends LinearOpMode
     private DcMotor leftRearMotor;
     private DcMotor rightFrontMotor;
     private DcMotor rightRearMotor;
+    private DcMotor actuatorMotor = null;
     static final double     COUNTS_PER_MOTOR_REV    = 537.6 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 3.937 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
+    static final double     COUNTS_PER_MOTOR_REV_PIVOT    = 696.5; //235.2
+    static final double     DRIVE_GEAR_REDUCTION_PIVOT    = 1.75;
+    static final double     PIVOT_DIAMETER_INCHES   = .023622;
+    static final double     COUNTS_PER_INCH_PIVOT      = (COUNTS_PER_MOTOR_REV_PIVOT * DRIVE_GEAR_REDUCTION_PIVOT) /
+            (PIVOT_DIAMETER_INCHES * 3.1415);
+    boolean detected = false;
     private static final String VUFORIA_KEY =
             "AVlh/fr/////AAABmbDOVEeXhEIvtSZdmDAQFwpoeLbt2JNrdnl5vpfaSvtzRn2Hzjlh9tTlGfT35TawMAY9hmptf7PzZU4j99x0PX1xFsgc1xIbWGkAzFO6R5Zt42M/povDKHMbbUlgVarwjfyTZr3lcN+m3cU29zTj6zkie5n1q+GhG56whrVsTaWzt7oaZIr+0KIjFzHDfCOWQr9NB1C/jrKkrQT0hR48pbvpZO7t4t/fuCmB0Xp9Bji6T3HG2COQRYV8wThl3HjXJLadeU/Bh6jnOsPgH60FnOiCCnhGzdlhk3ccserQH7UPNnLJS1EaWaFG8n3wH09iLUiF3H56XFO/BbG1sD8RkIFfOT1NThzgOb2HaQjOndHw";
     private VuforiaLocalizer vuforia;
@@ -80,8 +86,10 @@ public class BlueAutonomousBuildSide extends LinearOpMode
         leftRearMotor  = hardwareMap.get(DcMotor.class, "left_rear");
         rightFrontMotor = hardwareMap.get(DcMotor.class, "right_front");
         rightRearMotor  = hardwareMap.get(DcMotor.class, "right_rear");
+        actuatorMotor = hardwareMap.get(DcMotor.class, "actuator_motor");
         leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         leftRearMotor.setDirection(DcMotor.Direction.REVERSE);
+        actuatorMotor.setDirection(DcMotor.Direction.REVERSE);
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -102,7 +110,7 @@ public class BlueAutonomousBuildSide extends LinearOpMode
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
-        boolean detected = false;
+
 
         if (opModeIsActive())
         {
@@ -136,9 +144,21 @@ public class BlueAutonomousBuildSide extends LinearOpMode
             }
             if(detected)
             {
-                move(.3);
+                actuatorMotor.setPower(.5);
+                sleep(2000);
+                moveDistance(-.6, 20);
+                actuatorMotor.setPower(-.8);
+                sleep(2000);
+                turnRightDistance(-.6, 23);
+                moveDistance(-.6, 10);
+               turnLeftDistance(-.6, 23);
+
 
             }
+
+                detected = false;
+
+
         }
 
         if (tfod != null)
@@ -180,7 +200,7 @@ public class BlueAutonomousBuildSide extends LinearOpMode
     {
         turnLeft (-power);
     }
-    public void moveDistance(double power, int distance)
+    public void moveDistance(double power, double distance)
     {
         leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         leftRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
@@ -283,6 +303,34 @@ public class BlueAutonomousBuildSide extends LinearOpMode
         leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+    public void moveActuator(double power)
+    {
+        actuatorMotor.setPower(power);
+
+    }
+    public void moveActuatorDistance(double power, int distance) {
+        actuatorMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+
+        int amountToMove = (int) (distance * COUNTS_PER_INCH);
+
+
+        actuatorMotor.setTargetPosition(amountToMove);
+
+        actuatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        moveActuator(power);
+
+
+        while (actuatorMotor.isBusy())
+        {
+
+
+        }
+
+        stopRobot();
+        actuatorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
     }
     private void initVuforia()
     {

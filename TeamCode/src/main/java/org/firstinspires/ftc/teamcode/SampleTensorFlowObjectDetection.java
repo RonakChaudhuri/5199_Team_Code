@@ -170,6 +170,7 @@ public class SampleTensorFlowObjectDetection extends LinearOpMode
             {
                 move(.3);
 
+
             }
 
 
@@ -190,6 +191,7 @@ public class SampleTensorFlowObjectDetection extends LinearOpMode
         rightRearMotor.setPower(power);
         sleep(1000);
     }
+
 
     /**
      * Initialize the Vuforia localization engine.

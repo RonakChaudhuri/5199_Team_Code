@@ -50,7 +50,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="Autonomous Test", group="Linear Opmode")
 //@Disabled
-public class AutonomousTest extends LinearOpMode {
+public class AutonomousTest extends LinearOpMode
+{
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -58,28 +59,33 @@ public class AutonomousTest extends LinearOpMode {
     private DcMotor leftRearMotor;
     private DcMotor rightFrontMotor;
     private DcMotor rightRearMotor;
+    private DcMotor actuatorMotor = null;
     int count;
-    static final double     COUNTS_PER_MOTOR_REV    = 537.6 ;    // eg: TETRIX Motor Encoder
-    static final double     DRIVE_GEAR_REDUCTION    = 1 ;     // This is < 1.0 if geared UP
-    static final double     WHEEL_DIAMETER_INCHES   = 3.937 ;     // For figuring circumference
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+    static final double COUNTS_PER_MOTOR_REV = 537.6;    // eg: TETRIX Motor Encoder
+    static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
+    static final double WHEEL_DIAMETER_INCHES = 3.937;     // For figuring circumference
+    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
+    static final double COUNTS_PER_MOTOR_REV_ACTUATOR = 537.6;    // eg: TETRIX Motor Encoder
+    static final double DRIVE_GEAR_REDUCTION_ACTUATOR = 1;     // This is < 1.0 if geared UP
+    static final double ACTUATOR_DIAMETER_INCHES = 1.953;     // For figuring circumference
+    static final double COUNTS_PER_INCH_ACTUATOR = (COUNTS_PER_MOTOR_REV_ACTUATOR * DRIVE_GEAR_REDUCTION_ACTUATOR) /
+            (ACTUATOR_DIAMETER_INCHES * 3.1415);
 
-
-
-
+//5.2:1
     @Override
-    public void runOpMode() throws InterruptedException
-    {
+    public void runOpMode() throws InterruptedException {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        leftFrontMotor  = hardwareMap.get(DcMotor.class, "left_front");
-        leftRearMotor  = hardwareMap.get(DcMotor.class, "left_rear");
+        leftFrontMotor = hardwareMap.get(DcMotor.class, "left_front");
+        leftRearMotor = hardwareMap.get(DcMotor.class, "left_rear");
         rightFrontMotor = hardwareMap.get(DcMotor.class, "right_front");
-        rightRearMotor  = hardwareMap.get(DcMotor.class, "right_rear");
+        rightRearMotor = hardwareMap.get(DcMotor.class, "right_rear");
+        actuatorMotor = hardwareMap.get(DcMotor.class, "actuator_motor");
         leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         leftRearMotor.setDirection(DcMotor.Direction.REVERSE);
+        actuatorMotor.setDirection(DcMotor.Direction.REVERSE);
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -88,17 +94,22 @@ public class AutonomousTest extends LinearOpMode {
         runtime.reset();
 
 
-
-            moveDistance(.5, 5);
-
-
-
+        moveActuatorDistance(.5,2);
+       // actuatorMotor.setPower(1);
+       // sleep(2000);
+        //actuatorMotor.setPower(-.7);
+        //sleep(200);
+        //moveDistance(1, 5);
         //turnRightDistance(.5, 23);
-        //moveDistance(.5, 10);
-        //turnLeftDistance(.5, 15);
+        //moveDistance(1, 10);
+        //turnLeftDistance(1, 5);
 
+        //.5 power = 1.75 inches
+        //1 power = 3.25
 
     }
+
+
     public void move(double power)
     {
 
@@ -109,17 +120,16 @@ public class AutonomousTest extends LinearOpMode {
         rightRearMotor.setPower(power);
 
 
-
     }
-    public void stopRobot()
-    {
+
+    public void stopRobot() {
         leftFrontMotor.setPower(0);
         leftRearMotor.setPower(0);
         rightFrontMotor.setPower(0);
         rightRearMotor.setPower(0);
     }
-    public void turnLeft(double power)
-    {
+
+    public void turnLeft(double power) {
 
         leftFrontMotor.setPower(-power);
         leftRearMotor.setPower(-power);
@@ -128,18 +138,17 @@ public class AutonomousTest extends LinearOpMode {
 
     }
 
-    public void turnRight(double power)
-    {
-        turnLeft (-power);
+    public void turnRight(double power) {
+        turnLeft(-power);
     }
-    public void moveDistance(double power, int distance)
-    {
+
+    public void moveDistance(double power, int distance) {
         leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         leftRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         rightFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         rightRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
 
-        int amountToMove = (int)(distance * COUNTS_PER_INCH );
+        int amountToMove = (int) (distance * COUNTS_PER_INCH);
 
 
         leftFrontMotor.setTargetPosition(amountToMove);
@@ -154,8 +163,7 @@ public class AutonomousTest extends LinearOpMode {
         move(power);
 
 
-        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy())
-        {
+        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy()) {
 
 
         }
@@ -167,14 +175,13 @@ public class AutonomousTest extends LinearOpMode {
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void turnLeftDistance (double power, int distance)
-    {
+    public void turnLeftDistance(double power, int distance) {
         leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         leftRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         rightFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         rightRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
 
-        int amountToMove = (int)(distance * COUNTS_PER_INCH );
+        int amountToMove = (int) (distance * COUNTS_PER_INCH);
 
         leftFrontMotor.setTargetPosition(-amountToMove);
         leftRearMotor.setTargetPosition(-amountToMove);
@@ -189,8 +196,7 @@ public class AutonomousTest extends LinearOpMode {
         turnLeft(power);
 
 
-        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy())
-        {
+        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy()) {
 
 
         }
@@ -202,14 +208,13 @@ public class AutonomousTest extends LinearOpMode {
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void turnRightDistance (double power, int distance)
-    {
+    public void turnRightDistance(double power, int distance) {
         leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         leftRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         rightFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         rightRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
 
-        int amountToMove = (int)(distance * COUNTS_PER_INCH );
+        int amountToMove = (int) (distance * COUNTS_PER_INCH);
 
         leftFrontMotor.setTargetPosition(amountToMove);
         leftRearMotor.setTargetPosition(amountToMove);
@@ -224,8 +229,7 @@ public class AutonomousTest extends LinearOpMode {
         turnRight(power);
 
 
-        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy())
-        {
+        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy()) {
 
 
         }
@@ -235,6 +239,37 @@ public class AutonomousTest extends LinearOpMode {
         leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+
+    public void moveActuator(double power)
+    {
+        actuatorMotor.setPower(power);
+
+    }
+    public void moveActuatorDistance(double power, int distance)
+    {
+        actuatorMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+
+        int amountToMove = (int) (distance * COUNTS_PER_INCH);
+
+
+        actuatorMotor.setTargetPosition(amountToMove);
+
+        actuatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        moveActuator(power);
+
+
+        while (actuatorMotor.isBusy())
+        {
+
+
+        }
+
+        stopRobot();
+        actuatorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
     }
 
 }
