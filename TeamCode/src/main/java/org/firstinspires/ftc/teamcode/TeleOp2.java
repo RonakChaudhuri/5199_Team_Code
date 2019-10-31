@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -59,6 +60,8 @@ public class TeleOp2 extends OpMode
     private DcMotor rightRear = null;
     private DcMotor pivotMotor = null;
     private DcMotor liftMotor = null;
+    private Servo leftServo = null;
+    private Servo rightServo = null;
     //private CRServo actuatorServo = null;
     private DcMotor actuatorMotor = null;
     private boolean turned = false;
@@ -82,6 +85,8 @@ public class TeleOp2 extends OpMode
         //actuatorServo = hardwareMap.get(CRServo.class, "actuator_servo");
         actuatorMotor = hardwareMap.get(DcMotor.class, "actuator_motor");
         liftMotor = hardwareMap.get(DcMotor.class, "lift_motor");
+        leftServo = hardwareMap.get(Servo.class, "servo_left");
+        rightServo = hardwareMap.get(Servo.class, "servo_right");
 
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         leftRear.setDirection(DcMotor.Direction.FORWARD);
@@ -143,13 +148,13 @@ public class TeleOp2 extends OpMode
          //Actuator Motor Controls
           if(gamepad2.left_trigger > 0)
           {
-             actuatorMotor.setPower(actuatorMotorOpenPower * .6);
+             actuatorMotor.setPower(actuatorMotorOpenPower * .9);
 
           }
           actuatorMotor.setPower(0);
           if(gamepad2.right_trigger > 0)
           {
-             actuatorMotor.setPower(-actuatorMotorClosePower * .6);
+             actuatorMotor.setPower(-actuatorMotorClosePower * .9);
 
           }
           actuatorMotor.setPower(0);
@@ -160,23 +165,23 @@ public class TeleOp2 extends OpMode
           //Drive Controls
           if (gamepad1.right_trigger > 0)
            {
-               leftFront.setPower(leftFrontPower * .01);
-               leftRear.setPower(leftRearPower * .01);
-               rightFront.setPower(rightFrontPower * .01);
-               rightRear.setPower(rightRearPower * .01);
+               leftFront.setPower(leftFrontPower * .005);
+               leftRear.setPower(leftRearPower * .005);
+               rightFront.setPower(rightFrontPower * .005);
+               rightRear.setPower(rightRearPower * .005);
            }
-          if (gamepad1.right_bumper)
+          if (gamepad1.y)
           {
-              leftFront.setPower(leftFrontPower);
-              leftRear.setPower(leftRearPower);
-              rightFront.setPower(rightFrontPower);
-              rightRear.setPower(rightRearPower);
+              leftFront.setPower(leftFrontPower * .1);
+              leftRear.setPower(leftRearPower * .1);
+              rightFront.setPower(rightFrontPower * .1);
+              rightRear.setPower(rightRearPower * .1);
           }
 
-        leftFront.setPower(leftFrontPower * .6);
-        leftRear.setPower(leftRearPower * .6);
-        rightFront.setPower(rightFrontPower * .6);
-        rightRear.setPower(rightRearPower * .6);
+        leftFront.setPower(leftFrontPower * .9);
+        leftRear.setPower(leftRearPower * .9);
+        rightFront.setPower(rightFrontPower * .9);
+        rightRear.setPower(rightRearPower * .9);
 
 
 
@@ -216,17 +221,25 @@ public class TeleOp2 extends OpMode
         //Lift Motor controls
         if (gamepad2.left_stick_y > 0)
         {
-            liftMotor.setPower(liftMotorPower);
+            liftMotor.setPower(liftMotorPower * 1.2);
         }
         liftMotor.setPower(0);
 
         if (gamepad2.left_stick_y < 0)
         {
-            liftMotor.setPower(liftMotorPower);
+            liftMotor.setPower(liftMotorPower * 1.2);
         }
         liftMotor.setPower(0);
 
 
+        if(gamepad1.a)
+        {
+            leftServo.setPosition(.5);
+        }
+        if(gamepad1.y)
+        {
+            leftServo.setPosition(0);
+        }
 
 
 

@@ -66,7 +66,7 @@ public class AutonomousTest extends LinearOpMode
     static final double WHEEL_DIAMETER_INCHES = 3.937;     // For figuring circumference
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double COUNTS_PER_MOTOR_REV_ACTUATOR = 537.6;    // eg: TETRIX Motor Encoder
+    static final double COUNTS_PER_MOTOR_REV_ACTUATOR = 145.6; //232.96    // eg: TETRIX Motor Encoder
     static final double DRIVE_GEAR_REDUCTION_ACTUATOR = 1;     // This is < 1.0 if geared UP
     static final double ACTUATOR_DIAMETER_INCHES = 1.953;     // For figuring circumference
     static final double COUNTS_PER_INCH_ACTUATOR = (COUNTS_PER_MOTOR_REV_ACTUATOR * DRIVE_GEAR_REDUCTION_ACTUATOR) /
@@ -94,7 +94,10 @@ public class AutonomousTest extends LinearOpMode
         runtime.reset();
 
 
-        moveActuatorDistance(.5,2);
+        //moveActuatorDistance(.5,-.1); //DISTANCE 3 =1 INCH
+
+        moveDistanceStrafe(.6, 8.5);
+        moveDistance(-.6, 23);
        // actuatorMotor.setPower(1);
        // sleep(2000);
         //actuatorMotor.setPower(-.7);
@@ -120,6 +123,13 @@ public class AutonomousTest extends LinearOpMode
         rightRearMotor.setPower(power);
 
 
+    }
+    public void strafe(double power)
+    {
+        leftFrontMotor.setPower(power);
+        leftRearMotor.setPower(-power);
+        rightFrontMotor.setPower(-power);
+        rightRearMotor.setPower(power);
     }
 
     public void stopRobot() {
@@ -164,6 +174,40 @@ public class AutonomousTest extends LinearOpMode
 
 
         while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy()) {
+
+
+        }
+
+        stopRobot();
+        leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+    public void moveDistanceStrafe(double power, double distance)
+    {
+        leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        leftRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        rightFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        rightRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+
+        int amountToMove = (int)(distance * COUNTS_PER_INCH);
+
+
+        leftFrontMotor.setTargetPosition(amountToMove);
+        leftRearMotor.setTargetPosition(-amountToMove);
+        rightFrontMotor.setTargetPosition(-amountToMove);
+        rightRearMotor.setTargetPosition(amountToMove);
+
+        leftFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftRearMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightRearMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        strafe(power);
+
+
+        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy())
+        {
 
 
         }
@@ -247,11 +291,11 @@ public class AutonomousTest extends LinearOpMode
         actuatorMotor.setPower(power);
 
     }
-    public void moveActuatorDistance(double power, int distance)
+    public void moveActuatorDistance(double power, double distance)
     {
         actuatorMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
 
-        int amountToMove = (int) (distance * COUNTS_PER_INCH);
+        int amountToMove = (int) (distance * COUNTS_PER_INCH_ACTUATOR);
 
 
         actuatorMotor.setTargetPosition(amountToMove);

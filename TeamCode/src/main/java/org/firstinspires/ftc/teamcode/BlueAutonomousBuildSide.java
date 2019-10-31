@@ -63,6 +63,7 @@ public class BlueAutonomousBuildSide extends LinearOpMode
     private DcMotor rightFrontMotor;
     private DcMotor rightRearMotor;
     private DcMotor actuatorMotor = null;
+    private DcMotor pivotMotor = null;
     static final double     COUNTS_PER_MOTOR_REV    = 537.6 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 3.937 ;     // For figuring circumference
@@ -73,6 +74,11 @@ public class BlueAutonomousBuildSide extends LinearOpMode
     static final double     PIVOT_DIAMETER_INCHES   = .023622;
     static final double     COUNTS_PER_INCH_PIVOT      = (COUNTS_PER_MOTOR_REV_PIVOT * DRIVE_GEAR_REDUCTION_PIVOT) /
             (PIVOT_DIAMETER_INCHES * 3.1415);
+    static final double COUNTS_PER_MOTOR_REV_ACTUATOR = 145.6; //232.96    // eg: TETRIX Motor Encoder
+    static final double DRIVE_GEAR_REDUCTION_ACTUATOR = 1;     // This is < 1.0 if geared UP
+    static final double ACTUATOR_DIAMETER_INCHES = 1.953;     // For figuring circumference
+    static final double COUNTS_PER_INCH_ACTUATOR = (COUNTS_PER_MOTOR_REV_ACTUATOR * DRIVE_GEAR_REDUCTION_ACTUATOR) /
+            (ACTUATOR_DIAMETER_INCHES * 3.1415);
     boolean detected = false;
     private static final String VUFORIA_KEY =
             "AVlh/fr/////AAABmbDOVEeXhEIvtSZdmDAQFwpoeLbt2JNrdnl5vpfaSvtzRn2Hzjlh9tTlGfT35TawMAY9hmptf7PzZU4j99x0PX1xFsgc1xIbWGkAzFO6R5Zt42M/povDKHMbbUlgVarwjfyTZr3lcN+m3cU29zTj6zkie5n1q+GhG56whrVsTaWzt7oaZIr+0KIjFzHDfCOWQr9NB1C/jrKkrQT0hR48pbvpZO7t4t/fuCmB0Xp9Bji6T3HG2COQRYV8wThl3HjXJLadeU/Bh6jnOsPgH60FnOiCCnhGzdlhk3ccserQH7UPNnLJS1EaWaFG8n3wH09iLUiF3H56XFO/BbG1sD8RkIFfOT1NThzgOb2HaQjOndHw";
@@ -87,6 +93,7 @@ public class BlueAutonomousBuildSide extends LinearOpMode
         rightFrontMotor = hardwareMap.get(DcMotor.class, "right_front");
         rightRearMotor  = hardwareMap.get(DcMotor.class, "right_rear");
         actuatorMotor = hardwareMap.get(DcMotor.class, "actuator_motor");
+        pivotMotor = hardwareMap.get(DcMotor.class, "pivot_motor");
         leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         leftRearMotor.setDirection(DcMotor.Direction.REVERSE);
         actuatorMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -94,6 +101,10 @@ public class BlueAutonomousBuildSide extends LinearOpMode
         leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        actuatorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector())
         {
@@ -144,19 +155,25 @@ public class BlueAutonomousBuildSide extends LinearOpMode
             }
             if(detected)
             {
-                actuatorMotor.setPower(.5);
-                sleep(2000);
-                moveDistance(-.6, 20);
-                actuatorMotor.setPower(-.8);
-                sleep(2000);
-                turnRightDistance(-.6, 23);
-                moveDistance(-.6, 10);
-               turnLeftDistance(-.6, 23);
+                //turnRightDistance(.5, 46);
+                moveDistancePivot(.5, .0394 * 1.75);
+                moveDistanceStrafe(.6, 8.5);
+                moveDistance(.6, 23);
+                moveActuatorDistance(.3, -.075);
+                moveDistance(.6, -15);
+                turnLeftDistance(.4, 23);
+                moveDistancePivot(.5, -.0394 * 1.75);
 
+
+
+               // turnRightDistance(-.1, 23);
+                //moveDistance(-.1, 10);
+               //turnLeftDistance(-.1, 23);
 
             }
+              detected = false;
+              //turnLeftDistance(.5, 23);
 
-                detected = false;
 
 
         }
@@ -178,6 +195,13 @@ public class BlueAutonomousBuildSide extends LinearOpMode
 
 
 
+    }
+    public void strafe(double power)
+    {
+        leftFrontMotor.setPower(power);
+        leftRearMotor.setPower(-power);
+        rightFrontMotor.setPower(-power);
+        rightRearMotor.setPower(power);
     }
     public void stopRobot()
     {
@@ -220,6 +244,40 @@ public class BlueAutonomousBuildSide extends LinearOpMode
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         move(power);
+
+
+        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy())
+        {
+
+
+        }
+
+        stopRobot();
+        leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+    public void moveDistanceStrafe(double power, double distance)
+    {
+        leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        leftRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        rightFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        rightRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+
+        int amountToMove = (int)(distance * COUNTS_PER_INCH);
+
+
+        leftFrontMotor.setTargetPosition(amountToMove);
+        leftRearMotor.setTargetPosition(-amountToMove);
+        rightFrontMotor.setTargetPosition(-amountToMove);
+        rightRearMotor.setTargetPosition(amountToMove);
+
+        leftFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftRearMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightRearMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        strafe(power);
 
 
         while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy())
@@ -304,15 +362,36 @@ public class BlueAutonomousBuildSide extends LinearOpMode
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+    public void moveDistancePivot(double power, double distance)
+    {
+        pivotMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+
+        int amountToMove = (int)(distance * COUNTS_PER_INCH_PIVOT );
+
+        pivotMotor.setTargetPosition(amountToMove);
+
+        pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        move(power);
+
+
+        while (pivotMotor.isBusy())
+        {
+
+
+        }
+
+        stopRobot();
+        pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
     public void moveActuator(double power)
     {
         actuatorMotor.setPower(power);
 
     }
-    public void moveActuatorDistance(double power, int distance) {
+    public void moveActuatorDistance(double power, double distance) {
         actuatorMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
 
-        int amountToMove = (int) (distance * COUNTS_PER_INCH);
+        int amountToMove = (int) (distance * COUNTS_PER_INCH_ACTUATOR);
 
 
         actuatorMotor.setTargetPosition(amountToMove);
@@ -332,6 +411,7 @@ public class BlueAutonomousBuildSide extends LinearOpMode
         actuatorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
+
     private void initVuforia()
     {
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
