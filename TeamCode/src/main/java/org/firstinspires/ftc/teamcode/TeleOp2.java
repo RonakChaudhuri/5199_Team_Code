@@ -35,19 +35,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-/**
- * This file contains an example of an iterative (Non-Linear) "OpMode".
- * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
- * The names of OpModes appear on the menu of the FTC Driver Station.
- * When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robot Controller and executed.
- *
- * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
- * It includes all the skeletal structure that all iterative OpModes contain.
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- */
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp2", group="Iterative Opmode")
 
@@ -65,10 +52,10 @@ public class TeleOp2 extends OpMode
     //private CRServo actuatorServo = null;
     private DcMotor actuatorMotor = null;
     private boolean turned = false;
-    static final double     COUNTS_PER_MOTOR_REV    = 696.5; //235.2
-    static final double     DRIVE_GEAR_REDUCTION    = 1.75;
+    static final double     COUNTS_PER_MOTOR_REV_PIVOT    = 696.5; //235.2
+    static final double     DRIVE_GEAR_REDUCTION_PIVOT    = 1.75;
     static final double     PIVOT_DIAMETER_INCHES   = .023622;
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV_PIVOT * DRIVE_GEAR_REDUCTION_PIVOT) /
             (PIVOT_DIAMETER_INCHES * 3.1415);
 
 
@@ -165,12 +152,12 @@ public class TeleOp2 extends OpMode
           //Drive Controls
           if (gamepad1.right_trigger > 0)
            {
-               leftFront.setPower(leftFrontPower * .005);
-               leftRear.setPower(leftRearPower * .005);
-               rightFront.setPower(rightFrontPower * .005);
-               rightRear.setPower(rightRearPower * .005);
+               leftFront.setPower(leftFrontPower * 1.5);
+               leftRear.setPower(leftRearPower * 1.5);
+               rightFront.setPower(rightFrontPower * 1.5);
+               rightRear.setPower(rightRearPower * 1.5);
            }
-          if (gamepad1.y)
+          if (gamepad1.x)
           {
               leftFront.setPower(leftFrontPower * .1);
               leftRear.setPower(leftRearPower * .1);
@@ -232,6 +219,8 @@ public class TeleOp2 extends OpMode
         liftMotor.setPower(0);
 
 
+
+        //Platform Servo Controls
         if(gamepad1.a)
         {
             leftServo.setPosition(.5);
