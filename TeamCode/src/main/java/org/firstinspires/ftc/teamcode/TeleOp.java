@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -49,7 +50,7 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp", group="Iterative Opmode")
-
+@Disabled
 public class TeleOp extends OpMode
 {
     private ElapsedTime runtime = new ElapsedTime();

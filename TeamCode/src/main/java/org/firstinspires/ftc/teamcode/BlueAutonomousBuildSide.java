@@ -120,11 +120,13 @@ public class BlueAutonomousBuildSide extends LinearOpMode
         }
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
+
         waitForStart();
 
 
         if (opModeIsActive())
         {
+
             while (opModeIsActive() && !detected)
             {
                 if (tfod != null)
@@ -156,13 +158,14 @@ public class BlueAutonomousBuildSide extends LinearOpMode
             if(detected)
             {
                 //turnRightDistance(.5, 46);
-                moveDistancePivot(.5, .0394 * 1.75);
-                moveDistanceStrafe(.6, 8.5);
+                //moveDistancePivot(.5, .0394 * 1.75);
+                //moveDistanceStrafe(.6, 8.5);
                 moveDistance(.6, 23);
                 moveActuatorDistance(.3, -.075);
                 moveDistance(.6, -15);
                 turnLeftDistance(.4, 23);
-                moveDistancePivot(.5, -.0394 * 1.75);
+                //moveDistancePivot(.5, -.0394 * 1.75);
+                moveDistance(.5, 10);
 
 
 
@@ -223,6 +226,10 @@ public class BlueAutonomousBuildSide extends LinearOpMode
     public void turnRight(double power)
     {
         turnLeft (-power);
+    }
+    public void movePivot(double power)
+    {
+        pivotMotor.setPower(power);
     }
     public void moveDistance(double power, double distance)
     {
@@ -371,7 +378,7 @@ public class BlueAutonomousBuildSide extends LinearOpMode
         pivotMotor.setTargetPosition(amountToMove);
 
         pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        move(power);
+        movePivot(power);
 
 
         while (pivotMotor.isBusy())

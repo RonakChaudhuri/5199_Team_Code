@@ -29,30 +29,30 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-
 /**
- * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
- * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
- * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
+ * This file contains an example of an iterative (Non-Linear) "OpMode".
+ * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
+ * The names of OpModes appear on the menu of the FTC Driver Station.
+ * When an selection is made from the menu, the corresponding OpMode
  * class is instantiated on the Robot Controller and executed.
  *
  * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
- * It includes all the skeletal structure that all linear OpModes contain.
+ * It includes all the skeletal structure that all iterative OpModes contain.
  *
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Autonomous Test", group="Linear Opmode")
-//@Disabled
-public class AutonomousTest extends LinearOpMode
+@TeleOp(name="SampleOpMode", group="Iterative Opmode")
+@Disabled
+public class AutonomousTest2 extends OpMode
 {
-
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftFrontMotor;
@@ -77,18 +77,25 @@ public class AutonomousTest extends LinearOpMode
     static final double COUNTS_PER_INCH_ACTUATOR = (COUNTS_PER_MOTOR_REV_ACTUATOR * DRIVE_GEAR_REDUCTION_ACTUATOR) /
             (ACTUATOR_DIAMETER_INCHES * 3.1415);
 
-//5.2:1
+    /*
+     * Code to run ONCE when the driver hits INIT
+     */
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void init() {
         telemetry.addData("Status", "Initialized");
-        telemetry.update();
 
+        // Initialize the hardware variables. Note that the strings used here as parameters
+        // to 'get' must correspond to the names assigned during the robot configuration
+        // step (using the FTC Robot Controller app on the phone).
         leftFrontMotor = hardwareMap.get(DcMotor.class, "left_front");
         leftRearMotor = hardwareMap.get(DcMotor.class, "left_rear");
         rightFrontMotor = hardwareMap.get(DcMotor.class, "right_front");
         rightRearMotor = hardwareMap.get(DcMotor.class, "right_rear");
         actuatorMotor = hardwareMap.get(DcMotor.class, "actuator_motor");
         pivotMotor = hardwareMap.get(DcMotor.class, "pivot_motor");
+
+        // Most robots need the motor on one side to be reversed to drive forward
+        // Reverse the motor that runs backwards when connected directly to the battery
         leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         leftRearMotor.setDirection(DcMotor.Direction.REVERSE);
         actuatorMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -97,62 +104,50 @@ public class AutonomousTest extends LinearOpMode
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        waitForStart();
-        runtime.reset();
 
-
-        //moveActuatorDistance(.5,-.1); //DISTANCE 3 =1 INCH
-
-        //moveDistanceStrafe(.6, 8.5);
-       // moveDistance(-.6, 23);
-       // actuatorMotor.setPower(1);
-       // sleep(2000);
-        //actuatorMotor.setPower(-.7);
-        //sleep(200);
-        //moveDistance(1, 5);
-        //turnRightDistance(.5, 23);
-        //moveDistance(1, 10);
-        //turnLeftDistance(1, 5);
-
-        //.5 power = 1.75 inches
-        //1 power = 3.25
-        //turnRightDistance(.5, 46);
-        //moveDistancePivot(.5, .0394 * 1.75);
-        //moveDistanceStrafe(.6, 8.5);
-
-        moveDistance(-.6, 12);
-        //move (0.15);
-//        while (leftFrontMotor.isBusy() || leftRearMotor.isBusy() ||
-//                rightFrontMotor.isBusy() || rightRearMotor.isBusy() && !actuatorRunning)
-//        {
-//                driveRunning = true;
-//
-//        }
-
-
-       moveActuatorDistance(.3, -0.07);
-
-        sleep(200);
-        actuatorMotor.setPower(0);
-
-
-        moveDistance(.3, -5);
-        //move(-.1);
-        //sleep(200);
-//        while (leftFrontMotor.isBusy() || leftRearMotor.isBusy() ||
-//                rightFrontMotor.isBusy() || rightRearMotor.isBusy() && !actuatorRunning)
-//        {
-//            driveRunning = true;
-//
-//        }
-
-        //turnLeftDistance(.4, 23);
-        //moveDistancePivot(.5, -.0394 * 1.75);
-       // moveDistance(.5, 10);
-
+        // Tell the driver that initialization is complete.
+        telemetry.addData("Status", "Initialized");
     }
 
+    /*
+     * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
+     */
+    @Override
+    public void init_loop() {
+    }
 
+    /*
+     * Code to run ONCE when the driver hits PLAY
+     */
+    @Override
+    public void start() {
+        runtime.reset();
+    }
+
+    /*
+     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
+     */
+    @Override
+    public void loop() {
+
+        moveDistance(.6, 12);
+        moveActuatorDistance(.3, -0.07);
+        moveDistance(.3, -5);
+        turnLeftDistance(.6, 23);
+        moveDistance(.6, 10);
+
+        // Show the elapsed game time and wheel power.
+        telemetry.addData("Status", "Run Time: " + runtime.toString());
+        telemetry.addData("Motors", "left (%.2f), right (%.2f)", rightFrontMotor, leftFrontMotor);
+    }
+
+    /*
+     * Code to run ONCE after the driver hits STOP
+     */
+    @Override
+    public void stop()
+    {
+    }
     public void move(double power)
     {
 

@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -48,9 +49,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Autonomous Test", group="Linear Opmode")
+@Autonomous(name="BPLatform", group="Linear Opmode")
 //@Disabled
-public class AutonomousTest extends LinearOpMode
+public class BPlatform extends LinearOpMode
 {
 
     // Declare OpMode members.
@@ -61,6 +62,8 @@ public class AutonomousTest extends LinearOpMode
     private DcMotor rightRearMotor;
     private DcMotor actuatorMotor = null;
     private DcMotor pivotMotor = null;
+    private Servo leftServo = null;
+    private Servo rightServo = null;
     static final double COUNTS_PER_MOTOR_REV = 537.6;    // eg: TETRIX Motor Encoder
     static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 3.937;     // For figuring circumference
@@ -89,66 +92,32 @@ public class AutonomousTest extends LinearOpMode
         rightRearMotor = hardwareMap.get(DcMotor.class, "right_rear");
         actuatorMotor = hardwareMap.get(DcMotor.class, "actuator_motor");
         pivotMotor = hardwareMap.get(DcMotor.class, "pivot_motor");
+        leftServo = hardwareMap.get(Servo.class, "servo_left");
+        rightServo = hardwareMap.get(Servo.class, "servo_right");
         leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         leftRearMotor.setDirection(DcMotor.Direction.REVERSE);
         actuatorMotor.setDirection(DcMotor.Direction.REVERSE);
+        rightServo.setDirection(Servo.Direction.REVERSE);
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftServo.setPosition(0);
+        rightServo.setPosition(0);
         waitForStart();
         runtime.reset();
 
-
-        //moveActuatorDistance(.5,-.1); //DISTANCE 3 =1 INCH
-
-        //moveDistanceStrafe(.6, 8.5);
-       // moveDistance(-.6, 23);
-       // actuatorMotor.setPower(1);
-       // sleep(2000);
-        //actuatorMotor.setPower(-.7);
-        //sleep(200);
-        //moveDistance(1, 5);
-        //turnRightDistance(.5, 23);
-        //moveDistance(1, 10);
-        //turnLeftDistance(1, 5);
-
-        //.5 power = 1.75 inches
-        //1 power = 3.25
-        //turnRightDistance(.5, 46);
-        //moveDistancePivot(.5, .0394 * 1.75);
-        //moveDistanceStrafe(.6, 8.5);
-
-        moveDistance(-.6, 12);
-        //move (0.15);
-//        while (leftFrontMotor.isBusy() || leftRearMotor.isBusy() ||
-//                rightFrontMotor.isBusy() || rightRearMotor.isBusy() && !actuatorRunning)
-//        {
-//                driveRunning = true;
-//
-//        }
+        moveDistance(.6, 12);
+        moveDistanceStrafe(.6, -5);
+        leftServo.setPosition(.78);
+        rightServo.setPosition(.5);
+        moveDistance(.6, -10);
+        leftServo.setPosition(0);
+        rightServo.setPosition(0);
+        moveDistanceStrafe(.6, 5);
 
 
-       moveActuatorDistance(.3, -0.07);
-
-        sleep(200);
-        actuatorMotor.setPower(0);
-
-
-        moveDistance(.3, -5);
-        //move(-.1);
-        //sleep(200);
-//        while (leftFrontMotor.isBusy() || leftRearMotor.isBusy() ||
-//                rightFrontMotor.isBusy() || rightRearMotor.isBusy() && !actuatorRunning)
-//        {
-//            driveRunning = true;
-//
-//        }
-
-        //turnLeftDistance(.4, 23);
-        //moveDistancePivot(.5, -.0394 * 1.75);
-       // moveDistance(.5, 10);
 
     }
 
