@@ -103,52 +103,30 @@ public class AutonomousTest extends LinearOpMode
 
         //moveActuatorDistance(.5,-.1); //DISTANCE 3 =1 INCH
 
-        //moveDistanceStrafe(.6, 8.5);
-       // moveDistance(-.6, 23);
-       // actuatorMotor.setPower(1);
-       // sleep(2000);
-        //actuatorMotor.setPower(-.7);
-        //sleep(200);
-        //moveDistance(1, 5);
-        //turnRightDistance(.5, 23);
-        //moveDistance(1, 10);
-        //turnLeftDistance(1, 5);
 
         //.5 power = 1.75 inches
         //1 power = 3.25
-        //turnRightDistance(.5, 46);
-        //moveDistancePivot(.5, .0394 * 1.75);
+        moveDistancePivot(.5, .0390 * 1.75);
+        pivotMotor.setPower(0);
         //moveDistanceStrafe(.6, 8.5);
 
-        moveDistance(-.6, 12);
-        //move (0.15);
-//        while (leftFrontMotor.isBusy() || leftRearMotor.isBusy() ||
-//                rightFrontMotor.isBusy() || rightRearMotor.isBusy() && !actuatorRunning)
-//        {
-//                driveRunning = true;
-//
-//        }
+        moveDistance(-.6, 15);
 
 
-       moveActuatorDistance(.3, -0.07);
+       //moveactuator power 1 distance -41 for full close around block
+       moveActuatorDistance(1, -41);
 
-        sleep(200);
         actuatorMotor.setPower(0);
 
 
-        moveDistance(.3, -5);
-        //move(-.1);
-        //sleep(200);
-//        while (leftFrontMotor.isBusy() || leftRearMotor.isBusy() ||
-//                rightFrontMotor.isBusy() || rightRearMotor.isBusy() && !actuatorRunning)
-//        {
-//            driveRunning = true;
-//
-//        }
+        moveDistance(.3, -9);
 
-        //turnLeftDistance(.4, 23);
-        //moveDistancePivot(.5, -.0394 * 1.75);
-       // moveDistance(.5, 10);
+
+        turnLeftDistance(.4, 23);
+        moveDistancePivot(.5, -.0390 * 1.75);
+        pivotMotor.setPower(0);
+        moveDistance(.5, 10);
+
 
     }
 

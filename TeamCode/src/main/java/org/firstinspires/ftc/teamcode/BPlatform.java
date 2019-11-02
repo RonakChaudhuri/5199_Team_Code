@@ -108,14 +108,29 @@ public class BPlatform extends LinearOpMode
         waitForStart();
         runtime.reset();
 
-        moveDistance(.6, 12);
-        moveDistanceStrafe(.6, -5);
+        moveDistance(.4, -29);
+        //moveDistanceStrafe(.6, -5);
         leftServo.setPosition(.78);
         rightServo.setPosition(.5);
-        moveDistance(.6, -10);
+        sleep(1000);
+        moveDistance(.4, 20);
         leftServo.setPosition(0);
         rightServo.setPosition(0);
-        moveDistanceStrafe(.6, 5);
+        sleep(1000);
+        moveDistanceStrafe(.6, -35);
+        moveDistance(.4, -42);
+        turnLeftDistance(.4, 23);
+        moveDistance(.4, -26);
+        turnLeftDistance(.4, 23);
+        moveDistance(.4, -30);
+        //leftServo.setPosition(.78);
+        //rightServo.setPosition(.5);
+        //sleep(1000);
+       // moveDistanceStrafe(.4, 10);
+        //leftServo.setPosition(0);
+        //rightServo.setPosition(0);
+        //sleep(1000);
+        //moveDistance(.4, 10);
 
 
 

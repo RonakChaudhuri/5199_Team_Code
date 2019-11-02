@@ -109,7 +109,7 @@ public class RPlatform extends LinearOpMode
         runtime.reset();
 
         moveDistance(.6, 12);
-        moveDistanceStrafe(.6, 5);
+        //moveDistanceStrafe(.6, 5);
         leftServo.setPosition(.78);
         rightServo.setPosition(.5);
         moveDistance(.6, -10);
