@@ -110,22 +110,30 @@ public class AutonomousTest extends LinearOpMode
         pivotMotor.setPower(0);
         //moveDistanceStrafe(.6, 8.5);
 
-        moveDistance(-.6, 15);
+        moveDistance(-.6, 35);
 
 
        //moveactuator power 1 distance -41 for full close around block
-       moveActuatorDistance(1, -41);
+       moveActuatorDistance(1, -44);
 
         actuatorMotor.setPower(0);
 
 
-        moveDistance(.3, -9);
+        moveDistance(.3, -20);
 
 
         turnLeftDistance(.4, 23);
         moveDistancePivot(.5, -.0390 * 1.75);
         pivotMotor.setPower(0);
-        moveDistance(.5, 10);
+        moveDistance(.5, 25);
+        moveDistancePivot(.5, .0390 * 1.75);
+        pivotMotor.setPower(0);
+        moveActuatorDistance(1, 30);
+        actuatorMotor.setPower(0);
+        moveDistancePivot(.5, -.0390 * 1.75);
+        pivotMotor.setPower(0);
+        moveDistance(.5, -10);
+
 
 
     }
