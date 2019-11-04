@@ -122,6 +122,7 @@ public class BPlatform extends LinearOpMode
         moveDistance(.4, -26);
         turnLeftDistance(.4, 23);
         moveDistance(.4, -30);
+        moveDistance(.4, 10);
 
 
 
