@@ -113,18 +113,18 @@ public class BStone extends LinearOpMode
         moveDistance(-.6, 35);
         moveActuatorDistance(1, -44);
         actuatorMotor.setPower(0);
-        moveDistance(.3, -20);
+        moveDistance(.3, -15);
         turnLeftDistance(.4, 23);
         moveDistancePivot(.5, -.0390 * 1.75);
         pivotMotor.setPower(0);
-        moveDistance(.5, 25);
+        moveDistance(.5, 34);
         moveDistancePivot(.5, .0390 * 1.75);
         pivotMotor.setPower(0);
         moveActuatorDistance(1, 30);
         actuatorMotor.setPower(0);
         moveDistancePivot(.5, -.0390 * 1.75);
         pivotMotor.setPower(0);
-        moveDistance(.5, -10);
+        moveDistance(.5, -8);
 
 
 

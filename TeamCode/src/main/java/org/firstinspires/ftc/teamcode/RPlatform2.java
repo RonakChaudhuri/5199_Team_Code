@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -48,9 +49,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Autonomous Test", group="Linear Opmode")
+@Autonomous(name="RPLatform2", group="Linear Opmode")
 //@Disabled
-public class AutonomousTest extends LinearOpMode
+public class RPlatform2 extends LinearOpMode
 {
 
     // Declare OpMode members.
@@ -61,6 +62,8 @@ public class AutonomousTest extends LinearOpMode
     private DcMotor rightRearMotor;
     private DcMotor actuatorMotor = null;
     private DcMotor pivotMotor = null;
+    private Servo leftServo = null;
+    private Servo rightServo = null;
     static final double COUNTS_PER_MOTOR_REV = 537.6;    // eg: TETRIX Motor Encoder
     static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 3.937;     // For figuring circumference
@@ -89,52 +92,49 @@ public class AutonomousTest extends LinearOpMode
         rightRearMotor = hardwareMap.get(DcMotor.class, "right_rear");
         actuatorMotor = hardwareMap.get(DcMotor.class, "actuator_motor");
         pivotMotor = hardwareMap.get(DcMotor.class, "pivot_motor");
+        leftServo = hardwareMap.get(Servo.class, "servo_left");
+        rightServo = hardwareMap.get(Servo.class, "servo_right");
         leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         leftRearMotor.setDirection(DcMotor.Direction.REVERSE);
         actuatorMotor.setDirection(DcMotor.Direction.REVERSE);
+        rightServo.setDirection(Servo.Direction.REVERSE);
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftServo.setPosition(0);
+        rightServo.setPosition(0);
         waitForStart();
         runtime.reset();
 
+        moveDistance(.4, -29);
+        leftServo.setPosition(.78);
+        rightServo.setPosition(.5);
+        sleep(1000);
+        moveDistance(.4, 20);
+        leftServo.setPosition(0);
+        rightServo.setPosition(0);
+        sleep(1000);
+        moveDistanceStrafe(.6, 35);
+        moveDistance(.4, -42);
+        turnRightDistance(.4, 23);
+        moveDistance(.4, -26);
+        turnRightDistance(.4, 23);
+        moveDistance(.4, -30);
+        moveDistance(.4, 10);
 
-        //moveActuatorDistance(.5,-.1); //DISTANCE 3 =1 INCH
 
+//        moveDistance(.4, -29);
+//        leftServo.setPosition(.78);
+//        rightServo.setPosition(.5);
+//        sleep(1000);
+//        moveDistance(.4, 28.8);
+//        leftServo.setPosition(0);
+//        rightServo.setPosition(0);
+//        sleep(1000);
+//        moveDistance(.4, 25);
 
-        //.5 power = 1.75 inches
-        //1 power = 3.25
-//        moveDistancePivot(.5, .0390 * 1.75);
-//        pivotMotor.setPower(0);
-//        //moveDistanceStrafe(.6, 8.5);
-//
-//        moveDistance(-.6, 35);
-//
-//
-//       //moveactuator power 1 distance -41 for full close around block
-//       moveActuatorDistance(1, -44);
-//
-//        actuatorMotor.setPower(0);
-//
-//
-//        moveDistance(.3, -20);
-//
-//
-//        turnLeftDistance(.4, 23);
-//        moveDistancePivot(.5, -.0390 * 1.75);
-//        pivotMotor.setPower(0);
-//        moveDistance(.5, 25);
-//        moveDistancePivot(.5, .0390 * 1.75);
-//        pivotMotor.setPower(0);
-//        moveActuatorDistance(1, 30);
-//        actuatorMotor.setPower(0);
-//        moveDistancePivot(.5, -.0390 * 1.75);
-//        pivotMotor.setPower(0);
-//        moveDistance(.5, -10);
-
-        turnLeftDistance(-.4, 23);
 
     }
 

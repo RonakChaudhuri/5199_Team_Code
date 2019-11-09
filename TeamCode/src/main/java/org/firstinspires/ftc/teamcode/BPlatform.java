@@ -108,21 +108,55 @@ public class BPlatform extends LinearOpMode
         waitForStart();
         runtime.reset();
 
+
+        //1st
+//        moveDistance(.4, -29);
+//        leftServo.setPosition(.78);
+//        rightServo.setPosition(.5);
+//        sleep(1000);
+//        moveDistance(.4, 20);
+//        leftServo.setPosition(0);
+//        rightServo.setPosition(0);
+//        sleep(1000);
+//        moveDistanceStrafe(.6, -35);
+//        moveDistance(.4, -42);
+//        turnLeftDistance(.4, 23);
+//        moveDistance(.4, -26);
+//        turnLeftDistance(.4, 23);
+//        moveDistance(.4, -30);
+//        moveDistance(.4, 10);
+
+
+
+            //2nd
+//        moveDistance(.4, -29);
+//        leftServo.setPosition(.78);
+//        rightServo.setPosition(.5);
+//        sleep(1000);
+//        moveDistance(.4, 20);
+//        turnLeftDistance(-.8, 30);
+//        moveDistance(.4, -5);
+//        leftServo.setPosition(0);
+//        rightServo.setPosition(0);
+//        sleep(1000);
+//        moveDistance(.4, 10);
+        moveDistance(.8, -1.5);
+        moveDistanceStrafe(.8, 15);
         moveDistance(.4, -29);
         leftServo.setPosition(.78);
         rightServo.setPosition(.5);
         sleep(1000);
-        moveDistance(.4, 20);
+        moveDistance(.4, 33.6);
         leftServo.setPosition(0);
         rightServo.setPosition(0);
         sleep(1000);
-        moveDistanceStrafe(.6, -35);
-        moveDistance(.4, -42);
-        turnLeftDistance(.4, 23);
-        moveDistance(.4, -26);
-        turnLeftDistance(.4, 23);
-        moveDistance(.4, -30);
-        moveDistance(.4, 10);
+        moveDistanceStrafe(.4, -35);
+        moveDistance(.4, -3);
+        moveDistanceStrafe(.4, -15);
+
+//        moveDistanceStrafe(.4, -30);
+//        moveDistance(.4, 23);
+//        moveDistanceStrafe(.4, -16);
 
 
 
@@ -173,7 +207,7 @@ public class BPlatform extends LinearOpMode
         pivotMotor.setPower(power);
     }
 
-    public void moveDistance(double power, int distance) {
+    public void moveDistance(double power, double distance) {
         leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         leftRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         rightFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
