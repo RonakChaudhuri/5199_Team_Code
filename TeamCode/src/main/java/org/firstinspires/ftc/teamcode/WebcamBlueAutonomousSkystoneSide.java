@@ -30,9 +30,9 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -52,8 +52,8 @@ import java.util.List;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@Autonomous(name = "Blue Autonomous Skystone Side", group = "Concept")
-@Disabled
+@Autonomous(name = " Webcam Blue Autonomous Skystone Side", group = "Concept")
+//@Disabled
 public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
 {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
@@ -65,6 +65,8 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
     private DcMotor rightRearMotor;
     private DcMotor pivotMotor;
     boolean detected = false;
+    private Servo leftServo = null;
+    private Servo rightServo = null;
     static final double     COUNTS_PER_MOTOR_REV    = 537.6 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 3.937 ;     // For figuring circumference
@@ -91,14 +93,18 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
         rightFrontMotor = hardwareMap.get(DcMotor.class, "right_front");
         rightRearMotor  = hardwareMap.get(DcMotor.class, "right_rear");
         pivotMotor = hardwareMap.get(DcMotor.class, "pivot_motor");
+        leftServo = hardwareMap.get(Servo.class, "servo_left");
+        rightServo = hardwareMap.get(Servo.class, "servo_right");
         leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         leftRearMotor.setDirection(DcMotor.Direction.REVERSE);
+        rightServo.setDirection(Servo.Direction.REVERSE);
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftServo.setPosition(0);
+        rightServo.setPosition(0);
 
-        moveDistancePivot(.5, .0394 * 1.75);
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector())
         {
@@ -147,16 +153,43 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                     }
                 }
             }
-            if(detected)
+            while(!detected)
             {
-                moveDistance(-.2, -.5);
-                turnRightDistance(-.3, -23);
-                moveDistance(-.2, -.1);
-                turnLeftDistance(-.3, -23);
+                sleep(3000);
+                if(detected)
+                {
+                    telemetry.addLine("DETECTED");
+                }
+                else
+                {
+                    moveDistanceStrafe(.4, 8);
+                }
 
 
             }
-            detected = false;
+
+//                moveDistance(.4, -30);
+//                leftServo.setPosition(.58);
+//                rightServo.setPosition(.3);
+//                moveDistance(.4, 5);
+//                turnLeftDistance(.4, -23);
+//                moveDistance(.4, -35);
+//                leftServo.setPosition(0);
+//                rightServo.setPosition(0);
+//                moveDistance(.4,10);
+
+//            moveDistance(.4, -10);
+//            leftServo.setPosition(.58);
+//            rightServo.setPosition(.3);
+//            moveDistance(.4, 3);
+//            turnLeftDistance(.4, -23);
+//            moveDistance(.4, -10);
+//            leftServo.setPosition(0);
+//            rightServo.setPosition(0);
+//            moveDistance(.4,4);
+
+
+
         }
 
         if (tfod != null)
@@ -191,6 +224,13 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
         rightFrontMotor.setPower(power);
         rightRearMotor.setPower(power);
 
+    }
+    public void strafe(double power)
+    {
+        leftFrontMotor.setPower(power);
+        leftRearMotor.setPower(-power);
+        rightFrontMotor.setPower(-power);
+        rightRearMotor.setPower(power);
     }
 
     public void turnRight(double power)
@@ -322,13 +362,47 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
         stopRobot();
         pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+    public void moveDistanceStrafe(double power, double distance)
+    {
+        leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        leftRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        rightFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        rightRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+
+        int amountToMove = (int)(distance * COUNTS_PER_INCH);
+
+
+        leftFrontMotor.setTargetPosition(amountToMove);
+        leftRearMotor.setTargetPosition(-amountToMove);
+        rightFrontMotor.setTargetPosition(-amountToMove);
+        rightRearMotor.setTargetPosition(amountToMove);
+
+        leftFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftRearMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightRearMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        strafe(power);
+
+
+        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy())
+        {
+
+
+        }
+
+        stopRobot();
+        leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
     private void initVuforia()
     {
 
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
+        parameters.cameraName = hardwareMap.get(WebcamName.class, "webcam");
 
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
     }

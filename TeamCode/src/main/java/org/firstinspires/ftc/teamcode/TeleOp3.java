@@ -96,6 +96,7 @@ public class TeleOp3 extends LinearOpMode {
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV_PIVOT * DRIVE_GEAR_REDUCTION_PIVOT) /
             (PIVOT_DIAMETER_INCHES * 3.1415);
 
+
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
@@ -164,13 +165,13 @@ public class TeleOp3 extends LinearOpMode {
             //Actuator Motor Controls
             if(gamepad2.left_trigger > 0)
             {
-                actuatorMotor.setPower(actuatorMotorOpenPower);
+                actuatorMotor.setPower(actuatorMotorOpenPower * 1.3);
 
             }
             actuatorMotor.setPower(0);
             if(gamepad2.right_trigger > 0)
             {
-                actuatorMotor.setPower(-actuatorMotorClosePower);
+                actuatorMotor.setPower(-actuatorMotorClosePower * 1.3);
 
             }
             actuatorMotor.setPower(0);
@@ -188,10 +189,10 @@ public class TeleOp3 extends LinearOpMode {
             }
             if (gamepad1.x)
             {
-                leftFront.setPower(leftFrontPower * .00001);
-                leftRear.setPower(leftRearPower * .00001);
-                rightFront.setPower(rightFrontPower * .00001);
-                rightRear.setPower(rightRearPower * .00001);
+                leftFront.setPower(leftFrontPower * .00000001);
+                leftRear.setPower(leftRearPower * .00000001);
+                rightFront.setPower(rightFrontPower * .00000001);
+                rightRear.setPower(rightRearPower * .00000001);
             }
 
             leftFront.setPower(leftFrontPower * .8);
@@ -237,13 +238,13 @@ public class TeleOp3 extends LinearOpMode {
             //Lift Motor controls
             if (gamepad2.left_stick_y > 0)
             {
-                liftMotor.setPower(liftMotorPower * 3);
+                liftMotor.setPower(liftMotorPower * 6);
             }
             liftMotor.setPower(0);
 
             if (gamepad2.left_stick_y < 0)
             {
-                liftMotor.setPower(liftMotorPower * 3);
+                liftMotor.setPower(liftMotorPower * 6);
             }
             liftMotor.setPower(0);
 
@@ -308,12 +309,13 @@ public class TeleOp3 extends LinearOpMode {
         movePivot(power);
 
 
+
         while (pivotMotor.isBusy())
         {
-            leftFront.setPower(0);
-            leftRear.setPower(0);
-            rightFront.setPower(0);
-            rightRear.setPower(0);
+            leftFront.setPower(leftFront.getPower());
+            leftRear.setPower(leftRear.getPower());
+            rightFront.setPower(rightFront.getPower());
+            rightRear.setPower(rightRear.getPower());
 
         }
 
