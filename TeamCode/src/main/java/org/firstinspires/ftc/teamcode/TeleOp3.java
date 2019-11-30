@@ -189,10 +189,20 @@ public class TeleOp3 extends LinearOpMode {
             }
             if (gamepad1.x)
             {
-                leftFront.setPower(leftFrontPower * .00000001);
-                leftRear.setPower(leftRearPower * .00000001);
-                rightFront.setPower(rightFrontPower * .00000001);
-                rightRear.setPower(rightRearPower * .00000001);
+                if(gamepad1.right_stick_x < 0)
+                {
+                    leftFront.setPower(-.01);
+                    leftRear.setPower(.01);
+                    rightFront.setPower(.01);
+                    rightRear.setPower(-.01);
+                }
+                if(gamepad1.right_stick_x > 0)
+                {
+                    leftFront.setPower(.01);
+                    leftRear.setPower(-.01);
+                    rightFront.setPower(-.01);
+                    rightRear.setPower(.01);
+                }
             }
 
             leftFront.setPower(leftFrontPower * .8);

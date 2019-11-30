@@ -155,16 +155,21 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
             }
             while(!detected)
             {
-                sleep(3000);
                 if(detected)
                 {
-                    telemetry.addLine("DETECTED");
-                }
-                else
-                {
-                    moveDistanceStrafe(.4, 8);
-                }
+                    if (telemetry.toString().equals("Stone"))
+                    {
+                        //moveDistanceStrafe(.5, 10);
+                    }
+                    if (telemetry.toString().equals("SkyStone"))
+                    {
+                        //moveDistanceStrafe(.5, 10);
+                    }
 
+
+                        telemetry.addLine("DETECTED");
+                    
+                }
 
             }
 
