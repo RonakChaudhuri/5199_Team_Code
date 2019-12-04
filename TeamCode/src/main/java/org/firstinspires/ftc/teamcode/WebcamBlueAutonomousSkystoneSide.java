@@ -165,11 +165,13 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                     moveDistance(.5, -15);
                                     //leftServo.setPosition(.78);
                                     //rightServo.setPosition(.5);
+                                    //sleep(1000);
                                     moveDistance(.5, 15);
                                     turnLeftDistance(.5, 23);
                                     moveDistance(.5, -15);
                                     //leftServo.setPosition(0);
                                     //rightServo.setPosition(0);
+                                    //sleep(1000);
                                     moveDistance(.5, 15);
                                     turnRightDistance(.5, 23);
                                     skystone = false;
