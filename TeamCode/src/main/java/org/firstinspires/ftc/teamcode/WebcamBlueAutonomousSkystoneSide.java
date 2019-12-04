@@ -83,6 +83,9 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
     private VuforiaLocalizer vuforia;
 
     private TFObjectDetector tfod;
+    boolean skystone = false;
+    boolean stone = false;
+
 
     @Override
     public void runOpMode()
@@ -125,7 +128,7 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
 
         if (opModeIsActive())
         {
-            while (opModeIsActive() && !detected)
+            while (opModeIsActive() && !skystone)
             {
                 if (tfod != null)
                 {
@@ -147,31 +150,66 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                             if(updatedRecognitions.size() > 0)
                             {
                                 detected = true;
+                                if(recognition.getLabel().equals("Stone"))
+                                {
+                                    stone =  true;
+                                    telemetry.addLine("STONEEEEEE");
+                                    moveDistanceStrafe(.5, -10);
+
+
+                                }
+                                else if(recognition.getLabel().equals("Skystone"))
+                                {
+                                    skystone =  true;
+                                    telemetry.addLine("SKYYYYYSTONEEEEEE     ");
+                                    moveDistance(.5, -15);
+                                    //leftServo.setPosition(.78);
+                                    //rightServo.setPosition(.5);
+                                    moveDistance(.5, 15);
+                                    turnLeftDistance(.5, 23);
+                                    moveDistance(.5, -15);
+                                    //leftServo.setPosition(0);
+                                    //rightServo.setPosition(0);
+                                    moveDistance(.5, 15);
+                                    turnRightDistance(.5, 23);
+                                    skystone = false;
+
+                                }
+                                else
+                                {
+                                    telemetry.addLine("Nothing Detected");
+
+                                }
+                                //telemetry.addLine("LABEL = " + label);
+
                             }
                         }
                         telemetry.update();
+                        sleep(500);
                     }
-                }
-            }
-            while(!detected)
-            {
-                if(detected)
-                {
-                    if (telemetry.toString().equals("Stone"))
-                    {
-                        //moveDistanceStrafe(.5, 10);
-                    }
-                    if (telemetry.toString().equals("SkyStone"))
-                    {
-                        //moveDistanceStrafe(.5, 10);
-                    }
-
-
-                        telemetry.addLine("DETECTED");
-                    
                 }
 
             }
+//            while(!detected)
+//            {
+//                if(detected)
+//                {
+//
+//                    if (stone)
+//                    {
+//                        moveDistanceStrafe(.5, -10);
+//                    }
+//                    if (skystone)
+//                    {
+//                        moveDistance(.5, -10);
+//                    }
+//
+//
+//                     telemetry.addLine("DETECTED");
+//
+//                }
+//
+//            }
 
 //                moveDistance(.4, -30);
 //                leftServo.setPosition(.58);
