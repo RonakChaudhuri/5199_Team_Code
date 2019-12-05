@@ -156,7 +156,7 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                     telemetry.addLine("STONEEEEEE");
                                     moveDistanceStrafe(.5, -10);
                                     turnRightDistance(.5, 1);
-
+                                    //BOB
 
                                 }
                                 else if(recognition.getLabel().equals("Skystone"))
