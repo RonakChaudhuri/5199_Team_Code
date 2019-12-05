@@ -85,6 +85,9 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
     private TFObjectDetector tfod;
     boolean skystone = false;
     boolean stone = false;
+    int count = 0;
+    int index = 0;
+
 
 
     @Override
@@ -128,7 +131,7 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
 
         if (opModeIsActive())
         {
-            while (opModeIsActive() && !skystone)
+            while (opModeIsActive() && !skystone && count < 2)
             {
                 if (tfod != null)
                 {
@@ -150,34 +153,49 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                             if(updatedRecognitions.size() > 0)
                             {
                                 detected = true;
-                                if(recognition.getLabel().equals("Stone"))
+                                if(recognition.getLabel().equals("Stone") && count ==0)
                                 {
                                     stone =  true;
                                     telemetry.addLine("STONEEEEEE");
                                     moveDistanceStrafe(.5, -10);
                                     turnRightDistance(.5, 1);
-                                    //BOB
+                                    index++;
+
 
                                 }
-                                else if(recognition.getLabel().equals("Skystone"))
+                                if(recognition.getLabel().equals("Stone") && count ==1)
+                                {
+                                    stone =  true;
+                                    telemetry.addLine("STONEEEEEE");
+                                    moveDistanceStrafe(.5, 10);
+                                    turnLeftDistance(.5, 1);
+                                    index--;
+
+
+                                }
+                                else if(recognition.getLabel().equals("Skystone") && count < 2)
                                 {
                                     skystone =  true;
                                     telemetry.addLine("SKYYYYYSTONEEEEEE     ");
-                                    moveDistance(.5, -15);
+                                    moveDistance(.5, -15); //forward
                                     //leftServo.setPosition(.78);
                                     //rightServo.setPosition(.5);
-                                    //sleep(1000);
-                                    moveDistance(.5, 15);
+                                    //sleep(1000);                  //pickup
+                                    moveDistance(.5, 15);  //backward
                                     turnLeftDistance(.5, 23);
-                                    moveDistance(.5, -15);
+                                    moveDistance(.5, -15 + (8*index));
                                     //leftServo.setPosition(0);
                                     //rightServo.setPosition(0);
-                                    //sleep(1000);
-                                    moveDistance(.5, 10);
+                                    //sleep(1000);                  //drop off
+                                    moveDistance(.5, 20); //move to the backmost stone
+                                    index = 5;
                                     turnRightDistance(.5, 23);
+                                    count++;
                                     skystone = false;
 
+
                                 }
+
                                 else
                                 {
                                     telemetry.addLine("Nothing Detected");
