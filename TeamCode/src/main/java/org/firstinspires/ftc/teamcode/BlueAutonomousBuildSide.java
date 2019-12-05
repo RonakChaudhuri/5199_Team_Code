@@ -156,7 +156,7 @@ public class BlueAutonomousBuildSide extends LinearOpMode
                     }
                 }
             }
-            if(detected)
+            if(detected /*&& recognition.getLabel() == "Skystone"*/)
             {
                 //turnRightDistance(.5, 46);
                 //moveDistancePivot(.5, .0394 * 1.75);

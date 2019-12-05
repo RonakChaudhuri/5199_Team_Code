@@ -155,6 +155,7 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                     stone =  true;
                                     telemetry.addLine("STONEEEEEE");
                                     moveDistanceStrafe(.5, -10);
+                                    turnRightDistance(.5, 1);
 
 
                                 }
@@ -172,7 +173,7 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                     //leftServo.setPosition(0);
                                     //rightServo.setPosition(0);
                                     //sleep(1000);
-                                    moveDistance(.5, 15);
+                                    moveDistance(.5, 10);
                                     turnRightDistance(.5, 23);
                                     skystone = false;
 
