@@ -193,7 +193,6 @@ public class WebcamRedAutonomousSkystoneSide extends LinearOpMode
 
 
                                 }
-//
                                 else if(recognition.getLabel().equals("Skystone") && count < 1 && !recognition.getLabel().equals("Stone"))
                                 {
                                     skystone =  true;
