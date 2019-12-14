@@ -58,7 +58,7 @@ import com.qualcomm.robotcore.util.Range;
  * LEFT TRIGGER: ----------         RIGHT TRIGGER: Turbo Speed
  * LEFT BUMPER: Manual Servo Up     RIGHT BUMPER: Manual Servo Down
  * LEFT STICK: Move/Strafe          RIGHT STICK: Turn
- * X: Slow Speed                    B: Servo Position Data
+ * X: Stone Grabber Down            B: Servo Position Data
  * Y: Platform Grabber Up           A: Platform Grabber Down
  * D-PAD UP/DOWN: -------           D-PAD Right/Left: --------
  *
@@ -124,11 +124,11 @@ public class TeleOp3 extends LinearOpMode {
         //actuatorServo.setDirection(CRServo.Direction.REVERSE);
         actuatorMotor.setDirection(DcMotor.Direction.REVERSE);
         liftMotor.setDirection(DcMotor.Direction.REVERSE);
-        rightServo.setDirection(Servo.Direction.REVERSE);
+        leftServo.setDirection(Servo.Direction.REVERSE);
 
 
-        leftServo.setPosition(0);
-        rightServo.setPosition(0);
+        leftServo.setPosition(0.3);
+       rightServo.setPosition(0.3);
 
         waitForStart();
         runtime.reset();
@@ -187,22 +187,12 @@ public class TeleOp3 extends LinearOpMode {
                 rightFront.setPower(rightFrontPower * 3);
                 rightRear.setPower(rightRearPower * 3);
             }
-            if (gamepad1.x)
+            if (gamepad1.right_bumper)
             {
-                if(gamepad1.right_stick_x < 0)
-                {
-                    leftFront.setPower(-.01);
-                    leftRear.setPower(.01);
-                    rightFront.setPower(.01);
-                    rightRear.setPower(-.01);
-                }
-                if(gamepad1.right_stick_x > 0)
-                {
-                    leftFront.setPower(.01);
-                    leftRear.setPower(-.01);
-                    rightFront.setPower(-.01);
-                    rightRear.setPower(.01);
-                }
+                leftFront.setPower(leftFrontPower * .2);
+                leftRear.setPower(leftRearPower * .2);
+                rightFront.setPower(rightFrontPower * .2);
+                rightRear.setPower(rightRearPower * .2);
             }
 
             leftFront.setPower(leftFrontPower * .8);
@@ -248,13 +238,13 @@ public class TeleOp3 extends LinearOpMode {
             //Lift Motor controls
             if (gamepad2.left_stick_y > 0)
             {
-                liftMotor.setPower(liftMotorPower * 6);
+                liftMotor.setPower(liftMotorPower * 10);
             }
             liftMotor.setPower(0);
 
             if (gamepad2.left_stick_y < 0)
             {
-                liftMotor.setPower(liftMotorPower * 6);
+                liftMotor.setPower(liftMotorPower * 10);
             }
             liftMotor.setPower(0);
 
@@ -264,13 +254,18 @@ public class TeleOp3 extends LinearOpMode {
             //Platform Servo Controls
             if(gamepad1.a)
             {
-                leftServo.setPosition(.78);
-                rightServo.setPosition(.5);
+                leftServo.setPosition(.69);
+                rightServo.setPosition(.69);
             }
             if(gamepad1.y)
             {
                 leftServo.setPosition(0);
                 rightServo.setPosition(0);
+            }
+            if(gamepad1.x)
+            {
+                leftServo.setPosition(.46);
+                rightServo.setPosition(.46);
             }
             if(gamepad1.b)
             {
@@ -280,13 +275,13 @@ public class TeleOp3 extends LinearOpMode {
             }
             if(gamepad1.right_bumper)
             {
-                leftServo.setPosition(leftServo.getPosition() + 1);
-                rightServo.setPosition(rightServo.getPosition() + 1);
+                leftServo.setPosition(leftServo.getPosition() + .01);
+                rightServo.setPosition(rightServo.getPosition() + .01);
             }
             if(gamepad1.left_bumper)
             {
-                leftServo.setPosition(leftServo.getPosition() - 1);
-                rightServo.setPosition(rightServo.getPosition() - 1);
+                leftServo.setPosition(leftServo.getPosition() - .01);
+                rightServo.setPosition(rightServo.getPosition() - .01);
             }
 
 
@@ -322,10 +317,10 @@ public class TeleOp3 extends LinearOpMode {
 
         while (pivotMotor.isBusy())
         {
-            leftFront.setPower(leftFront.getPower());
-            leftRear.setPower(leftRear.getPower());
-            rightFront.setPower(rightFront.getPower());
-            rightRear.setPower(rightRear.getPower());
+            leftFront.setPower(0);
+            leftRear.setPower(0);
+            rightFront.setPower(0);
+            rightRear.setPower(0);
 
         }
 

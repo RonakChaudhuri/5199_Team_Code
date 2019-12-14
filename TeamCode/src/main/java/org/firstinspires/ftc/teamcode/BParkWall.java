@@ -97,7 +97,7 @@ public class BParkWall extends LinearOpMode
         leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         leftRearMotor.setDirection(DcMotor.Direction.REVERSE);
         actuatorMotor.setDirection(DcMotor.Direction.REVERSE);
-        rightServo.setDirection(Servo.Direction.REVERSE);
+        leftServo.setDirection(Servo.Direction.REVERSE);
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

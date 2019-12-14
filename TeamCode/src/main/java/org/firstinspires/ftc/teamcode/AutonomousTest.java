@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -61,6 +62,8 @@ public class AutonomousTest extends LinearOpMode
     private DcMotor rightRearMotor;
     private DcMotor actuatorMotor = null;
     private DcMotor pivotMotor = null;
+    private Servo leftServo = null;
+    private Servo rightServo = null;
     static final double COUNTS_PER_MOTOR_REV = 537.6;    // eg: TETRIX Motor Encoder
     static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 3.937;     // For figuring circumference
@@ -89,16 +92,40 @@ public class AutonomousTest extends LinearOpMode
         rightRearMotor = hardwareMap.get(DcMotor.class, "right_rear");
         actuatorMotor = hardwareMap.get(DcMotor.class, "actuator_motor");
         pivotMotor = hardwareMap.get(DcMotor.class, "pivot_motor");
+        leftServo = hardwareMap.get(Servo.class, "servo_left");
+        rightServo = hardwareMap.get(Servo.class, "servo_right");
         leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         leftRearMotor.setDirection(DcMotor.Direction.REVERSE);
         actuatorMotor.setDirection(DcMotor.Direction.REVERSE);
+        leftServo.setDirection(Servo.Direction.REVERSE);
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftServo.setPosition(0);
+        rightServo.setPosition(0);
+
         waitForStart();
         runtime.reset();
+
+       moveDistanceStrafe(.6, -11.8);
+        moveDistance(.5, -12);
+        leftServo.setPosition(.46);
+        rightServo.setPosition(.46);
+        sleep(1000);
+        leftServo.setPosition(0);
+        rightServo.setPosition(0);
+        sleep(1000);
+        moveDistance(.5, 12);
+       moveDistanceStrafe(.6, -11.8);
+       moveDistance(.5, -12);
+        leftServo.setPosition(.46);
+        rightServo.setPosition(.46);
+        sleep(1000);
+        leftServo.setPosition(0);
+        rightServo.setPosition(0);
+        sleep(1000);
 
 
         //moveActuatorDistance(.5,-.1); //DISTANCE 3 =1 INCH
@@ -134,7 +161,7 @@ public class AutonomousTest extends LinearOpMode
 //        pivotMotor.setPower(0);
 //        moveDistance(.5, -10);
 
-        turnLeftDistance(-.4, 23);
+        //turnLeftDistance(-.4, 23);
 
     }
 

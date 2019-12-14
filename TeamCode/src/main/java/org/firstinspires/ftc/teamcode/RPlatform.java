@@ -97,7 +97,7 @@ public class RPlatform extends LinearOpMode
         leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         leftRearMotor.setDirection(DcMotor.Direction.REVERSE);
         actuatorMotor.setDirection(DcMotor.Direction.REVERSE);
-        rightServo.setDirection(Servo.Direction.REVERSE);
+        leftServo.setDirection(Servo.Direction.REVERSE);
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -108,39 +108,23 @@ public class RPlatform extends LinearOpMode
         waitForStart();
         runtime.reset();
 
-//        moveDistance(.4, -29);
-//        leftServo.setPosition(.78);
-//        rightServo.setPosition(.5);
-//        sleep(1000);
-//        moveDistance(.4, 20);
-//        leftServo.setPosition(0);
-//        rightServo.setPosition(0);
-//        sleep(1000);
-//        moveDistanceStrafe(.6, 35);
-//        moveDistance(.4, -42);
-//        turnRightDistance(.4, 23);
-//        moveDistance(.4, -26);
-//        turnRightDistance(.4, 23);
-//        moveDistance(.4, -30);
-//        moveDistance(.4, 10);
 
-        moveDistance(.8, -1.5);
-        moveDistanceStrafe(.8, -15);
-        moveDistance(.4, -29);
-        leftServo.setPosition(.78);
-        rightServo.setPosition(.5);
+
+
+
+        moveDistance(.8, -1.5, 1000);
+        moveDistanceStrafe(.8, -15, 1000);
+        moveDistance(.4, -29.5, 3000);
+        leftServo.setPosition(.7);
+        rightServo.setPosition(.7);
         sleep(1000);
-        moveDistance(.4, 33.6);
+        moveDistance(.4, 33.7,3000);
         leftServo.setPosition(0);
         rightServo.setPosition(0);
         sleep(1000);
-        moveDistanceStrafe(.4, 35);
-        moveDistance(.4, -3);
-        moveDistanceStrafe(.4, 15);
-//        moveDistanceStrafe(.4, 30);
-//        moveDistance(.4, 23);
-//        moveDistanceStrafe(.4, 16);
-
+        moveDistanceStrafe(.4, 32, 3000);
+        turnLeftDistance(.4, 1, 500);
+        moveDistanceStrafe(.4, 15, 3000);
     }
 
 
@@ -187,7 +171,7 @@ public class RPlatform extends LinearOpMode
         pivotMotor.setPower(power);
     }
 
-    public void moveDistance(double power, double distance) {
+    public void moveDistance(double power, double distance, int sleep) {
         leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         leftRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         rightFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
@@ -208,19 +192,19 @@ public class RPlatform extends LinearOpMode
         move(power);
 
 
-        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy())
-        {
-
-
-        }
-
+//        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy())
+//        {
+//
+//
+//        }
+        sleep(sleep);
         stopRobot();
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-    public void moveDistanceStrafe(double power, double distance)
+    public void moveDistanceStrafe(double power, double distance, int sleep)
     {
         leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         leftRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
@@ -242,12 +226,12 @@ public class RPlatform extends LinearOpMode
         strafe(power);
 
 
-        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy())
-        {
-
-
-        }
-
+//        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy())
+//        {
+//
+//
+//        }
+        sleep(sleep);
         stopRobot();
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -255,7 +239,7 @@ public class RPlatform extends LinearOpMode
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void turnLeftDistance(double power, int distance) {
+    public void turnLeftDistance(double power, int distance, int sleep) {
         leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         leftRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         rightFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
@@ -276,11 +260,11 @@ public class RPlatform extends LinearOpMode
         turnLeft(power);
 
 
-        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy()) {
-
-
-        }
-
+//        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy()) {
+//
+//
+//        }
+        sleep(sleep);
         stopRobot();
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

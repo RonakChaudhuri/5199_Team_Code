@@ -52,9 +52,9 @@ import java.util.List;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@Autonomous(name = "Blue Skystone", group = "Concept")
+@Autonomous(name = "Red Skystone", group = "Concept")
 //@Disabled
-public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
+public class WebcamRedAutonomousSkystoneSide extends LinearOpMode
 {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
@@ -171,19 +171,20 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
 //                                    sleep(1000);
 //                                    webcam = true;
 //                                }
+
                                 if(recognition.getLabel().equals("Stone") && count ==0 || ((recognition.getLabel().equals("Skystone")  && recognition.getLabel().equals("Stone"))))
                                 {
                                     telemetry.addLine("Stone");
                                     telemetry.update();
-                                    moveDistanceStrafe(1.3, -11.6, 800);
-                                    turnLeftDistance(.8, 1.5, 400);
+                                    moveDistanceStrafe(1.3, 11.6, 800);
+                                    turnRightDistance(.8, 1.5, 400);
 
                                     //turnRightDistance(.5, 1);
                                     index++;
                                     if(index == 2)
                                     {
                                         moveDistance(.5, -3);
-                                        moveDistanceStrafe(.5, -.8, 300);
+                                        moveDistanceStrafe(.5, .8, 300);
                                     }
                                     if(index >5)
                                     {
@@ -203,7 +204,7 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                     rightServo.setPosition(.46);
                                     sleep(1000);                  //pickup
                                     //moveDistance(.3, 12);  //backward
-                                    turnLeftDistance(.8, 23, 800);
+                                    turnRightDistance(.8, 23, 800);
                                     moveDistanceStrafe(.8, 14, 800);
                                     moveDistance(.8, -28 - (11.7*index)); //-35
                                     leftServo.setPosition(0);
@@ -213,18 +214,18 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                     {
 
                                         moveDistance(.8, 28); //35 move to the backmost stone
-                                        turnRightDistance(.5, 23, 1500);
-                                        moveDistanceStrafe(1.3, -34.8, 1500);
+                                        turnLeftDistance(.5, 23, 1500);
+                                        moveDistanceStrafe(1.3, 34.8, 1500);
                                         //turnLeftDistance(.8, 1, 200);
                                         //moveDistanceStrafe(1.3, -10.0, 500);
                                         //turnLeftDistance(.8, 1, 200);
                                         //moveDistanceStrafe(1.3, -10.0, 500);
-                                        turnLeftDistance(.8, 2, 500);
+                                        turnRightDistance(.8, 2, 500);
                                         moveDistance(.8, -14); //forward
                                         leftServo.setPosition(.46);
                                         rightServo.setPosition(.46);
                                         sleep(1000);
-                                        turnLeftDistance(.8, 23,800);
+                                        turnRightDistance(.8, 23,800);
                                         moveDistanceStrafe(.8, 14, 800);
                                         index = 3;
                                         moveDistance(.5, -30 - (11.6*index));//-35
@@ -238,19 +239,19 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                     {
 
                                         moveDistance(.8, 39.77); //46.77 move to the backmost stone
-                                        turnRightDistance(.5, 23, 1500);
-                                        moveDistanceStrafe(1.3, -34.8, 1500);
+                                        turnLeftDistance(.5, 23, 1500);
+                                        moveDistanceStrafe(1.3, 34.8, 1500);
                                         //turnLeftDistance(.5, 1, 500);
                                         //moveDistanceStrafe(1.3, -10.1, 1200);
                                         //turnLeftDistance(.5, 1, 500);
                                        // moveDistanceStrafe(.5, -10.1, 1200);
-                                        turnLeftDistance(.8, 2, 500);
+                                        turnRightDistance(.8, 2, 500);
                                         moveDistance(.5, -14); //forward
                                         leftServo.setPosition(.46);
                                         rightServo.setPosition(.46);
                                         sleep(1000);
-                                        turnLeftDistance(.5, 23,1500);
-                                        moveDistanceStrafe(.8, 14, 800);
+                                        turnRightDistance(.5, 23,1500);
+                                        moveDistanceStrafe(.8, -14, 800);
                                         index = 4;
                                         moveDistance(.5, -30 - (11.6*index));//-35
                                         leftServo.setPosition(0);
@@ -288,7 +289,7 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                 else
                                 {
                                     telemetry.addLine("Nothing Detected");
-                                    turnLeftDistance(.5, 1, 300);
+                                    turnRightDistance(.5, 1, 300);
                                 }
                                 //telemetry.addLine("LABEL = " + label);
 
