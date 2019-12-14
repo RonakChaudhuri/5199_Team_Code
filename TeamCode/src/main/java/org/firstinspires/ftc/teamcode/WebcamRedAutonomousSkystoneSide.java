@@ -137,6 +137,7 @@ public class WebcamRedAutonomousSkystoneSide extends LinearOpMode
         {
             tfod.shutdown();
             moveDistance(.8, -13);
+            //turnRightDistance(.5, 1, 300);
 
             initTfod();
             tfod.activate();
@@ -186,7 +187,7 @@ public class WebcamRedAutonomousSkystoneSide extends LinearOpMode
                                         moveDistance(.5, -3);
                                         moveDistanceStrafe(.5, .8, 300);
                                     }
-                                    if(index >5)
+                                    if(index >4)
                                     {
                                         sleep(30000);
                                     }
@@ -204,7 +205,7 @@ public class WebcamRedAutonomousSkystoneSide extends LinearOpMode
                                     sleep(1000);                  //pickup
                                     //moveDistance(.3, 12);  //backward
                                     turnRightDistance(.8, 23, 800);
-                                    moveDistanceStrafe(.8, 14, 800);
+                                    moveDistanceStrafe(.8, -14, 800);
                                     moveDistance(.8, -28 - (11.7*index)); //-35
                                     leftServo.setPosition(0);
                                     rightServo.setPosition(0);
@@ -225,7 +226,7 @@ public class WebcamRedAutonomousSkystoneSide extends LinearOpMode
                                         rightServo.setPosition(.46);
                                         sleep(1000);
                                         turnRightDistance(.8, 23,800);
-                                        moveDistanceStrafe(.8, 14, 800);
+                                        moveDistanceStrafe(.8, -14, 800);
                                         index = 3;
                                         moveDistance(.5, -30 - (11.6*index));//-35
                                         leftServo.setPosition(0);

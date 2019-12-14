@@ -185,7 +185,7 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                         moveDistance(.5, -3);
                                         moveDistanceStrafe(.5, -.8, 300);
                                     }
-                                    if(index >5)
+                                    if(index >4)
                                     {
                                         sleep(30000);
                                     }
