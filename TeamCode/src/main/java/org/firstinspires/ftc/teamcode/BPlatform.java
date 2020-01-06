@@ -62,8 +62,7 @@ public class BPlatform extends LinearOpMode
     private DcMotor rightRearMotor;
     private DcMotor actuatorMotor = null;
     private DcMotor pivotMotor = null;
-    private Servo leftServo = null;
-    private Servo rightServo = null;
+    private Servo platformServo = null;
     static final double COUNTS_PER_MOTOR_REV = 537.6;    // eg: TETRIX Motor Encoder
     static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 3.937;     // For figuring circumference
@@ -92,19 +91,16 @@ public class BPlatform extends LinearOpMode
         rightRearMotor = hardwareMap.get(DcMotor.class, "right_rear");
         actuatorMotor = hardwareMap.get(DcMotor.class, "actuator_motor");
         pivotMotor = hardwareMap.get(DcMotor.class, "pivot_motor");
-        leftServo = hardwareMap.get(Servo.class, "servo_left");
-        rightServo = hardwareMap.get(Servo.class, "servo_right");
+        platformServo = hardwareMap.get(Servo.class, "platform_servo");
         leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         leftRearMotor.setDirection(DcMotor.Direction.REVERSE);
         actuatorMotor.setDirection(DcMotor.Direction.REVERSE);
-        leftServo.setDirection(Servo.Direction.REVERSE);
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftServo.setPosition(0);
-        rightServo.setPosition(0);
+        platformServo.setPosition(0);
         waitForStart();
         runtime.reset();
 
@@ -112,12 +108,10 @@ public class BPlatform extends LinearOpMode
         moveDistance(.8, -3.5, 1000);
         moveDistanceStrafe(.8, 22, 1000);
         moveDistance(.4, -27.6, 3000);
-        leftServo.setPosition(.7);
-        rightServo.setPosition(.7);
+        platformServo.setPosition(.5);
         sleep(1000);
         moveDistance(.4, 33.3, 3000);
-        leftServo.setPosition(0);
-        rightServo.setPosition(0);
+        platformServo.setPosition(0);
         sleep(1000);
         moveDistanceStrafe(.4, -32, 3000);
         turnRightDistance(.4, 1, 500);

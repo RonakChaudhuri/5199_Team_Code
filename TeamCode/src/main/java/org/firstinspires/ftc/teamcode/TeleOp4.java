@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -74,7 +75,7 @@ import com.qualcomm.robotcore.util.Range;
  *
  */
 
-@TeleOp(name="TeleOp4", group="Linear Opmode")
+@TeleOp(name="TeleOp", group="Linear Opmode")
 //@Disabled
 public class TeleOp4 extends LinearOpMode {
 
@@ -84,13 +85,13 @@ public class TeleOp4 extends LinearOpMode {
     private DcMotor rightFront = null;
     private DcMotor rightRear = null;
     //private DcMotor pivotMotor = null;
-    //private DcMotor liftMotorRight = null;
+    private DcMotor liftMotorRight = null;
     private DcMotor liftMotorLeft = null;
     private DcMotor rightIntakeMotor = null;
     private DcMotor leftIntakeMotor = null;
     private Servo platformServo = null;
-    private Servo grabberServoRight = null;
-    private Servo grabberServoLeft = null;
+    private CRServo grabberServoRight = null;
+    private CRServo grabberServoLeft = null;
     //private Servo rightServo = null;
     //private CRServo actuatorServo = null;
     //private DcMotor actuatorMotor = null;
@@ -118,12 +119,14 @@ public class TeleOp4 extends LinearOpMode {
         //actuatorMotor = hardwareMap.get(DcMotor.class, "actuator_motor");
         rightIntakeMotor = hardwareMap.get(DcMotor.class, "intake_right");
         leftIntakeMotor = hardwareMap.get(DcMotor.class, "intake_left");
-        //liftMotorRight = hardwareMap.get(DcMotor.class, "lift_right");
+        liftMotorRight = hardwareMap.get(DcMotor.class, "lift_right");
+        liftMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftMotorLeft = hardwareMap.get(DcMotor.class, "lift_left");
+        liftMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         platformServo = hardwareMap.get(Servo.class, "platform_servo");
         //rightServo = hardwareMap.get(Servo.class, "servo_right");
-        grabberServoLeft = hardwareMap.get(Servo.class, "grabber_servo_left");
-        grabberServoRight = hardwareMap.get(Servo.class, "grabber_servo_right");
+        //grabberServoLeft = hardwareMap.get(CRServo.class, "grabber_servo_left");
+        //grabberServoRight = hardwareMap.get(CRServo.class, "grabber_servo_right");
 
 
         leftFront.setDirection(DcMotor.Direction.FORWARD);
@@ -133,16 +136,13 @@ public class TeleOp4 extends LinearOpMode {
         //pivotMotor.setDirection(DcMotor.Direction.FORWARD);
         //actuatorServo.setDirection(CRServo.Direction.REVERSE);
         //actuatorMotor.setDirection(DcMotor.Direction.REVERSE);
-        //liftMotorRight.setDirection(DcMotor.Direction.REVERSE);
         liftMotorLeft.setDirection(DcMotor.Direction.REVERSE);
-        platformServo.setDirection(Servo.Direction.REVERSE);
-        grabberServoRight.setDirection(Servo.Direction.REVERSE);
+        //platformServo.setDirection(Servo.Direction.REVERSE);
+        //grabberServoRight.setDirection(Servo.Direction.REVERSE);
         leftIntakeMotor.setDirection(DcMotor.Direction.REVERSE);
-
-
-        platformServo.setPosition(0.3);
-        grabberServoLeft.setPosition(0);
-        grabberServoRight.setPosition(0);
+        platformServo.setPosition(.4);
+//        grabberServoLeft.setPosition(0);
+//        grabberServoRight.setPosition(0);
        //rightServo.setPosition(0.3);
 
         waitForStart();
@@ -156,12 +156,16 @@ public class TeleOp4 extends LinearOpMode {
             double rightRearPower;
             double intakeMotorClosePower;
             double intakeMotorOpenPower;
+            double intakeMotorClosePowerG1;
+            double intakeMotorOpenPowerG1;
             double liftMotorPower;
             double drive = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
             double turn  =  Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
             double strafe = gamepad1.right_stick_x;
             double motorOpen = gamepad2.left_trigger;
             double motorClose = gamepad2.right_trigger;
+            double motorOpenG1 = gamepad1.left_trigger;
+            double motorCloseG1 = gamepad1.right_trigger;
             double lift = gamepad2.left_stick_y;
             //pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -174,6 +178,8 @@ public class TeleOp4 extends LinearOpMode {
             leftRearPower = Range.clip(drive * Math.cos(turn) - strafe, -1.0, 1.0);
             intakeMotorOpenPower = Range.clip(motorOpen, 0.0, 1.0);
             intakeMotorClosePower = Range.clip(motorClose, 0.0, 1.0);
+            intakeMotorOpenPowerG1 = Range.clip(motorOpenG1, 0.0, 1.0);
+            intakeMotorClosePowerG1 = Range.clip(motorCloseG1, 0.0, 1.0);
             liftMotorPower = Range.clip(lift, -1.0, 1.0);
 
 
@@ -195,15 +201,32 @@ public class TeleOp4 extends LinearOpMode {
             //Intake Motor Controls
             if(gamepad2.left_trigger > 0)
             {
-                leftIntakeMotor.setPower(intakeMotorOpenPower * 1.1);
-                rightIntakeMotor.setPower(intakeMotorOpenPower * 1.1);
+                leftIntakeMotor.setPower(-intakeMotorOpenPower * 1.1);
+                rightIntakeMotor.setPower(-intakeMotorOpenPower * 1.1);
             }
             leftIntakeMotor.setPower(0);
             rightIntakeMotor.setPower(0);
             if(gamepad2.right_trigger > 0)
             {
-                leftIntakeMotor.setPower(-intakeMotorClosePower * 1.1);
-                rightIntakeMotor.setPower(-intakeMotorClosePower * 1.1);
+                leftIntakeMotor.setPower(intakeMotorClosePower * 1.1);
+                rightIntakeMotor.setPower(intakeMotorClosePower * 1.1);
+            }
+            leftIntakeMotor.setPower(0);
+            rightIntakeMotor.setPower(0);
+
+            
+            //G1
+            if(gamepad1.left_trigger > 0)
+            {
+                leftIntakeMotor.setPower(-intakeMotorOpenPowerG1 * 1.1);
+                rightIntakeMotor.setPower(-intakeMotorOpenPowerG1 * 1.1);
+            }
+            leftIntakeMotor.setPower(0);
+            rightIntakeMotor.setPower(0);
+            if(gamepad1.right_trigger > 0)
+            {
+                leftIntakeMotor.setPower(intakeMotorClosePowerG1 * 1.1);
+                rightIntakeMotor.setPower(intakeMotorClosePowerG1 * 1.1);
             }
             leftIntakeMotor.setPower(0);
             rightIntakeMotor.setPower(0);
@@ -266,23 +289,23 @@ public class TeleOp4 extends LinearOpMode {
             //Grabber Servo Controls
             if(gamepad2.x)
             {
-                grabberServoRight.setPosition(.1);
-                grabberServoLeft.setPosition(.1);
+                grabberServoRight.setPower(.1);
+                grabberServoLeft.setPower(.1);
             }
             if(gamepad2.b)
             {
-                grabberServoRight.setPosition(0);
-                grabberServoLeft.setPosition(0);
+                grabberServoRight.setPower(-.1);
+                grabberServoLeft.setPower(-.1);
             }
             if(gamepad2.left_bumper)
             {
-               grabberServoLeft.setPosition(grabberServoLeft.getPosition() + .01);
-               grabberServoRight.setPosition(grabberServoRight.getPosition() + .01);
+               //grabberServoLeft.setPosition(grabberServoLeft.getPosition() + .01);
+               //grabberServoRight.setPosition(grabberServoRight.getPosition() + .01);
             }
             if(gamepad2.right_bumper)
             {
-                grabberServoLeft.setPosition(grabberServoLeft.getPosition() - .01);
-                grabberServoRight.setPosition(grabberServoRight.getPosition() - .01);
+                //grabberServoLeft.setPosition(grabberServoLeft.getPosition() - .01);
+                //grabberServoRight.setPosition(grabberServoRight.getPosition() - .01);
             }
 
 
@@ -291,19 +314,19 @@ public class TeleOp4 extends LinearOpMode {
             //Lift Motor controls
             if (gamepad2.left_stick_y > 0)
             {
-                liftMotorLeft.setPower(liftMotorPower * 2);
-                //liftMotorRight.setPower(liftMotorPower * 2);
+                liftMotorLeft.setPower(liftMotorPower);
+                liftMotorRight.setPower(liftMotorPower);
             }
             liftMotorLeft.setPower(0);
-            //liftMotorRight.setPower(0);
+            liftMotorRight.setPower(0);
 
             if (gamepad2.left_stick_y < 0)
             {
-                liftMotorLeft.setPower(liftMotorPower * 2);
-                //liftMotorRight.setPower(liftMotorPower * 2);
+                liftMotorLeft.setPower(liftMotorPower);
+                liftMotorRight.setPower(liftMotorPower);
             }
             liftMotorLeft.setPower(0);
-            //liftMotorRight.setPower(0);
+            liftMotorRight.setPower(0);
 
 
 
@@ -311,12 +334,12 @@ public class TeleOp4 extends LinearOpMode {
             //Platform Servo Controls
             if(gamepad1.a)
             {
-                platformServo.setPosition(.69);
-                //rightServo.setPosition(.69);
+                platformServo.setPosition(.9);
+
             }
             if(gamepad1.y)
             {
-                platformServo.setPosition(0);
+                platformServo.setPosition(.4);
                 //rightServo.setPosition(0);
             }
 //            if(gamepad1.x)
@@ -326,18 +349,18 @@ public class TeleOp4 extends LinearOpMode {
 //            }
             if(gamepad1.b)
             {
-                telemetry.addData("Servo Position Left", platformServo.getPosition());
+                telemetry.addData("Platform Servo Position", platformServo.getPosition());
                 //telemetry.addData("Servo Position Right", rightServo.getPosition());
                 telemetry.update();
             }
             if(gamepad1.right_bumper)
             {
-                platformServo.setPosition(platformServo.getPosition() + .01);
+                platformServo.setPosition(platformServo.getPosition() + .001);
                 //rightServo.setPosition(rightServo.getPosition() + .01);
             }
             if(gamepad1.left_bumper)
             {
-                platformServo.setPosition(platformServo.getPosition() - .01);
+                platformServo.setPosition(platformServo.getPosition() - .001);
                 //rightServo.setPosition(rightServo.getPosition() - .01);
             }
 
