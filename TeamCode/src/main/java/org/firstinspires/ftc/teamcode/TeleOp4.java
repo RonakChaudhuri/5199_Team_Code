@@ -90,8 +90,9 @@ public class TeleOp4 extends LinearOpMode {
     private DcMotor rightIntakeMotor = null;
     private DcMotor leftIntakeMotor = null;
     private Servo platformServo = null;
-    private CRServo grabberServoRight = null;
-    private CRServo grabberServoLeft = null;
+    private Servo grabberServoRight = null;
+    private Servo grabberServoLeft = null;
+    private Servo clawServo = null;
     //private Servo rightServo = null;
     //private CRServo actuatorServo = null;
     //private DcMotor actuatorMotor = null;
@@ -124,9 +125,10 @@ public class TeleOp4 extends LinearOpMode {
         liftMotorLeft = hardwareMap.get(DcMotor.class, "lift_left");
         liftMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         platformServo = hardwareMap.get(Servo.class, "platform_servo");
+        //grabberServoRight = hardwareMap.get(Servo.class, "grabber_servo_right");
+        //grabberServoLeft = hardwareMap.get(Servo.class, "grabber_servo_left");
+        clawServo = hardwareMap.get(Servo.class, "claw_servo");
         //rightServo = hardwareMap.get(Servo.class, "servo_right");
-        //grabberServoLeft = hardwareMap.get(CRServo.class, "grabber_servo_left");
-        //grabberServoRight = hardwareMap.get(CRServo.class, "grabber_servo_right");
 
 
         leftFront.setDirection(DcMotor.Direction.FORWARD);
@@ -141,8 +143,9 @@ public class TeleOp4 extends LinearOpMode {
         //grabberServoRight.setDirection(Servo.Direction.REVERSE);
         leftIntakeMotor.setDirection(DcMotor.Direction.REVERSE);
         platformServo.setPosition(.4);
-//        grabberServoLeft.setPosition(0);
-//        grabberServoRight.setPosition(0);
+        grabberServoLeft.setPosition(0);
+        grabberServoRight.setPosition(0);
+        clawServo.setPosition(0);
        //rightServo.setPosition(0.3);
 
         waitForStart();
@@ -289,14 +292,25 @@ public class TeleOp4 extends LinearOpMode {
             //Grabber Servo Controls
             if(gamepad2.x)
             {
-                grabberServoRight.setPower(.1);
-                grabberServoLeft.setPower(.1);
+                //grabberServoRight.setPosition(.1);
+                //grabberServoLeft.setPosition(-.1);
             }
             if(gamepad2.b)
             {
-                grabberServoRight.setPower(-.1);
-                grabberServoLeft.setPower(-.1);
+                //grabberServoRight.setPosition(.1);
+                //grabberServoLeft.setPosition(-.1);
             }
+
+            if (gamepad2.a)
+            {
+                clawServo.setPosition (.1);
+            }
+
+            if (gamepad2.y)
+            {
+                clawServo.setPosition (-.1);
+            }
+
             if(gamepad2.left_bumper)
             {
                //grabberServoLeft.setPosition(grabberServoLeft.getPosition() + .01);
