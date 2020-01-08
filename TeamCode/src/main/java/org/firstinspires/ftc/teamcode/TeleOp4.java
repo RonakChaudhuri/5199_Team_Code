@@ -56,7 +56,7 @@ import com.qualcomm.robotcore.util.Range;
  *
  * GAMEPAD ONE:
  *
- * LEFT TRIGGER: ----------         RIGHT TRIGGER: Turbo Speed
+ * LEFT TRIGGER: Intake Open        RIGHT TRIGGER: Intake Close
  * LEFT BUMPER: Platform Up(Manual) RIGHT BUMPER: Platform Down(Manual)
  * LEFT STICK: Move/Strafe          RIGHT STICK: Turn
  * X: -----------                   B: Platform Servo Data
@@ -70,7 +70,7 @@ import com.qualcomm.robotcore.util.Range;
  * LEFT BUMPER: --------            RIGHT BUMPER:  ---------
  * LEFT STICK: Lift Arm Up/Down     RIGHT STICK: -------
  * X: Grabber Forward               B: Grabber Back
- * Y: --------                      A: ---------
+ * Y: Open Claw                     A: Close Claw
  * D-PAD UP/DOWN: ------            D-PAD Right/Left: --------
  *
  */
@@ -125,8 +125,8 @@ public class TeleOp4 extends LinearOpMode {
         liftMotorLeft = hardwareMap.get(DcMotor.class, "lift_left");
         liftMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         platformServo = hardwareMap.get(Servo.class, "platform_servo");
-        //grabberServoRight = hardwareMap.get(Servo.class, "grabber_servo_right");
-        //grabberServoLeft = hardwareMap.get(Servo.class, "grabber_servo_left");
+        grabberServoRight = hardwareMap.get(Servo.class, "grabber_servo_right");
+        grabberServoLeft = hardwareMap.get(Servo.class, "grabber_servo_left");
         clawServo = hardwareMap.get(Servo.class, "claw_servo");
         //rightServo = hardwareMap.get(Servo.class, "servo_right");
 
@@ -140,12 +140,12 @@ public class TeleOp4 extends LinearOpMode {
         //actuatorMotor.setDirection(DcMotor.Direction.REVERSE);
         liftMotorLeft.setDirection(DcMotor.Direction.REVERSE);
         //platformServo.setDirection(Servo.Direction.REVERSE);
-        //grabberServoRight.setDirection(Servo.Direction.REVERSE);
+        grabberServoRight.setDirection(Servo.Direction.REVERSE);
         leftIntakeMotor.setDirection(DcMotor.Direction.REVERSE);
-        platformServo.setPosition(.4);
+        //platformServo.setPosition(.4);
         grabberServoLeft.setPosition(0);
         grabberServoRight.setPosition(0);
-        clawServo.setPosition(0);
+        clawServo.setPosition(0.4);
        //rightServo.setPosition(0.3);
 
         waitForStart();
@@ -237,13 +237,13 @@ public class TeleOp4 extends LinearOpMode {
 
 
             //Drive Controls
-            if (gamepad1.right_trigger > 0)
-            {
-                leftFront.setPower(leftFrontPower * 3);
-                leftRear.setPower(leftRearPower * 3);
-                rightFront.setPower(rightFrontPower * 3);
-                rightRear.setPower(rightRearPower * 3);
-            }
+//            if (gamepad1.right_trigger > 0)
+//            {
+//                leftFront.setPower(leftFrontPower * 3);
+//                leftRear.setPower(leftRearPower * 3);
+//                rightFront.setPower(rightFrontPower * 3);
+//                rightRear.setPower(rightRearPower * 3);
+//            }
             if (gamepad1.right_bumper)
             {
                 leftFront.setPower(leftFrontPower * .2);
@@ -292,23 +292,26 @@ public class TeleOp4 extends LinearOpMode {
             //Grabber Servo Controls
             if(gamepad2.x)
             {
-                //grabberServoRight.setPosition(.1);
-                //grabberServoLeft.setPosition(-.1);
+                telemetry.addData("Right Grabber Servo Position", grabberServoRight.getPosition());
+                telemetry.addData("Left Grabber Servo Position", grabberServoLeft.getPosition());
+                telemetry.update();
+                grabberServoRight.setPosition(0.72);
+                grabberServoLeft.setPosition(0.72);
             }
             if(gamepad2.b)
             {
-                //grabberServoRight.setPosition(.1);
-                //grabberServoLeft.setPosition(-.1);
+                grabberServoRight.setPosition(0);
+                grabberServoLeft.setPosition(0);
             }
 
             if (gamepad2.a)
             {
-                clawServo.setPosition (.1);
+                clawServo.setPosition (.55);
             }
 
             if (gamepad2.y)
             {
-                clawServo.setPosition (-.1);
+                clawServo.setPosition (0.4);
             }
 
             if(gamepad2.left_bumper)
