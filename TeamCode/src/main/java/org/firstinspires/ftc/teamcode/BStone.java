@@ -123,7 +123,7 @@ public class BStone extends LinearOpMode
 
 //        moveDistanceStrafe();
 //        moveDistance();
-//        turnRightDistance(); //90 degree turn
+//        turnLeftDistance(); //90 degree turn
 //        moveDistance();
 //        leftIntakeMotor.setPower(x);
 //        rightIntakeMotor.setPower(x);

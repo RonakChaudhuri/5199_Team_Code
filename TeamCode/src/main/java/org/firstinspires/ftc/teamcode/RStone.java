@@ -123,7 +123,7 @@ public class RStone extends LinearOpMode
 
 //        moveDistanceStrafe();
 //        moveDistance();
-//        turnLeftDistance(); 90 degree turn
+//        turnRightDistance(); 90 degree turn
 //        moveDistance();
 //        leftIntakeMotor.setPower(x);
 //        rightIntakeMotor.setPower(x);
