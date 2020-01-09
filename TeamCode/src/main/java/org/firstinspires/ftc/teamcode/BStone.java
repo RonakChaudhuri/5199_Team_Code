@@ -61,10 +61,14 @@ public class BStone extends LinearOpMode
     private DcMotor leftRearMotor;
     private DcMotor rightFrontMotor;
     private DcMotor rightRearMotor;
-    private DcMotor actuatorMotor = null;
-    private DcMotor pivotMotor = null;
-    private Servo leftServo = null;
-    private Servo rightServo = null;
+    private DcMotor liftMotorRight = null;
+    private DcMotor liftMotorLeft = null;
+    private DcMotor rightIntakeMotor = null;
+    private DcMotor leftIntakeMotor = null;
+    private Servo platformServo = null;
+    private Servo grabberServoRight = null;
+    private Servo grabberServoLeft = null;
+    private Servo clawServo = null;
     static final double COUNTS_PER_MOTOR_REV = 537.6;    // eg: TETRIX Motor Encoder
     static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 3.937;     // For figuring circumference
@@ -81,7 +85,7 @@ public class BStone extends LinearOpMode
     static final double COUNTS_PER_INCH_ACTUATOR = (COUNTS_PER_MOTOR_REV_ACTUATOR * DRIVE_GEAR_REDUCTION_ACTUATOR) /
             (ACTUATOR_DIAMETER_INCHES * 3.1415);
 
-//5.2:1
+    //5.2:1
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry.addData("Status", "Initialized");
@@ -91,41 +95,53 @@ public class BStone extends LinearOpMode
         leftRearMotor = hardwareMap.get(DcMotor.class, "left_rear");
         rightFrontMotor = hardwareMap.get(DcMotor.class, "right_front");
         rightRearMotor = hardwareMap.get(DcMotor.class, "right_rear");
-        actuatorMotor = hardwareMap.get(DcMotor.class, "actuator_motor");
-        pivotMotor = hardwareMap.get(DcMotor.class, "pivot_motor");
-        leftServo = hardwareMap.get(Servo.class, "servo_left");
-        rightServo = hardwareMap.get(Servo.class, "servo_right");
+        rightIntakeMotor = hardwareMap.get(DcMotor.class, "intake_right");
+        leftIntakeMotor = hardwareMap.get(DcMotor.class, "intake_left");
+        liftMotorRight = hardwareMap.get(DcMotor.class, "lift_right");
+        liftMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftMotorLeft = hardwareMap.get(DcMotor.class, "lift_left");
+        liftMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        platformServo = hardwareMap.get(Servo.class, "platform_servo");
+        grabberServoRight = hardwareMap.get(Servo.class, "grabber_servo_right");
+        grabberServoLeft = hardwareMap.get(Servo.class, "grabber_servo_left");
+        clawServo = hardwareMap.get(Servo.class, "claw_servo");
         leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         leftRearMotor.setDirection(DcMotor.Direction.REVERSE);
-        actuatorMotor.setDirection(DcMotor.Direction.REVERSE);
-        rightServo.setDirection(Servo.Direction.REVERSE);
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftServo.setPosition(0);
-        rightServo.setPosition(0);
+        liftMotorLeft.setDirection(DcMotor.Direction.REVERSE);
+        grabberServoRight.setDirection(Servo.Direction.REVERSE);
+        leftIntakeMotor.setDirection(DcMotor.Direction.REVERSE);
+        platformServo.setPosition(0);
+        grabberServoLeft.setPosition(0);
+        grabberServoRight.setPosition(0);
+        clawServo.setPosition(0.4);
         waitForStart();
         runtime.reset();
 
-        moveDistancePivot(.5, .0390 * 1.75);
-        pivotMotor.setPower(0);
-        moveDistance(-.6, 35);
-        moveActuatorDistance(1, -44);
-        actuatorMotor.setPower(0);
-        moveDistance(.3, -15);
-        turnLeftDistance(.4, 23);
-        moveDistancePivot(.5, -.0390 * 1.75);
-        pivotMotor.setPower(0);
-        moveDistance(.5, 34);
-        moveDistancePivot(.5, .0390 * 1.75);
-        pivotMotor.setPower(0);
-        moveActuatorDistance(1, 30);
-        actuatorMotor.setPower(0);
-        moveDistancePivot(.5, -.0390 * 1.75);
-        pivotMotor.setPower(0);
-        moveDistance(.5, -8);
+//        moveDistanceStrafe();
+//        moveDistance();
+//        turnRightDistance(); //90 degree turn
+//        moveDistance();
+//        leftIntakeMotor.setPower(x);
+//        rightIntakeMotor.setPower(x);
+//        leftIntakeMotor.setPower(0);
+//        rightIntakeMotor.setPower(0);
+//        moveDistance(); //backwards
+//        clawServo.setPosition(.55);
+//        liftMotorLeft.setPower(); //lift up
+//        liftMotorRight.setPower();
+//        grabberServoRight.setPosition(0.72);
+//        grabberServoLeft.setPosition(0.72);
+//        clawServo.setPower(.4)
+//        grabberServoRight.setPosition(0);
+//        grabberServoLeft.setPosition(0);
+//        liftMotorLeft.setPower(); //lift down
+//        liftMotorRight.setPower();
+//        moveDistance(); //forwards and park
+
 
 
 
@@ -171,10 +187,7 @@ public class BStone extends LinearOpMode
     public void turnRight(double power) {
         turnLeft(-power);
     }
-    public void movePivot(double power)
-    {
-        pivotMotor.setPower(power);
-    }
+
 
     public void moveDistance(double power, int distance) {
         leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
@@ -310,56 +323,5 @@ public class BStone extends LinearOpMode
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-
-    public void moveActuator(double power)
-    {
-        actuatorMotor.setPower(power);
-
-    }
-    public void moveActuatorDistance(double power, double distance)
-    {
-        actuatorMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
-
-        int amountToMove = (int) (distance * COUNTS_PER_INCH_ACTUATOR);
-
-
-        actuatorMotor.setTargetPosition(amountToMove);
-
-        actuatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        moveActuator(power);
-
-
-        while (actuatorMotor.isBusy())
-        {
-
-
-        }
-
-        stopRobot();
-        actuatorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-    }
-    public void moveDistancePivot(double power, double distance)
-    {
-        pivotMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
-
-        int amountToMove = (int)(distance * COUNTS_PER_INCH_PIVOT );
-
-        pivotMotor.setTargetPosition(amountToMove);
-
-        pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        movePivot(power);
-
-
-        while (pivotMotor.isBusy())
-        {
-
-
-        }
-
-        stopRobot();
-        pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
 
 }

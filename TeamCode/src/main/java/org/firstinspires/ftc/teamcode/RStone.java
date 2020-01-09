@@ -121,21 +121,28 @@ public class RStone extends LinearOpMode
         waitForStart();
         runtime.reset();
 
-        //moveDistanceStrafe()
-        //moveDistance
-        //turnLeftDistance();
-        //moveDistance
-        //leftIntakeMotor.setPower(x);
-        //rightIntakeMotor.setPower(x);
-        //leftIntakeMotor.setPower(0);
-        //rightIntakeMotor.setPower(0);
-        //moveDistance(); (backwards)
-        //clawServo.setPosition(.55);
-        //liftMotor.setPower();
-        //grabberServoRight.setPosition(0.72);
-        //grabberServoLeft.setPosition(0.72);
-        //clawServo.setPower(.4)
-        //liftMotor.setPower();
+//        moveDistanceStrafe();
+//        moveDistance();
+//        turnLeftDistance(); 90 degree turn
+//        moveDistance();
+//        leftIntakeMotor.setPower(x);
+//        rightIntakeMotor.setPower(x);
+//        leftIntakeMotor.setPower(0);
+//        rightIntakeMotor.setPower(0);
+//        moveDistance(); //backwards
+//        clawServo.setPosition(.55);
+//        liftMotorLeft.setPower(); //lift up
+//        liftMotorRight.setPower();
+//        grabberServoRight.setPosition(0.72);
+//        grabberServoLeft.setPosition(0.72);
+//        clawServo.setPower(.4)
+//        grabberServoRight.setPosition(0);
+//        grabberServoLeft.setPosition(0);
+//        liftMotorLeft.setPower(); //lift down
+//        liftMotorRight.setPower();
+//        moveDistance(); //forwards and park
+
+
 
 
 
