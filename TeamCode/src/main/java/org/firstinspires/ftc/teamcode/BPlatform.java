@@ -60,8 +60,6 @@ public class BPlatform extends LinearOpMode
     private DcMotor leftRearMotor;
     private DcMotor rightFrontMotor;
     private DcMotor rightRearMotor;
-    private DcMotor actuatorMotor = null;
-    private DcMotor pivotMotor = null;
     private Servo platformServo = null;
     static final double COUNTS_PER_MOTOR_REV = 537.6;    // eg: TETRIX Motor Encoder
     static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
@@ -89,35 +87,37 @@ public class BPlatform extends LinearOpMode
         leftRearMotor = hardwareMap.get(DcMotor.class, "left_rear");
         rightFrontMotor = hardwareMap.get(DcMotor.class, "right_front");
         rightRearMotor = hardwareMap.get(DcMotor.class, "right_rear");
-        actuatorMotor = hardwareMap.get(DcMotor.class, "actuator_motor");
-        pivotMotor = hardwareMap.get(DcMotor.class, "pivot_motor");
+        //actuatorMotor = hardwareMap.get(DcMotor.class, "actuator_motor");
+        //pivotMotor = hardwareMap.get(DcMotor.class, "pivot_motor");
         platformServo = hardwareMap.get(Servo.class, "platform_servo");
         leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         leftRearMotor.setDirection(DcMotor.Direction.REVERSE);
-        actuatorMotor.setDirection(DcMotor.Direction.REVERSE);
+        //actuatorMotor.setDirection(DcMotor.Direction.REVERSE);
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         platformServo.setPosition(0);
         waitForStart();
         runtime.reset();
 
 
         moveDistance(.8, -3.5, 1000);
-        moveDistanceStrafe(.8, 22, 1000);
+        moveDistanceStrafe(.8, 18, 1000);
         moveDistance(.4, -27.6, 3000);
-        platformServo.setPosition(.5);
+        platformServo.setPosition(.365);
         sleep(1000);
-        moveDistance(.4, 33.3, 3000);
+        //moveDistanceStrafe(.8, 3, 1000);
+        moveDistance(.8, 20, 1000);
+        turnLeftDistance(-.5, 10, 1000);
+        moveDistance(.4, 14, 500);
+        turnLeftDistance(-.5, 45, 1000);
+        //moveDistanceStrafe(.4, 20, 3000);
         platformServo.setPosition(0);
         sleep(1000);
-        moveDistanceStrafe(.4, -32, 3000);
-        turnRightDistance(.4, 1, 500);
-        moveDistanceStrafe(.4, -22, 3000);
-
-
+        moveDistanceStrafe(.5, 5, 1000);
+        moveDistance (.6, 40, 3000);
 
 
 
@@ -161,10 +161,6 @@ public class BPlatform extends LinearOpMode
 
     public void turnRight(double power) {
         turnLeft(-power);
-    }
-    public void movePivot(double power)
-    {
-        pivotMotor.setPower(power);
     }
 
     public void moveDistance(double power, double distance, int sleep) {
@@ -302,55 +298,6 @@ public class BPlatform extends LinearOpMode
     }
 
 
-    public void moveActuator(double power)
-    {
-        actuatorMotor.setPower(power);
 
-    }
-    public void moveActuatorDistance(double power, double distance)
-    {
-        actuatorMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
-
-        int amountToMove = (int) (distance * COUNTS_PER_INCH_ACTUATOR);
-
-
-        actuatorMotor.setTargetPosition(amountToMove);
-
-        actuatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        moveActuator(power);
-
-
-        while (actuatorMotor.isBusy())
-        {
-
-
-        }
-
-        stopRobot();
-        actuatorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-    }
-    public void moveDistancePivot(double power, double distance)
-    {
-        pivotMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
-
-        int amountToMove = (int)(distance * COUNTS_PER_INCH_PIVOT );
-
-        pivotMotor.setTargetPosition(amountToMove);
-
-        pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        movePivot(power);
-
-
-        while (pivotMotor.isBusy())
-        {
-
-
-        }
-
-        stopRobot();
-        pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
 
 }

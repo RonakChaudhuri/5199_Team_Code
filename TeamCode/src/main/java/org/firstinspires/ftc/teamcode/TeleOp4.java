@@ -93,6 +93,8 @@ public class TeleOp4 extends LinearOpMode {
     private Servo grabberServoRight = null;
     private Servo grabberServoLeft = null;
     private Servo clawServo = null;
+    private boolean open = true;
+    private boolean pressed = false;
     //private Servo rightServo = null;
     //private CRServo actuatorServo = null;
     //private DcMotor actuatorMotor = null;
@@ -142,7 +144,7 @@ public class TeleOp4 extends LinearOpMode {
         //platformServo.setDirection(Servo.Direction.REVERSE);
         grabberServoRight.setDirection(Servo.Direction.REVERSE);
         leftIntakeMotor.setDirection(DcMotor.Direction.REVERSE);
-        //platformServo.setPosition(.4);
+        platformServo.setPosition(0);
         grabberServoLeft.setPosition(0);
         grabberServoRight.setPosition(0);
         clawServo.setPosition(0.4);
@@ -170,6 +172,7 @@ public class TeleOp4 extends LinearOpMode {
             double motorOpenG1 = gamepad1.left_trigger;
             double motorCloseG1 = gamepad1.right_trigger;
             double lift = gamepad2.left_stick_y;
+
             //pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
@@ -221,15 +224,15 @@ public class TeleOp4 extends LinearOpMode {
             //G1
             if(gamepad1.left_trigger > 0)
             {
-                leftIntakeMotor.setPower(-intakeMotorOpenPowerG1 * 1.1);
-                rightIntakeMotor.setPower(-intakeMotorOpenPowerG1 * 1.1);
+                leftIntakeMotor.setPower(-intakeMotorOpenPowerG1 * 1.5);
+                rightIntakeMotor.setPower(-intakeMotorOpenPowerG1 * 1.5);
             }
             leftIntakeMotor.setPower(0);
             rightIntakeMotor.setPower(0);
             if(gamepad1.right_trigger > 0)
             {
-                leftIntakeMotor.setPower(intakeMotorClosePowerG1 * 1.1);
-                rightIntakeMotor.setPower(intakeMotorClosePowerG1 * 1.1);
+                leftIntakeMotor.setPower(intakeMotorClosePowerG1 * 1.5);
+                rightIntakeMotor.setPower(intakeMotorClosePowerG1 * 1.5);
             }
             leftIntakeMotor.setPower(0);
             rightIntakeMotor.setPower(0);
@@ -290,7 +293,7 @@ public class TeleOp4 extends LinearOpMode {
 
 
             //Grabber Servo Controls
-            if(gamepad2.x)
+            if(gamepad2.right_bumper)
             {
                 telemetry.addData("Right Grabber Servo Position", grabberServoRight.getPosition());
                 telemetry.addData("Left Grabber Servo Position", grabberServoLeft.getPosition());
@@ -298,18 +301,31 @@ public class TeleOp4 extends LinearOpMode {
                 grabberServoRight.setPosition(0.72);
                 grabberServoLeft.setPosition(0.72);
             }
-            if(gamepad2.b)
+            if(gamepad2.left_bumper)
             {
                 grabberServoRight.setPosition(0);
                 grabberServoLeft.setPosition(0);
             }
 
+//            if (gamepad2.a && !open && !pressed)
+//            {
+//                clawServo.setPosition (.55);
+//                open = true;
+//                pressed = true;
+//            }
+//            pressed = false;
+//            if (gamepad2.a && open && !pressed)
+//            {
+//                clawServo.setPosition (0.4);
+//                open = false;
+//                pressed = true;
+//            }
+//            pressed = false;
             if (gamepad2.a)
             {
                 clawServo.setPosition (.55);
             }
-
-            if (gamepad2.y)
+            if (gamepad2.b)
             {
                 clawServo.setPosition (0.4);
             }
@@ -351,12 +367,12 @@ public class TeleOp4 extends LinearOpMode {
             //Platform Servo Controls
             if(gamepad1.a)
             {
-                platformServo.setPosition(.9);
+                platformServo.setPosition(.365);
 
             }
             if(gamepad1.y)
             {
-                platformServo.setPosition(.4);
+                platformServo.setPosition(0);
                 //rightServo.setPosition(0);
             }
 //            if(gamepad1.x)
