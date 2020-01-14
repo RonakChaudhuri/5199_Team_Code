@@ -31,7 +31,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -59,18 +58,18 @@ import com.qualcomm.robotcore.util.Range;
  * LEFT TRIGGER: Intake Open        RIGHT TRIGGER: Intake Close
  * LEFT BUMPER: Platform Up(Manual) RIGHT BUMPER: Platform Down(Manual)
  * LEFT STICK: Move/Strafe          RIGHT STICK: Turn
- * X: -----------                   B: Platform Servo Data
- * Y: Platform Up                   A: Platform Down
- * D-PAD UP/DOWN: -------           D-PAD Right/Left: --------
+ * X:                               B: Claw Complete Close
+ * Y: -----------                   A:
+ * D-PAD UP/DOWN: Platform Up/Down  D-PAD Right/Left: --------
  *
  *
  * GAMEPAD TWO:
  *
  * LEFT TRIGGER: Intake Open        RIGHT TRIGGER: Intake Close
- * LEFT BUMPER: --------            RIGHT BUMPER:  ---------
+ * LEFT BUMPER: V4B Back            RIGHT BUMPER:  V4B Forward
  * LEFT STICK: Lift Arm Up/Down     RIGHT STICK: -------
- * X: Grabber Forward               B: Grabber Back
- * Y: Open Claw                     A: Close Claw
+ * X: -------                       B: Open Claw
+ * Y: -------                       A: Close Claw
  * D-PAD UP/DOWN: ------            D-PAD Right/Left: --------
  *
  */
@@ -329,6 +328,10 @@ public class TeleOp4 extends LinearOpMode {
             {
                 clawServo.setPosition (0.4);
             }
+            if(gamepad1.b)
+            {
+                clawServo.setPosition(.7);
+            }
 
             if(gamepad2.left_bumper)
             {
@@ -365,12 +368,12 @@ public class TeleOp4 extends LinearOpMode {
 
 
             //Platform Servo Controls
-            if(gamepad1.a)
+            if(gamepad1.dpad_down)
             {
                 platformServo.setPosition(.365);
 
             }
-            if(gamepad1.y)
+            if(gamepad1.dpad_up)
             {
                 platformServo.setPosition(0);
                 //rightServo.setPosition(0);

@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -58,6 +59,7 @@ public class TeleOp extends OpMode
     private DcMotor leftRear = null;
     private DcMotor rightFront = null;
     private DcMotor rightRear = null;
+    private RevTouchSensor touchSensor = null;
 
     @Override
     public void init()
@@ -68,6 +70,7 @@ public class TeleOp extends OpMode
         leftRear  = hardwareMap.get(DcMotor.class, "left_rear");
         rightFront = hardwareMap.get(DcMotor.class, "right_front");
         rightRear = hardwareMap.get(DcMotor.class, "right_rear");
+        touchSensor = hardwareMap.get(RevTouchSensor.class, "touch_sensor");
 
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         leftRear.setDirection(DcMotor.Direction.FORWARD);
@@ -110,6 +113,7 @@ public class TeleOp extends OpMode
         leftRear.setPower(leftRearPower);
         rightFront.setPower(rightFrontPower);
         rightRear.setPower(rightRearPower);
+
 
 
         // Show the elapsed game time and wheel power.

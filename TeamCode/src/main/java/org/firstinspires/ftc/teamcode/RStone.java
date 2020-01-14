@@ -30,7 +30,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -117,27 +116,69 @@ public class RStone extends LinearOpMode
         platformServo.setPosition(0);
         grabberServoLeft.setPosition(0);
         grabberServoRight.setPosition(0);
-        clawServo.setPosition(0.4);
+        clawServo.setPosition(0.7);
         waitForStart();
         runtime.reset();
 
-//        moveDistanceStrafe();
-//        moveDistance();
-//        turnRightDistance(); 90 degree turn
-//        moveDistance();
-//        leftIntakeMotor.setPower(x);
-//        rightIntakeMotor.setPower(x);
+
+        moveDistance(.5, 3);
+        moveDistanceStrafe(.5, 6, 500);
+        moveDistance(.5, 18);
+        turnLeftDistance(.5, 23, 1000);
+        moveDistanceStrafe(.5, 28, 1000);
+        moveDistance(.4, 5);
+        leftIntakeMotor.setPower(.7);
+        rightIntakeMotor.setPower(.7);
+        sleep(400);
+        leftIntakeMotor.setPower(0);
+        rightIntakeMotor.setPower(0);
+        moveDistanceStrafe(.5, -20, 1000);
+        turnRightDistance(.8, 43, 2000);
+        moveDistance(.5, 40);
+        leftIntakeMotor.setPower(-.7);
+        rightIntakeMotor.setPower(-.7);
+        sleep(700);
+        leftIntakeMotor.setPower(0);
+        rightIntakeMotor.setPower(0);
+
+
+
+        moveDistance (0.5, -38);
+        turnLeftDistance(0.8, 43, 2000);
+        moveDistanceStrafe(0.5, 17, 1000);
+        moveDistance (0.4, 9);
+        sleep(500);
+//        leftIntakeMotor.setPower(.7);
+//        rightIntakeMotor.setPower(.7);
+//        sleep(700);
 //        leftIntakeMotor.setPower(0);
 //        rightIntakeMotor.setPower(0);
-//        moveDistance(); //backwards
-//        clawServo.setPosition(.55);
-//        liftMotorLeft.setPower(); //lift up
-//        liftMotorRight.setPower();
-//        grabberServoRight.setPosition(0.72);
-//        grabberServoLeft.setPosition(0.72);
-//        clawServo.setPower(.4)
-//        grabberServoRight.setPosition(0);
-//        grabberServoLeft.setPosition(0);
+        moveDistanceStrafe(.5, -20, 1000);
+        turnRightDistance(.4, 43, 3000);
+        moveDistance(.5, 45);
+        leftIntakeMotor.setPower(-.7);
+        rightIntakeMotor.setPower(-.7);
+        sleep(700);
+        leftIntakeMotor.setPower(0);
+        rightIntakeMotor.setPower(0);
+        moveDistance (0.5, -16);
+
+//          clawServo.setPosition(.4);
+//          sleep(500);
+//          liftMotorLeft.setPower(.4); //lift up
+//          liftMotorRight.setPower(.4);
+//          sleep(200);
+//          liftMotorLeft.setPower(0); //lift up
+//          liftMotorRight.setPower(0);
+//          sleep(200);
+//          grabberServoRight.setPosition(0.72);
+//          grabberServoLeft.setPosition(0.72);
+//          sleep(500);
+//          clawServo.setPosition(.55);
+//          sleep(500);
+//          grabberServoRight.setPosition(0);
+//          grabberServoLeft.setPosition(0);
+//          sleep(1000);
 //        liftMotorLeft.setPower(); //lift down
 //        liftMotorRight.setPower();
 //        moveDistance(); //forwards and park
@@ -222,7 +263,7 @@ public class RStone extends LinearOpMode
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-    public void moveDistanceStrafe(double power, double distance)
+    public void moveDistanceStrafe(double power, double distance, int sleep)
     {
         leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         leftRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
@@ -244,11 +285,12 @@ public class RStone extends LinearOpMode
         strafe(power);
 
 
-        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy())
-        {
-
-
-        }
+//        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy())
+//        {
+//
+//
+//        }
+        sleep(sleep);
 
         stopRobot();
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -257,7 +299,7 @@ public class RStone extends LinearOpMode
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void turnLeftDistance(double power, int distance) {
+    public void turnLeftDistance(double power, int distance, int sleep) {
         leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         leftRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         rightFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
@@ -278,10 +320,11 @@ public class RStone extends LinearOpMode
         turnLeft(power);
 
 
-        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy()) {
-
-
-        }
+//        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy()) {
+//
+//
+//        }
+        sleep(sleep);
 
         stopRobot();
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -290,7 +333,7 @@ public class RStone extends LinearOpMode
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void turnRightDistance(double power, int distance) {
+    public void turnRightDistance(double power, int distance, int sleep) {
         leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         leftRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         rightFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
@@ -311,10 +354,11 @@ public class RStone extends LinearOpMode
         turnRight(power);
 
 
-        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy()) {
-
-
-        }
+//        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy()) {
+//
+//
+//        }
+        sleep(sleep);
 
         stopRobot();
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
