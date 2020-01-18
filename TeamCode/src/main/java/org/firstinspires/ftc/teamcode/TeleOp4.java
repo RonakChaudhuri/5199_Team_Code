@@ -254,10 +254,10 @@ public class TeleOp4 extends LinearOpMode {
                 rightRear.setPower(rightRearPower * .2);
             }
 
-            leftFront.setPower(leftFrontPower * .8);
-            leftRear.setPower(leftRearPower * .8);
-            rightFront.setPower(rightFrontPower * .8);
-            rightRear.setPower(rightRearPower * .8);
+            leftFront.setPower(leftFrontPower);
+            leftRear.setPower(leftRearPower);
+            rightFront.setPower(rightFrontPower);
+            rightRear.setPower(rightRearPower);
 
 
 

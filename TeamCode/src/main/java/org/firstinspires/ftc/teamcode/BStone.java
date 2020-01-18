@@ -121,11 +121,12 @@ public class BStone extends LinearOpMode
         runtime.reset();
 
 
-        moveDistance(.5, 3);
+        moveDistance(.5, 6);
+        sleep (500);
         moveDistanceStrafe(.5, -6, 500);
-        moveDistance(.5, 18);
+        moveDistance(.5, 16);
         turnRightDistance(.5, 23, 1000);
-        moveDistanceStrafe(.5, -28, 1000);
+        moveDistanceStrafe(.5, -38, 1000);
         moveDistance(.4, 5);
         leftIntakeMotor.setPower(.7);
         rightIntakeMotor.setPower(.7);
@@ -134,7 +135,7 @@ public class BStone extends LinearOpMode
         rightIntakeMotor.setPower(0);
         moveDistanceStrafe(.5, 20, 1000);
         turnLeftDistance(.8, 43, 2000);
-        moveDistance(.5, 40);
+        moveDistance(.5, 35);
         leftIntakeMotor.setPower(-.7);
         rightIntakeMotor.setPower(-.7);
         sleep(700);
@@ -143,17 +144,16 @@ public class BStone extends LinearOpMode
 
         moveDistance (0.5, -38);
         turnRightDistance(0.8, 43, 2000);
-        moveDistanceStrafe(0.5, -17, 1000);
+        moveDistanceStrafe(0.5, -32, 1000);
         moveDistance (0.4, 9);
-        sleep(500);
-//        leftIntakeMotor.setPower(.7);
-//        rightIntakeMotor.setPower(.7);
-//        sleep(700);
-//        leftIntakeMotor.setPower(0);
-//        rightIntakeMotor.setPower(0);
+        leftIntakeMotor.setPower(.7);
+        rightIntakeMotor.setPower(.7);
+        sleep(400);
+        leftIntakeMotor.setPower(0);
+        rightIntakeMotor.setPower(0);
         moveDistanceStrafe(.5, 20, 1000);
         turnLeftDistance(.4, 43, 3000);
-        moveDistance(.5, 45);
+        moveDistance(.5, 38);
         leftIntakeMotor.setPower(-.7);
         rightIntakeMotor.setPower(-.7);
         sleep(700);
