@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -58,7 +59,7 @@ import com.qualcomm.robotcore.util.Range;
  * LEFT TRIGGER: Intake Open        RIGHT TRIGGER: Intake Close
  * LEFT BUMPER: Platform Up(Manual) RIGHT BUMPER: Platform Down(Manual)
  * LEFT STICK: Move/Strafe          RIGHT STICK: Turn
- * X:                               B: Claw Complete Close
+ * X:                               B: Feeder Bot
  * Y: -----------                   A:
  * D-PAD UP/DOWN: Platform Up/Down  D-PAD Right/Left: --------
  *
@@ -83,7 +84,6 @@ public class TeleOp4 extends LinearOpMode {
     private DcMotor leftRear = null;
     private DcMotor rightFront = null;
     private DcMotor rightRear = null;
-    //private DcMotor pivotMotor = null;
     private DcMotor liftMotorRight = null;
     private DcMotor liftMotorLeft = null;
     private DcMotor rightIntakeMotor = null;
@@ -92,12 +92,10 @@ public class TeleOp4 extends LinearOpMode {
     private Servo grabberServoRight = null;
     private Servo grabberServoLeft = null;
     private Servo clawServo = null;
-    private boolean open = true;
-    private boolean pressed = false;
-    //private Servo rightServo = null;
-    //private CRServo actuatorServo = null;
-    //private DcMotor actuatorMotor = null;
-    private boolean turned = false;
+//    private boolean open = true;
+//    private boolean pressed = false;
+    private DigitalChannel limitSwitch = null;
+//    private boolean turned = false;
     static final double     COUNTS_PER_MOTOR_REV_PIVOT    = 696.5; //235.2
     static final double     DRIVE_GEAR_REDUCTION_PIVOT    = 1.75;
     static final double     PIVOT_DIAMETER_INCHES   = .023622;
@@ -116,9 +114,6 @@ public class TeleOp4 extends LinearOpMode {
         leftRear  = hardwareMap.get(DcMotor.class, "left_rear");
         rightFront = hardwareMap.get(DcMotor.class, "right_front");
         rightRear = hardwareMap.get(DcMotor.class, "right_rear");
-        //pivotMotor = hardwareMap.get(DcMotor.class, "pivot_motor");
-        //actuatorServo = hardwareMap.get(CRServo.class, "actuator_servo");
-        //actuatorMotor = hardwareMap.get(DcMotor.class, "actuator_motor");
         rightIntakeMotor = hardwareMap.get(DcMotor.class, "intake_right");
         leftIntakeMotor = hardwareMap.get(DcMotor.class, "intake_left");
         liftMotorRight = hardwareMap.get(DcMotor.class, "lift_right");
@@ -129,7 +124,7 @@ public class TeleOp4 extends LinearOpMode {
         grabberServoRight = hardwareMap.get(Servo.class, "grabber_servo_right");
         grabberServoLeft = hardwareMap.get(Servo.class, "grabber_servo_left");
         clawServo = hardwareMap.get(Servo.class, "claw_servo");
-        //rightServo = hardwareMap.get(Servo.class, "servo_right");
+        limitSwitch = hardwareMap.get(DigitalChannel.class, "limit_switch");
 
 
         leftFront.setDirection(DcMotor.Direction.FORWARD);
@@ -172,11 +167,6 @@ public class TeleOp4 extends LinearOpMode {
             double motorCloseG1 = gamepad1.right_trigger;
             double lift = gamepad2.left_stick_y;
 
-            //pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-
-
-
             rightFrontPower = Range.clip(drive * Math.cos(turn) + strafe, -1.0, 1.0);
             rightRearPower = Range.clip(drive * Math.sin(turn) + strafe, -1.0, 1.0);
             leftFrontPower = Range.clip(drive * Math.sin(turn) - strafe, -1.0, 1.0);
@@ -188,22 +178,7 @@ public class TeleOp4 extends LinearOpMode {
             liftMotorPower = Range.clip(lift, -1.0, 1.0);
 
 
-//            //Actuator Motor Controls
-//            if(gamepad2.left_trigger > 0)
-//            {
-//                actuatorMotor.setPower(actuatorMotorOpenPower * 1.3);
-//
-//            }
-//            actuatorMotor.setPower(0);
-//            if(gamepad2.right_trigger > 0)
-//            {
-//                actuatorMotor.setPower(-actuatorMotorClosePower * 1.3);
-//
-//            }
-//            actuatorMotor.setPower(0);
-
-
-            //Intake Motor Controls
+            //INTAKE CONTROLS
             if(gamepad2.left_trigger > 0)
             {
                 leftIntakeMotor.setPower(-intakeMotorOpenPower * 1.1);
@@ -219,8 +194,7 @@ public class TeleOp4 extends LinearOpMode {
             leftIntakeMotor.setPower(0);
             rightIntakeMotor.setPower(0);
 
-            
-            //G1
+            //GAMEPAD 1 INTAKE
             if(gamepad1.left_trigger > 0)
             {
                 leftIntakeMotor.setPower(-intakeMotorOpenPowerG1 * 1.5);
@@ -237,15 +211,7 @@ public class TeleOp4 extends LinearOpMode {
             rightIntakeMotor.setPower(0);
 
 
-
-            //Drive Controls
-//            if (gamepad1.right_trigger > 0)
-//            {
-//                leftFront.setPower(leftFrontPower * 3);
-//                leftRear.setPower(leftRearPower * 3);
-//                rightFront.setPower(rightFrontPower * 3);
-//                rightRear.setPower(rightRearPower * 3);
-//            }
+            //DRIVE CONTROLS
             if (gamepad1.right_bumper)
             {
                 leftFront.setPower(leftFrontPower * .2);
@@ -253,45 +219,13 @@ public class TeleOp4 extends LinearOpMode {
                 rightFront.setPower(rightFrontPower * .2);
                 rightRear.setPower(rightRearPower * .2);
             }
-
             leftFront.setPower(leftFrontPower);
             leftRear.setPower(leftRearPower);
             rightFront.setPower(rightFrontPower);
             rightRear.setPower(rightRearPower);
 
 
-
-
-
-
-//            //Pivot Actuator Controls
-//            if(gamepad2.b)
-//            {
-//                if(!turned)
-//                {
-//                    moveDistancePivot(.5, .0394 * 1.75);
-//                    turned = true;
-//                }
-//            }
-//            if(gamepad2.x)
-//            {
-//                if(turned)
-//                {
-//                    moveDistancePivot(.5, -.0394 * 1.75);
-//                    turned = false;
-//                }
-//            }
-//            if(gamepad2.left_bumper)
-//            {
-//                moveDistancePivot(.2, -.005);
-//            }
-//            if(gamepad2.right_bumper)
-//            {
-//                moveDistancePivot(.2, .005);
-//            }
-
-
-            //Grabber Servo Controls
+            //V4B CONTROLS
             if(gamepad2.right_bumper)
             {
                 telemetry.addData("Right Grabber Servo Position", grabberServoRight.getPosition());
@@ -305,7 +239,6 @@ public class TeleOp4 extends LinearOpMode {
                 grabberServoRight.setPosition(0);
                 grabberServoLeft.setPosition(0);
             }
-
 //            if (gamepad2.a && !open && !pressed)
 //            {
 //                clawServo.setPosition (.55);
@@ -320,6 +253,8 @@ public class TeleOp4 extends LinearOpMode {
 //                pressed = true;
 //            }
 //            pressed = false;
+
+            //CLAW
             if (gamepad2.a)
             {
                 clawServo.setPosition (.55);
@@ -333,21 +268,7 @@ public class TeleOp4 extends LinearOpMode {
                 clawServo.setPosition(.7);
             }
 
-            if(gamepad2.left_bumper)
-            {
-               //grabberServoLeft.setPosition(grabberServoLeft.getPosition() + .01);
-               //grabberServoRight.setPosition(grabberServoRight.getPosition() + .01);
-            }
-            if(gamepad2.right_bumper)
-            {
-                //grabberServoLeft.setPosition(grabberServoLeft.getPosition() - .01);
-                //grabberServoRight.setPosition(grabberServoRight.getPosition() - .01);
-            }
-
-
-
-
-            //Lift Motor controls
+            //LIFT CONTROLS
             if (gamepad2.left_stick_y > 0)
             {
                 liftMotorLeft.setPower(liftMotorPower);
@@ -355,17 +276,18 @@ public class TeleOp4 extends LinearOpMode {
             }
             liftMotorLeft.setPower(0);
             liftMotorRight.setPower(0);
-
-            if (gamepad2.left_stick_y < 0)
+            if (gamepad2.left_stick_y < 0 && !limitSwitch.getState())
             {
                 liftMotorLeft.setPower(liftMotorPower);
                 liftMotorRight.setPower(liftMotorPower);
             }
             liftMotorLeft.setPower(0);
             liftMotorRight.setPower(0);
-
-
-
+            if (gamepad2.left_stick_y < 0 && limitSwitch.getState())
+            {
+                liftMotorLeft.setPower(0);
+                liftMotorRight.setPower(0);
+            }
 
             //Platform Servo Controls
             if(gamepad1.dpad_down)
@@ -378,69 +300,52 @@ public class TeleOp4 extends LinearOpMode {
                 platformServo.setPosition(0);
                 //rightServo.setPosition(0);
             }
-//            if(gamepad1.x)
-//            {
-//                //platformServo.setPosition(.46);
-//                rightServo.setPosition(.46);
-//            }
-            if(gamepad1.b)
-            {
-                telemetry.addData("Platform Servo Position", platformServo.getPosition());
-                //telemetry.addData("Servo Position Right", rightServo.getPosition());
-                telemetry.update();
-            }
             if(gamepad1.right_bumper)
             {
                 platformServo.setPosition(platformServo.getPosition() + .001);
-                //rightServo.setPosition(rightServo.getPosition() + .01);
             }
             if(gamepad1.left_bumper)
             {
                 platformServo.setPosition(platformServo.getPosition() - .001);
-                //rightServo.setPosition(rightServo.getPosition() - .01);
             }
 
 
 
 
-            // Show the elapsed game time and wheel power.
+            // Show the elapsed game time and wheel power
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Motors", "left (%.2f), right (%.2f), left(%.2f), right(%.2f)", leftFrontPower, rightFrontPower, leftRearPower, rightRearPower);
+            telemetry.addData("Motors", "left front (%.2f), right front(%.2f), left rear(%.2f), right rear(%.2f)", leftFrontPower, rightFrontPower, leftRearPower, rightRearPower);
+
+            if(platformServo.getPosition() == .365)
+            {
+                telemetry.addLine("Platform Down");
+            }
+            if(platformServo.getPosition() == 0)
+            {
+                telemetry.addLine("Platform Up");
+            }
+            telemetry.addData("Platform Servo Position: ", platformServo.getPosition());
+
+            if(clawServo.getPosition() == .4)
+            {
+                telemetry.addLine("Claw Open");
+            }
+            if(clawServo.getPosition() == .55)
+            {
+                telemetry.addLine("Claw Closed");
+            }
+            if(clawServo.getPosition() == .7)
+            {
+                telemetry.addLine("Feeder Bot Activated");
+            }
+            telemetry.addData("Claw Servo Position: ", clawServo.getPosition());
+
+            if(limitSwitch.getState())
+            {
+                telemetry.addLine("Limit Switch Pressed");
+            }
             telemetry.update();
         }
     }
-//    public void movePivot(double power)
-//    {
-//        pivotMotor.setPower(power);
-//    }
-//
-//    public void stopRobot()
-//    {
-//        pivotMotor.setPower(0);
-//    }
-//    public void moveDistancePivot(double power, double distance)
-//    {
-//        pivotMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
-//
-//        int amountToMove = (int)(distance * COUNTS_PER_INCH );
-//
-//        pivotMotor.setTargetPosition(amountToMove);
-//
-//        pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        movePivot(power);
-//
-//
-//
-//        while (pivotMotor.isBusy())
-//        {
-//            leftFront.setPower(0);
-//            leftRear.setPower(0);
-//            rightFront.setPower(0);
-//            rightRear.setPower(0);
-//
-//        }
-//
-//        stopRobot();
-//        pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//    }
+
 }
