@@ -110,6 +110,8 @@ public class TeleOp4 extends LinearOpMode {
 
         telemetry.addData("Status", "Initialized");
 
+
+        /**Hardware Map*/
         leftFront  = hardwareMap.get(DcMotor.class, "left_front");
         leftRear  = hardwareMap.get(DcMotor.class, "left_rear");
         rightFront = hardwareMap.get(DcMotor.class, "right_front");
@@ -127,22 +129,18 @@ public class TeleOp4 extends LinearOpMode {
         limitSwitch = hardwareMap.get(DigitalChannel.class, "limit_switch");
 
 
+        /**Directions and Positions*/
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         leftRear.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
         rightRear.setDirection(DcMotor.Direction.REVERSE);
-        //pivotMotor.setDirection(DcMotor.Direction.FORWARD);
-        //actuatorServo.setDirection(CRServo.Direction.REVERSE);
-        //actuatorMotor.setDirection(DcMotor.Direction.REVERSE);
         liftMotorLeft.setDirection(DcMotor.Direction.REVERSE);
-        //platformServo.setDirection(Servo.Direction.REVERSE);
         grabberServoRight.setDirection(Servo.Direction.REVERSE);
         leftIntakeMotor.setDirection(DcMotor.Direction.REVERSE);
         platformServo.setPosition(0);
         grabberServoLeft.setPosition(0);
         grabberServoRight.setPosition(0);
         clawServo.setPosition(0.4);
-       //rightServo.setPosition(0.3);
 
         waitForStart();
         runtime.reset();
@@ -178,7 +176,7 @@ public class TeleOp4 extends LinearOpMode {
             liftMotorPower = Range.clip(lift, -1.0, 1.0);
 
 
-            //INTAKE CONTROLS
+            /**INTAKE CONTROLS*/
             if(gamepad2.left_trigger > 0)
             {
                 leftIntakeMotor.setPower(-intakeMotorOpenPower * 1.1);
@@ -194,7 +192,7 @@ public class TeleOp4 extends LinearOpMode {
             leftIntakeMotor.setPower(0);
             rightIntakeMotor.setPower(0);
 
-            //GAMEPAD 1 INTAKE
+            /** GAMEPAD1 INTAKE */
             if(gamepad1.left_trigger > 0)
             {
                 leftIntakeMotor.setPower(-intakeMotorOpenPowerG1 * 1.5);
@@ -211,7 +209,7 @@ public class TeleOp4 extends LinearOpMode {
             rightIntakeMotor.setPower(0);
 
 
-            //DRIVE CONTROLS
+            /**DRIVE CONTROLS*/
             if (gamepad1.right_bumper)
             {
                 leftFront.setPower(leftFrontPower * .2);
@@ -225,7 +223,7 @@ public class TeleOp4 extends LinearOpMode {
             rightRear.setPower(rightRearPower);
 
 
-            //V4B CONTROLS
+            /**V4B CONTROLS*/
             if(gamepad2.right_bumper)
             {
                 telemetry.addData("Right Grabber Servo Position", grabberServoRight.getPosition());
@@ -254,7 +252,7 @@ public class TeleOp4 extends LinearOpMode {
 //            }
 //            pressed = false;
 
-            //CLAW
+            /**CLAW*/
             if (gamepad2.a)
             {
                 clawServo.setPosition (.55);
@@ -268,7 +266,7 @@ public class TeleOp4 extends LinearOpMode {
                 clawServo.setPosition(.7);
             }
 
-            //LIFT CONTROLS
+            /**LIFT*/
             if (gamepad2.left_stick_y > 0)
             {
                 liftMotorLeft.setPower(liftMotorPower);
@@ -289,7 +287,7 @@ public class TeleOp4 extends LinearOpMode {
                 liftMotorRight.setPower(0);
             }
 
-            //Platform Servo Controls
+            /**Platform*/
             if(gamepad1.dpad_down)
             {
                 platformServo.setPosition(.365);
@@ -311,7 +309,7 @@ public class TeleOp4 extends LinearOpMode {
 
 
 
-
+            /**Telemery*/
             // Show the elapsed game time and wheel power
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "left front (%.2f), right front(%.2f), left rear(%.2f), right rear(%.2f)", leftFrontPower, rightFrontPower, leftRearPower, rightRearPower);
