@@ -224,7 +224,7 @@ public class TeleOp4 extends LinearOpMode {
 
 
             /**V4B CONTROLS*/
-            if(gamepad2.right_bumper)
+            if(gamepad2.right_bumper && !limitSwitch.getState())
             {
                 telemetry.addData("Right Grabber Servo Position", grabberServoRight.getPosition());
                 telemetry.addData("Left Grabber Servo Position", grabberServoLeft.getPosition());
@@ -232,7 +232,7 @@ public class TeleOp4 extends LinearOpMode {
                 grabberServoRight.setPosition(0.72);
                 grabberServoLeft.setPosition(0.72);
             }
-            if(gamepad2.left_bumper)
+            if(gamepad2.left_bumper && !limitSwitch.getState())
             {
                 grabberServoRight.setPosition(0);
                 grabberServoLeft.setPosition(0);
