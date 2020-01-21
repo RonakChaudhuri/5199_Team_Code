@@ -192,7 +192,7 @@ public class TeleOp4 extends LinearOpMode {
             leftIntakeMotor.setPower(0);
             rightIntakeMotor.setPower(0);
 
-            /** GAMEPAD1 INTAKE */
+            /**GAMEPAD1 INTAKE*/
             if(gamepad1.left_trigger > 0)
             {
                 leftIntakeMotor.setPower(-intakeMotorOpenPowerG1 * 1.5);
@@ -287,7 +287,7 @@ public class TeleOp4 extends LinearOpMode {
                 liftMotorRight.setPower(0);
             }
 
-            /**Platform*/
+            /**PLATFORM*/
             if(gamepad1.dpad_down)
             {
                 platformServo.setPosition(.365);
@@ -309,7 +309,7 @@ public class TeleOp4 extends LinearOpMode {
 
 
 
-            /**Telemery*/
+            /**TELEMETRY*/
             // Show the elapsed game time and wheel power
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "left front (%.2f), right front(%.2f), left rear(%.2f), right rear(%.2f)", leftFrontPower, rightFrontPower, leftRearPower, rightRearPower);
