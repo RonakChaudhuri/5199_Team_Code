@@ -49,7 +49,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="BParkWallSkystone", group="Linear Opmode")
+@Autonomous(name="BlueParkWallSkystone", group="Linear Opmode")
 //@Disabled
 public class BParkWall extends LinearOpMode
 {
