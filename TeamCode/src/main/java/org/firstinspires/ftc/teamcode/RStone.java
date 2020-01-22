@@ -126,7 +126,7 @@ public class RStone extends LinearOpMode
         moveDistance(.5, 18);
         turnLeftDistance(.5, 23, 1000);
         moveDistanceStrafe(.5, 28, 1000);
-        moveDistance(.4, 5);
+        moveDistanceSleep(.4, 5, 500);
         leftIntakeMotor.setPower(.7);
         rightIntakeMotor.setPower(.7);
         sleep(400);
@@ -145,14 +145,13 @@ public class RStone extends LinearOpMode
 
         moveDistance (0.5, -38);
         turnLeftDistance(0.8, 43, 2000);
-        moveDistanceStrafe(0.5, 17, 1000);
-        moveDistance (0.4, 9);
-        sleep(500);
-//        leftIntakeMotor.setPower(.7);
-//        rightIntakeMotor.setPower(.7);
-//        sleep(700);
-//        leftIntakeMotor.setPower(0);
-//        rightIntakeMotor.setPower(0);
+        moveDistanceStrafe(0.5, 16.5, 1000);
+        moveDistanceSleep (0.4, 9, 500);
+        leftIntakeMotor.setPower(.7);
+        rightIntakeMotor.setPower(.7);
+        sleep(700);
+        leftIntakeMotor.setPower(0);
+        rightIntakeMotor.setPower(0);
         moveDistanceStrafe(.5, -20, 1000);
         turnRightDistance(.4, 43, 3000);
         moveDistance(.5, 45);
@@ -230,7 +229,42 @@ public class RStone extends LinearOpMode
     }
 
 
-    public void moveDistance(double power, int distance) {
+    public void moveDistanceSleep (double power, int distance,int sleep) {
+        leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        leftRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        rightFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        rightRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+
+        int amountToMove = (int) (distance * COUNTS_PER_INCH);
+
+
+        leftFrontMotor.setTargetPosition(amountToMove);
+        leftRearMotor.setTargetPosition(amountToMove);
+        rightFrontMotor.setTargetPosition(amountToMove);
+        rightRearMotor.setTargetPosition(amountToMove);
+
+        leftFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftRearMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightRearMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        move(power);
+
+
+//        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy())
+//        {
+//
+//
+//        }
+        sleep(sleep);
+
+        stopRobot();
+        leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void moveDistance (double power, int distance) {
         leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         leftRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
         rightFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
@@ -263,6 +297,7 @@ public class RStone extends LinearOpMode
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+
     public void moveDistanceStrafe(double power, double distance, int sleep)
     {
         leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);

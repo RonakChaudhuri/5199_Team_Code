@@ -121,13 +121,12 @@ public class BStone extends LinearOpMode
         runtime.reset();
 
 
-        moveDistance(.5, 6);
-        sleep (500);
+        moveDistance(.5, 7);
         moveDistanceStrafe(.5, -6, 500);
         moveDistance(.5, 16);
         turnRightDistance(.5, 23, 1000);
         moveDistanceStrafe(.5, -38, 1000);
-        moveDistance(.4, 5);
+        moveDistanceSleep(.4, 7, 500);
         leftIntakeMotor.setPower(.7);
         rightIntakeMotor.setPower(.7);
         sleep(400);
@@ -142,18 +141,18 @@ public class BStone extends LinearOpMode
         leftIntakeMotor.setPower(0);
         rightIntakeMotor.setPower(0);
 
-        moveDistance (0.5, -38);
+        moveDistance (0.5, -32);
         turnRightDistance(0.8, 43, 2000);
-        moveDistanceStrafe(0.5, -32, 1000);
-        moveDistance (0.4, 9);
+        moveDistanceStrafe(0.5, -22, 1800);
+        moveDistanceSleep (0.4, 9, 500);
         leftIntakeMotor.setPower(.7);
         rightIntakeMotor.setPower(.7);
         sleep(400);
         leftIntakeMotor.setPower(0);
         rightIntakeMotor.setPower(0);
-        moveDistanceStrafe(.5, 20, 1000);
-        turnLeftDistance(.4, 43, 3000);
-        moveDistance(.5, 38);
+        moveDistanceStrafe(.5, 23, 1000);
+        turnLeftDistance(.6, 45, 2250);
+        moveDistance(.5, 45);
         leftIntakeMotor.setPower(-.7);
         rightIntakeMotor.setPower(-.7);
         sleep(700);
@@ -264,6 +263,42 @@ public class BStone extends LinearOpMode
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+
+    public void moveDistanceSleep (double power, int distance,int sleep) {
+        leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        leftRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        rightFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        rightRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+
+        int amountToMove = (int) (distance * COUNTS_PER_INCH);
+
+
+        leftFrontMotor.setTargetPosition(amountToMove);
+        leftRearMotor.setTargetPosition(amountToMove);
+        rightFrontMotor.setTargetPosition(amountToMove);
+        rightRearMotor.setTargetPosition(amountToMove);
+
+        leftFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftRearMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightRearMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        move(power);
+
+
+//        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy())
+//        {
+//
+//
+//        }
+        sleep(sleep);
+
+        stopRobot();
+        leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
     public void moveDistanceStrafe(double power, double distance, int sleep)
     {
         leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);

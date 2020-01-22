@@ -32,7 +32,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -94,7 +93,7 @@ public class TeleOp4 extends LinearOpMode {
     private Servo clawServo = null;
 //    private boolean open = true;
 //    private boolean pressed = false;
-    private DigitalChannel limitSwitch = null;
+    //private DigitalChannel limitSwitch = null;
 //    private boolean turned = false;
     static final double     COUNTS_PER_MOTOR_REV_PIVOT    = 696.5; //235.2
     static final double     DRIVE_GEAR_REDUCTION_PIVOT    = 1.75;
@@ -126,7 +125,7 @@ public class TeleOp4 extends LinearOpMode {
         grabberServoRight = hardwareMap.get(Servo.class, "grabber_servo_right");
         grabberServoLeft = hardwareMap.get(Servo.class, "grabber_servo_left");
         clawServo = hardwareMap.get(Servo.class, "claw_servo");
-        limitSwitch = hardwareMap.get(DigitalChannel.class, "limit_switch");
+        //limitSwitch = hardwareMap.get(DigitalChannel.class, "limit_switch");
 
 
         /**Directions and Positions*/
@@ -224,7 +223,7 @@ public class TeleOp4 extends LinearOpMode {
 
 
             /**V4B CONTROLS*/
-            if(gamepad2.right_bumper && !limitSwitch.getState())
+            if(gamepad2.right_bumper /*&&*/ /*!limitSwitch.getState()*/)
             {
                 telemetry.addData("Right Grabber Servo Position", grabberServoRight.getPosition());
                 telemetry.addData("Left Grabber Servo Position", grabberServoLeft.getPosition());
@@ -232,7 +231,7 @@ public class TeleOp4 extends LinearOpMode {
                 grabberServoRight.setPosition(0.72);
                 grabberServoLeft.setPosition(0.72);
             }
-            if(gamepad2.left_bumper && !limitSwitch.getState())
+            if(gamepad2.left_bumper /*&& !limitSwitch.getState()*/)
             {
                 grabberServoRight.setPosition(0);
                 grabberServoLeft.setPosition(0);
@@ -274,14 +273,14 @@ public class TeleOp4 extends LinearOpMode {
             }
             liftMotorLeft.setPower(0);
             liftMotorRight.setPower(0);
-            if (gamepad2.left_stick_y < 0 && !limitSwitch.getState())
+            if (gamepad2.left_stick_y < 0 /*&& !limitSwitch.getState()*/)
             {
                 liftMotorLeft.setPower(liftMotorPower);
                 liftMotorRight.setPower(liftMotorPower);
             }
             liftMotorLeft.setPower(0);
             liftMotorRight.setPower(0);
-            if (gamepad2.left_stick_y < 0 && limitSwitch.getState())
+            if (gamepad2.left_stick_y < 0 /*&& limitSwitch.getState()*/)
             {
                 liftMotorLeft.setPower(0);
                 liftMotorRight.setPower(0);
@@ -338,10 +337,10 @@ public class TeleOp4 extends LinearOpMode {
             }
             telemetry.addData("Claw Servo Position: ", clawServo.getPosition());
 
-            if(limitSwitch.getState())
-            {
-                telemetry.addLine("Limit Switch Pressed");
-            }
+//            if(limitSwitch.getState())
+//            {
+//                telemetry.addLine("Limit Switch Pressed");
+//            }
             telemetry.update();
         }
     }

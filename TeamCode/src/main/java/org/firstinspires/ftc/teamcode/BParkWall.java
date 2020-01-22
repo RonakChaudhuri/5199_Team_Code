@@ -32,7 +32,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -60,10 +59,10 @@ public class BParkWall extends LinearOpMode
     private DcMotor leftRearMotor;
     private DcMotor rightFrontMotor;
     private DcMotor rightRearMotor;
-    private DcMotor actuatorMotor = null;
-    private DcMotor pivotMotor = null;
-    private Servo leftServo = null;
-    private Servo rightServo = null;
+    //private DcMotor actuatorMotor = null;
+    //private DcMotor pivotMotor = null;
+    //private Servo leftServo = null;
+    //private Servo rightServo = null;
     static final double COUNTS_PER_MOTOR_REV = 537.6;    // eg: TETRIX Motor Encoder
     static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 3.937;     // For figuring circumference
@@ -90,21 +89,21 @@ public class BParkWall extends LinearOpMode
         leftRearMotor = hardwareMap.get(DcMotor.class, "left_rear");
         rightFrontMotor = hardwareMap.get(DcMotor.class, "right_front");
         rightRearMotor = hardwareMap.get(DcMotor.class, "right_rear");
-        actuatorMotor = hardwareMap.get(DcMotor.class, "actuator_motor");
-        pivotMotor = hardwareMap.get(DcMotor.class, "pivot_motor");
-        leftServo = hardwareMap.get(Servo.class, "servo_left");
-        rightServo = hardwareMap.get(Servo.class, "servo_right");
+        //actuatorMotor = hardwareMap.get(DcMotor.class, "actuator_motor");
+        //pivotMotor = hardwareMap.get(DcMotor.class, "pivot_motor");
+        //leftServo = hardwareMap.get(Servo.class, "servo_left");
+        //rightServo = hardwareMap.get(Servo.class, "servo_right");
         leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         leftRearMotor.setDirection(DcMotor.Direction.REVERSE);
-        actuatorMotor.setDirection(DcMotor.Direction.REVERSE);
-        leftServo.setDirection(Servo.Direction.REVERSE);
+        //actuatorMotor.setDirection(DcMotor.Direction.REVERSE);
+        //leftServo.setDirection(Servo.Direction.REVERSE);
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftServo.setPosition(0);
-        rightServo.setPosition(0);
+//        pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        leftServo.setPosition(0);
+//        rightServo.setPosition(0);
         waitForStart();
         runtime.reset();
 
@@ -155,10 +154,10 @@ public class BParkWall extends LinearOpMode
     public void turnRight(double power) {
         turnLeft(-power);
     }
-    public void movePivot(double power)
-    {
-        pivotMotor.setPower(power);
-    }
+//    public void movePivot(double power)
+//    {
+//        pivotMotor.setPower(power);
+//    }
 
     public void moveDistance(double power, int distance) {
         leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
@@ -295,55 +294,55 @@ public class BParkWall extends LinearOpMode
     }
 
 
-    public void moveActuator(double power)
-    {
-        actuatorMotor.setPower(power);
-
-    }
-    public void moveActuatorDistance(double power, double distance)
-    {
-        actuatorMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
-
-        int amountToMove = (int) (distance * COUNTS_PER_INCH_ACTUATOR);
-
-
-        actuatorMotor.setTargetPosition(amountToMove);
-
-        actuatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        moveActuator(power);
-
-
-        while (actuatorMotor.isBusy())
-        {
-
-
-        }
-
-        stopRobot();
-        actuatorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-    }
-    public void moveDistancePivot(double power, double distance)
-    {
-        pivotMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
-
-        int amountToMove = (int)(distance * COUNTS_PER_INCH_PIVOT );
-
-        pivotMotor.setTargetPosition(amountToMove);
-
-        pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        movePivot(power);
-
-
-        while (pivotMotor.isBusy())
-        {
-
-
-        }
-
-        stopRobot();
-        pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
+//    public void moveActuator(double power)
+//    {
+//        actuatorMotor.setPower(power);
+//
+//    }
+//    public void moveActuatorDistance(double power, double distance)
+//    {
+//        actuatorMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+//
+//        int amountToMove = (int) (distance * COUNTS_PER_INCH_ACTUATOR);
+//
+//
+//        actuatorMotor.setTargetPosition(amountToMove);
+//
+//        actuatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//        moveActuator(power);
+//
+//
+//        while (actuatorMotor.isBusy())
+//        {
+//
+//
+//        }
+//
+//        stopRobot();
+//        actuatorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//
+//    }
+//    public void moveDistancePivot(double power, double distance)
+//    {
+//        pivotMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+//
+//        int amountToMove = (int)(distance * COUNTS_PER_INCH_PIVOT );
+//
+//        pivotMotor.setTargetPosition(amountToMove);
+//
+//        pivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        movePivot(power);
+//
+//
+//        while (pivotMotor.isBusy())
+//        {
+//
+//
+//        }
+//
+//        stopRobot();
+//        pivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//    }
 
 }
