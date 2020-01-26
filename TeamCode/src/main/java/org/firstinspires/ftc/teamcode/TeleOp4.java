@@ -139,7 +139,7 @@ public class TeleOp4 extends LinearOpMode {
         platformServo.setPosition(0);
         grabberServoLeft.setPosition(0);
         grabberServoRight.setPosition(0);
-        clawServo.setPosition(0.4);
+        clawServo.setPosition(0.6);
 
         waitForStart();
         runtime.reset();
@@ -254,15 +254,15 @@ public class TeleOp4 extends LinearOpMode {
             /**CLAW*/
             if (gamepad2.a)
             {
-                clawServo.setPosition (.55);
+                clawServo.setPosition (0.8);
             }
             if (gamepad2.b)
             {
-                clawServo.setPosition (0.4);
+                clawServo.setPosition (0.6);
             }
             if(gamepad1.b)
             {
-                clawServo.setPosition(.7);
+                clawServo.setPosition(.92);
             }
 
             /**LIFT*/
