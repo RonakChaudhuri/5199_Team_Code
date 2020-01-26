@@ -211,10 +211,10 @@ public class TeleOp4 extends LinearOpMode {
             /**DRIVE CONTROLS*/
             if (gamepad1.right_bumper)
             {
-                leftFront.setPower(leftFrontPower * .2);
-                leftRear.setPower(leftRearPower * .2);
-                rightFront.setPower(rightFrontPower * .2);
-                rightRear.setPower(rightRearPower * .2);
+                leftFront.setPower(leftFrontPower * .01);
+                leftRear.setPower(leftRearPower * .01);
+                rightFront.setPower(rightFrontPower * .01);
+                rightRear.setPower(rightRearPower * .01);
             }
             leftFront.setPower(leftFrontPower);
             leftRear.setPower(leftRearPower);
