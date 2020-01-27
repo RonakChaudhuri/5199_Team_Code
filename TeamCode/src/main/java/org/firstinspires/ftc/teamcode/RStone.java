@@ -49,6 +49,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
+
+
 @Autonomous(name="RedStone", group="Linear Opmode")
 //@Disabled
 public class RStone extends LinearOpMode
@@ -114,8 +116,8 @@ public class RStone extends LinearOpMode
         grabberServoRight.setDirection(Servo.Direction.REVERSE);
         leftIntakeMotor.setDirection(DcMotor.Direction.REVERSE);
         platformServo.setPosition(0);
-        grabberServoLeft.setPosition(0);
-        grabberServoRight.setPosition(0);
+        grabberServoLeft.setPosition(0.72);
+        grabberServoRight.setPosition(0.72);
         clawServo.setPosition(0.7);
         waitForStart();
         runtime.reset();

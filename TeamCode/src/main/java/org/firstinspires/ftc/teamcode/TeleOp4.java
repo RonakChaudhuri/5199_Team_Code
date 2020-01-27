@@ -65,13 +65,19 @@ import com.qualcomm.robotcore.util.Range;
  *
  * GAMEPAD TWO:
  *
- * LEFT TRIGGER: Intake Open        RIGHT TRIGGER: Intake Close
+ * LEFT TRIGGER: Manual V4B Back    RIGHT TRIGGER: Manual V4B Forward
  * LEFT BUMPER: V4B Back            RIGHT BUMPER:  V4B Forward
  * LEFT STICK: Lift Arm Up/Down     RIGHT STICK: -------
  * X: -------                       B: Open Claw
  * Y: -------                       A: Close Claw
  * D-PAD UP/DOWN: ------            D-PAD Right/Left: --------
  *
+ */
+
+/*
+SERVO PORTS ARE FLIPPED:
+Left Servo in port 0
+Right Servo in port 1
  */
 
 @TeleOp(name="TeleOp", group="Linear Opmode")
@@ -137,8 +143,8 @@ public class TeleOp4 extends LinearOpMode {
         grabberServoRight.setDirection(Servo.Direction.REVERSE);
         leftIntakeMotor.setDirection(DcMotor.Direction.REVERSE);
         platformServo.setPosition(0);
-        grabberServoLeft.setPosition(0);
-        grabberServoRight.setPosition(0);
+        grabberServoLeft.setPosition(0.72);
+        grabberServoRight.setPosition(0.72);
         clawServo.setPosition(0.6);
 
         waitForStart();
@@ -150,46 +156,26 @@ public class TeleOp4 extends LinearOpMode {
             double leftRearPower;
             double rightFrontPower;
             double rightRearPower;
-            double intakeMotorClosePower;
-            double intakeMotorOpenPower;
             double intakeMotorClosePowerG1;
             double intakeMotorOpenPowerG1;
             double liftMotorPower;
             double drive = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
             double turn  =  Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
             double strafe = gamepad1.right_stick_x;
-            double motorOpen = gamepad2.left_trigger;
-            double motorClose = gamepad2.right_trigger;
             double motorOpenG1 = gamepad1.left_trigger;
             double motorCloseG1 = gamepad1.right_trigger;
             double lift = gamepad2.left_stick_y;
+            double grabberServoLeftPos = grabberServoLeft.getPosition();
+            double grabberServoRightPos = grabberServoRight.getPosition();
 
             rightFrontPower = Range.clip(drive * Math.cos(turn) + strafe, -1.0, 1.0);
             rightRearPower = Range.clip(drive * Math.sin(turn) + strafe, -1.0, 1.0);
             leftFrontPower = Range.clip(drive * Math.sin(turn) - strafe, -1.0, 1.0);
             leftRearPower = Range.clip(drive * Math.cos(turn) - strafe, -1.0, 1.0);
-            intakeMotorOpenPower = Range.clip(motorOpen, 0.0, 1.0);
-            intakeMotorClosePower = Range.clip(motorClose, 0.0, 1.0);
             intakeMotorOpenPowerG1 = Range.clip(motorOpenG1, 0.0, 1.0);
             intakeMotorClosePowerG1 = Range.clip(motorCloseG1, 0.0, 1.0);
             liftMotorPower = Range.clip(lift, -1.0, 1.0);
 
-
-            /**INTAKE CONTROLS*/
-            if(gamepad2.left_trigger > 0)
-            {
-                leftIntakeMotor.setPower(-intakeMotorOpenPower * 1.1);
-                rightIntakeMotor.setPower(-intakeMotorOpenPower * 1.1);
-            }
-            leftIntakeMotor.setPower(0);
-            rightIntakeMotor.setPower(0);
-            if(gamepad2.right_trigger > 0)
-            {
-                leftIntakeMotor.setPower(intakeMotorClosePower * 1.1);
-                rightIntakeMotor.setPower(intakeMotorClosePower * 1.1);
-            }
-            leftIntakeMotor.setPower(0);
-            rightIntakeMotor.setPower(0);
 
             /**GAMEPAD1 INTAKE*/
             if(gamepad1.left_trigger > 0)
@@ -228,14 +214,28 @@ public class TeleOp4 extends LinearOpMode {
                 telemetry.addData("Right Grabber Servo Position", grabberServoRight.getPosition());
                 telemetry.addData("Left Grabber Servo Position", grabberServoLeft.getPosition());
                 telemetry.update();
-                grabberServoRight.setPosition(0.72);
-                grabberServoLeft.setPosition(0.72);
-            }
-            if(gamepad2.left_bumper /*&& !limitSwitch.getState()*/)
-            {
                 grabberServoRight.setPosition(0);
                 grabberServoLeft.setPosition(0);
             }
+            if(gamepad2.left_bumper /*&& !limitSwitch.getState()*/)
+            {
+                grabberServoRight.setPosition(0.72);
+                grabberServoLeft.setPosition(0.72);
+            }
+
+            if(gamepad2.left_trigger > 0 && grabberServoRightPos <= 0.72 && grabberServoLeftPos <= 0.72)
+            {
+                grabberServoRight.setPosition(grabberServoRightPos + 0.01);
+                grabberServoLeft.setPosition(grabberServoRightPos + 0.01);
+            }
+
+            if(gamepad2.right_trigger > 0)
+            {
+                grabberServoRight.setPosition(grabberServoRightPos - 0.01);
+                grabberServoLeft.setPosition(grabberServoRightPos - 0.01);
+            }
+
+
 //            if (gamepad2.a && !open && !pressed)
 //            {
 //                clawServo.setPosition (.55);
@@ -266,25 +266,28 @@ public class TeleOp4 extends LinearOpMode {
             }
 
             /**LIFT*/
-            if (gamepad2.left_stick_y > 0)
+            if (gamepad2.left_stick_y != 0)
             {
                 liftMotorLeft.setPower(liftMotorPower);
                 liftMotorRight.setPower(liftMotorPower);
             }
-            liftMotorLeft.setPower(0);
-            liftMotorRight.setPower(0);
-            if (gamepad2.left_stick_y < 0 /*&& !limitSwitch.getState()*/)
-            {
-                liftMotorLeft.setPower(liftMotorPower);
-                liftMotorRight.setPower(liftMotorPower);
-            }
-            liftMotorLeft.setPower(0);
-            liftMotorRight.setPower(0);
-            if (gamepad2.left_stick_y < 0 /*&& limitSwitch.getState()*/)
+            else
             {
                 liftMotorLeft.setPower(0);
                 liftMotorRight.setPower(0);
             }
+//            if (gamepad2.left_stick_y < 0 /*&& !limitSwitch.getState()*/)
+//            {
+//                liftMotorLeft.setPower(liftMotorPower);
+//                liftMotorRight.setPower(liftMotorPower);
+//            }
+//            liftMotorLeft.setPower(0);
+//            liftMotorRight.setPower(0);
+//            if (gamepad2.left_stick_y < 0 /*&& limitSwitch.getState()*/)
+//            {
+//                liftMotorLeft.setPower(0);
+//                liftMotorRight.setPower(0);
+//            }
 
             /**PLATFORM*/
             if(gamepad1.dpad_down)

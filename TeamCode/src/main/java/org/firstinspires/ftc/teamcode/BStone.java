@@ -114,8 +114,8 @@ public class BStone extends LinearOpMode
         grabberServoRight.setDirection(Servo.Direction.REVERSE);
         leftIntakeMotor.setDirection(DcMotor.Direction.REVERSE);
         platformServo.setPosition(0);
-        grabberServoLeft.setPosition(0);
-        grabberServoRight.setPosition(0);
+        grabberServoLeft.setPosition(0.72);
+        grabberServoRight.setPosition(0.72);
         clawServo.setPosition(0.55);
         waitForStart();
         runtime.reset();
