@@ -143,8 +143,8 @@ public class TeleOp4 extends LinearOpMode {
         grabberServoRight.setDirection(Servo.Direction.REVERSE);
         leftIntakeMotor.setDirection(DcMotor.Direction.REVERSE);
         platformServo.setPosition(0);
-        grabberServoLeft.setPosition(0.72);
-        grabberServoRight.setPosition(0.72);
+        grabberServoLeft.setPosition(0.76);
+        grabberServoRight.setPosition(0.76);
         clawServo.setPosition(0.6);
 
         waitForStart();

@@ -52,8 +52,8 @@ import java.util.List;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@Autonomous(name = "Blue Skystone", group = "Concept")
-@Disabled
+@Autonomous(name = "Blue Skystone Webcam", group = "Concept")
+//@Disabled
 public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
 {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
@@ -194,15 +194,15 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                     skystone =  true;
                                     telemetry.addLine("Skystone     ");
                                     telemetry.update();
-                                    moveDistance(.5, -18); //forward
+                                    moveDistance(.5, 18); //forward
                                     leftIntakeMotor.setPower(-2);
                                     rightIntakeMotor.setPower(-2);
-                                    moveDistance(.5, -4); //forward
+                                    moveDistance(.5, 4); //forward
                                     sleep(1000);//pickup
                                     leftIntakeMotor.setPower(0);
                                     rightIntakeMotor.setPower(0);
                                     //moveDistance(.3, 12);  //backward
-                                    moveDistance(.5, 10);
+                                    moveDistance(.5, -10);
                                     turnLeftDistance(.8, 23, 800);
                                     moveDistance(.8, -28 - (11.7*index)); //-35
                                     //input placing code

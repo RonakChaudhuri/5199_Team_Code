@@ -197,17 +197,25 @@ public class WebcamRedAutonomousSkystoneSide extends LinearOpMode
                                     telemetry.addLine("Skystone     ");
                                     telemetry.update();
                                     moveDistance(.5, -18); //forward
-                                    leftIntakeMotor.setPower(-2);
-                                    rightIntakeMotor.setPower(-2);
+                                    moveDistanceSleep (0.5, -8, 800);
+                                    moveDistanceStrafe(.7, 5, 400);
+                                    turnLeftDistance(.7, 10, 500);
+                                    leftIntakeMotor.setPower(0.7);
+                                    rightIntakeMotor.setPower(0.7);
                                     moveDistance(.5, -4); //forward
-                                    sleep(1000);
+                                    sleep(500);
                                     leftIntakeMotor.setPower(0);
-                                    rightIntakeMotor.setPower(0);//pickup
+                                    rightIntakeMotor.setPower(0);
+                                    turnLeftDistance(.7, 10, 500);
                                     //moveDistance(.3, 12);  //backward
-                                    moveDistance(.5, 10);
+                                    moveDistance(.5, 18);
                                     turnRightDistance(.8, 23, 800);
                                     moveDistance(.8, -28 - (11.7*index)); //-35
-                                    //placement code
+                                    leftIntakeMotor.setPower(-0.7);
+                                    rightIntakeMotor.setPower(-0.7);
+                                    sleep(500);
+                                    leftIntakeMotor.setPower(0);
+                                    rightIntakeMotor.setPower(0);
                                     sleep(1000);                  //drop off
                                     if(index == 0)
                                     {
@@ -215,21 +223,27 @@ public class WebcamRedAutonomousSkystoneSide extends LinearOpMode
                                         moveDistance(.8, 28); //35 move to the backmost stone
                                         turnLeftDistance(.5, 23, 1500);
                                         moveDistanceStrafe(1.3, 34.8, 1500);
-                                        //turnLeftDistance(.8, 1, 200);
-                                        //moveDistanceStrafe(1.3, -10.0, 500);
-                                        //turnLeftDistance(.8, 1, 200);
-                                        //moveDistanceStrafe(1.3, -10.0, 500);
                                         turnRightDistance(.8, 2, 500);
                                         moveDistance(.8, -14); //forward
-                                        leftIntakeMotor.setPower(-2);
-                                        rightIntakeMotor.setPower(-2);
+                                        moveDistanceSleep (0.5, -8, 800);
+                                        moveDistanceStrafe(.7, 5, 400);
+                                        turnLeftDistance(.7, 10, 500);
+                                        leftIntakeMotor.setPower(0.7);
+                                        rightIntakeMotor.setPower(0.7);
                                         moveDistance(.5, -4);
                                         sleep(1000);
-                                        moveDistance(.5, 10);
+                                        leftIntakeMotor.setPower(0);
+                                        rightIntakeMotor.setPower(0);
+                                        turnLeftDistance(.7, 10, 500);
+                                        moveDistance(.5, 18);
                                         turnRightDistance(.8, 23,800);
                                         index = 3;
                                         moveDistance(.5, -30 - (11.6*index));//-35
-                                        //placement code
+                                        leftIntakeMotor.setPower(-0.7);
+                                        rightIntakeMotor.setPower(-0.7);
+                                        sleep(500);
+                                        leftIntakeMotor.setPower(0);
+                                        rightIntakeMotor.setPower(0);
                                         sleep(1000);                  //drop off
                                         moveDistance(.8, 8);
 
@@ -246,11 +260,18 @@ public class WebcamRedAutonomousSkystoneSide extends LinearOpMode
                                        // moveDistanceStrafe(.5, -10.1, 1200);
                                         turnRightDistance(.8, 2, 500);
                                         moveDistance(.5, -14); //forward
-                                        leftIntakeMotor.setPower(-2);
-                                        rightIntakeMotor.setPower(-2);
+                                        moveDistanceSleep (0.5, -8, 800);
+                                        moveDistanceStrafe(.7, 5, 400);
+                                        turnLeftDistance(.7, 10, 500);
+                                        leftIntakeMotor.setPower(0.7);
+                                        rightIntakeMotor.setPower(0.7);
                                         moveDistance(.5, -4);
                                         sleep(1000);
-                                        moveDistance(.5, 10);
+                                        leftIntakeMotor.setPower(0);
+                                        rightIntakeMotor.setPower(0);
+                                        sleep(1000);
+                                        turnRightDistance(.7, 10, 500);
+                                        moveDistance(.5, 18);
                                         turnRightDistance(.5, 23,1500);
                                         index = 4;
                                         moveDistance(.5, -30 - (11.6*index));//-35
@@ -424,6 +445,42 @@ public class WebcamRedAutonomousSkystoneSide extends LinearOpMode
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+
+    public void moveDistanceSleep (double power, int distance,int sleep) {
+        leftFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        leftRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        rightFrontMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        rightRearMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+
+        int amountToMove = (int) (distance * COUNTS_PER_INCH);
+
+
+        leftFrontMotor.setTargetPosition(amountToMove);
+        leftRearMotor.setTargetPosition(amountToMove);
+        rightFrontMotor.setTargetPosition(amountToMove);
+        rightRearMotor.setTargetPosition(amountToMove);
+
+        leftFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftRearMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightRearMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        move(power);
+
+
+//        while (leftFrontMotor.isBusy() && leftRearMotor.isBusy() && rightFrontMotor.isBusy() && rightRearMotor.isBusy())
+//        {
+//
+//
+//        }
+        sleep(sleep);
+
+        stopRobot();
+        leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
 
     public void turnLeftDistance (double power, double distance, int sleep)
     {
