@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -52,8 +53,8 @@ import java.util.List;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@Autonomous(name = "Red Skystone", group = "Concept")
-@Disabled
+@Autonomous(name = "Red Skystone Webcam", group = "Concept")
+//@Disabled
 public class WebcamRedAutonomousSkystoneSide extends LinearOpMode
 {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
@@ -65,6 +66,9 @@ public class WebcamRedAutonomousSkystoneSide extends LinearOpMode
     private DcMotor rightRearMotor;
     private DcMotor rightIntakeMotor = null;
     private DcMotor leftIntakeMotor = null;
+    private Servo grabberServoRight = null;
+    private Servo grabberServoLeft = null;
+    private Servo clawServo = null;
     boolean detected = false;
     static final double     COUNTS_PER_MOTOR_REV    = 537.6 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1 ;     // This is < 1.0 if geared UP
@@ -101,13 +105,22 @@ public class WebcamRedAutonomousSkystoneSide extends LinearOpMode
         rightRearMotor  = hardwareMap.get(DcMotor.class, "right_rear");
         rightIntakeMotor = hardwareMap.get(DcMotor.class, "intake_right");
         leftIntakeMotor = hardwareMap.get(DcMotor.class, "intake_left");
+        grabberServoRight = hardwareMap.get(Servo.class, "grabber_servo_right");
+        grabberServoLeft = hardwareMap.get(Servo.class, "grabber_servo_left");
+        clawServo = hardwareMap.get(Servo.class, "claw_servo");
         leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         leftRearMotor.setDirection(DcMotor.Direction.REVERSE);
         leftIntakeMotor.setDirection(DcMotor.Direction.REVERSE);
+        grabberServoRight.setDirection(Servo.Direction.REVERSE);
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        grabberServoLeft.setPosition(0.76);
+        grabberServoRight.setPosition(0.76);
+        clawServo.setPosition(0.92);
+
+
 
 
 
@@ -133,7 +146,7 @@ public class WebcamRedAutonomousSkystoneSide extends LinearOpMode
         if (opModeIsActive())
         {
             tfod.shutdown();
-            moveDistance(.8, -13);
+            moveDistance(.8, 13);
             //turnRightDistance(.5, 1, 300);
 
             initTfod();
@@ -174,15 +187,15 @@ public class WebcamRedAutonomousSkystoneSide extends LinearOpMode
                                 {
                                     telemetry.addLine("Stone");
                                     telemetry.update();
-                                    moveDistanceStrafe(1.3, 11.6, 800);
+                                    moveDistanceStrafe(1.3, -11.6, 800);
                                     turnRightDistance(.8, 1.5, 400);
 
                                     //turnRightDistance(.5, 1);
                                     index++;
                                     if(index == 2)
                                     {
-                                        moveDistance(.5, -3);
-                                        moveDistanceStrafe(.5, .8, 300);
+                                        moveDistance(.5, 3);
+                                        moveDistanceStrafe(.5, -.8, 300);
                                     }
                                     if(index >4)
                                     {
@@ -196,21 +209,21 @@ public class WebcamRedAutonomousSkystoneSide extends LinearOpMode
                                     skystone =  true;
                                     telemetry.addLine("Skystone     ");
                                     telemetry.update();
-                                    moveDistance(.5, -18); //forward
-                                    moveDistanceSleep (0.5, -8, 800);
-                                    moveDistanceStrafe(.7, 5, 400);
-                                    turnLeftDistance(.7, 10, 500);
+                                    moveDistanceStrafe(.7, 17, 1000);
+                                    moveDistance(.5, 20); //forward
+                                    //moveDistanceSleep (0.5, 8, 800);
+                                    turnLeftDistance(.7, 12, 500);
                                     leftIntakeMotor.setPower(0.7);
                                     rightIntakeMotor.setPower(0.7);
-                                    moveDistance(.5, -4); //forward
+                                    moveDistance(.5, 8); //forward
                                     sleep(500);
                                     leftIntakeMotor.setPower(0);
                                     rightIntakeMotor.setPower(0);
-                                    turnLeftDistance(.7, 10, 500);
+                                    turnRightDistance(.7, 12, 500);
                                     //moveDistance(.3, 12);  //backward
-                                    moveDistance(.5, 18);
+                                    moveDistance(.5, -18);
                                     turnRightDistance(.8, 23, 800);
-                                    moveDistance(.8, -28 - (11.7*index)); //-35
+                                    moveDistance(.8, 28 + (11.7*index)); //-35
                                     leftIntakeMotor.setPower(-0.7);
                                     rightIntakeMotor.setPower(-0.7);
                                     sleep(500);
@@ -222,30 +235,30 @@ public class WebcamRedAutonomousSkystoneSide extends LinearOpMode
 
                                         moveDistance(.8, 28); //35 move to the backmost stone
                                         turnLeftDistance(.5, 23, 1500);
-                                        moveDistanceStrafe(1.3, 34.8, 1500);
+                                        moveDistanceStrafe(1.3, -34.8, 1500);
                                         turnRightDistance(.8, 2, 500);
-                                        moveDistance(.8, -14); //forward
+                                        moveDistance(.8, 14); //forward
                                         moveDistanceSleep (0.5, -8, 800);
-                                        moveDistanceStrafe(.7, 5, 400);
+                                        moveDistanceStrafe(.7, -5, 400);
                                         turnLeftDistance(.7, 10, 500);
                                         leftIntakeMotor.setPower(0.7);
                                         rightIntakeMotor.setPower(0.7);
-                                        moveDistance(.5, -4);
+                                        moveDistance(.5, 4);
                                         sleep(1000);
                                         leftIntakeMotor.setPower(0);
                                         rightIntakeMotor.setPower(0);
                                         turnLeftDistance(.7, 10, 500);
-                                        moveDistance(.5, 18);
+                                        moveDistance(.5, -18);
                                         turnRightDistance(.8, 23,800);
                                         index = 3;
-                                        moveDistance(.5, -30 - (11.6*index));//-35
+                                        moveDistance(.5, 30 + (11.6*index));//-35
                                         leftIntakeMotor.setPower(-0.7);
                                         rightIntakeMotor.setPower(-0.7);
                                         sleep(500);
                                         leftIntakeMotor.setPower(0);
                                         rightIntakeMotor.setPower(0);
                                         sleep(1000);                  //drop off
-                                        moveDistance(.8, 8);
+                                        moveDistance(.8, -8);
 
                                     }
                                     else if(index == 1)
@@ -253,15 +266,15 @@ public class WebcamRedAutonomousSkystoneSide extends LinearOpMode
 
                                         moveDistance(.8, 39.77); //46.77 move to the backmost stone
                                         turnLeftDistance(.5, 23, 1500);
-                                        moveDistanceStrafe(1.3, 34.8, 1500);
+                                        moveDistanceStrafe(1.3, -34.8, 1500);
                                         //turnLeftDistance(.5, 1, 500);
                                         //moveDistanceStrafe(1.3, -10.1, 1200);
                                         //turnLeftDistance(.5, 1, 500);
                                        // moveDistanceStrafe(.5, -10.1, 1200);
                                         turnRightDistance(.8, 2, 500);
-                                        moveDistance(.5, -14); //forward
-                                        moveDistanceSleep (0.5, -8, 800);
-                                        moveDistanceStrafe(.7, 5, 400);
+                                        moveDistance(.5, 14); //forward
+                                        moveDistanceSleep (0.5, 8, 800);
+                                        moveDistanceStrafe(.7, -5, 400);
                                         turnLeftDistance(.7, 10, 500);
                                         leftIntakeMotor.setPower(0.7);
                                         rightIntakeMotor.setPower(0.7);
@@ -271,18 +284,18 @@ public class WebcamRedAutonomousSkystoneSide extends LinearOpMode
                                         rightIntakeMotor.setPower(0);
                                         sleep(1000);
                                         turnRightDistance(.7, 10, 500);
-                                        moveDistance(.5, 18);
+                                        moveDistance(.5, -18);
                                         turnRightDistance(.5, 23,1500);
                                         index = 4;
-                                        moveDistance(.5, -30 - (11.6*index));//-35
+                                        moveDistance(.5, 30 + (11.6*index));//-35
                                         //placement code
                                         sleep(1000);                  //drop off
-                                        moveDistance(.8, 8);
+                                        moveDistance(.8, -8);
 
                                     }
                                     else
                                     {
-                                        moveDistance(.5, 8);
+                                        moveDistance(.5, -8);
                                     }
 
 

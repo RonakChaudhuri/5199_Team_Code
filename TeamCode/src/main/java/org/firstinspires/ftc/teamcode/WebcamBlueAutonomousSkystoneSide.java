@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -65,6 +66,9 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
     private DcMotor rightRearMotor;
     private DcMotor rightIntakeMotor = null;
     private DcMotor leftIntakeMotor = null;
+    private Servo grabberServoRight = null;
+    private Servo grabberServoLeft = null;
+    private Servo clawServo = null;
     boolean detected = false;
     static final double     COUNTS_PER_MOTOR_REV    = 537.6 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1 ;     // This is < 1.0 if geared UP
@@ -101,13 +105,20 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
         rightRearMotor  = hardwareMap.get(DcMotor.class, "right_rear");
         rightIntakeMotor = hardwareMap.get(DcMotor.class, "intake_right");
         leftIntakeMotor = hardwareMap.get(DcMotor.class, "intake_left");
+        grabberServoRight = hardwareMap.get(Servo.class, "grabber_servo_right");
+        grabberServoLeft = hardwareMap.get(Servo.class, "grabber_servo_left");
+        clawServo = hardwareMap.get(Servo.class, "claw_servo");
         leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         leftRearMotor.setDirection(DcMotor.Direction.REVERSE);
         leftIntakeMotor.setDirection(DcMotor.Direction.REVERSE);
+        grabberServoRight.setDirection(Servo.Direction.REVERSE);
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        grabberServoLeft.setPosition(0.76);
+        grabberServoRight.setPosition(0.76);
+        clawServo.setPosition(0.92);
 
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector())

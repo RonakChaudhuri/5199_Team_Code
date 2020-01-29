@@ -143,8 +143,8 @@ public class TeleOp4 extends LinearOpMode {
         grabberServoRight.setDirection(Servo.Direction.REVERSE);
         leftIntakeMotor.setDirection(DcMotor.Direction.REVERSE);
         platformServo.setPosition(0);
-        grabberServoLeft.setPosition(0.76);
-        grabberServoRight.setPosition(0.76);
+        grabberServoLeft.setPosition(0.77);
+        grabberServoRight.setPosition(0.77);
         clawServo.setPosition(0.6);
 
         waitForStart();
@@ -202,10 +202,10 @@ public class TeleOp4 extends LinearOpMode {
                 rightFront.setPower(rightFrontPower * .01);
                 rightRear.setPower(rightRearPower * .01);
             }
-            leftFront.setPower(leftFrontPower);
-            leftRear.setPower(leftRearPower);
-            rightFront.setPower(rightFrontPower);
-            rightRear.setPower(rightRearPower);
+            leftFront.setPower(leftFrontPower * 0.9);
+            leftRear.setPower(leftRearPower * 0.9);
+            rightFront.setPower(rightFrontPower * 0.9);
+            rightRear.setPower(rightRearPower * 0.9);
 
 
             /**V4B CONTROLS*/
@@ -214,13 +214,13 @@ public class TeleOp4 extends LinearOpMode {
                 telemetry.addData("Right Grabber Servo Position", grabberServoRight.getPosition());
                 telemetry.addData("Left Grabber Servo Position", grabberServoLeft.getPosition());
                 telemetry.update();
-                grabberServoRight.setPosition(0);
-                grabberServoLeft.setPosition(0);
+                grabberServoRight.setPosition(0.03);
+                grabberServoLeft.setPosition(0.03);
             }
             if(gamepad2.left_bumper /*&& !limitSwitch.getState()*/)
             {
-                grabberServoRight.setPosition(0.72);
-                grabberServoLeft.setPosition(0.72);
+                grabberServoRight.setPosition(0.77);
+                grabberServoLeft.setPosition(0.77);
             }
 
             if(gamepad2.left_trigger > 0 && grabberServoRightPos <= 0.72 && grabberServoLeftPos <= 0.72)
@@ -266,7 +266,13 @@ public class TeleOp4 extends LinearOpMode {
             }
 
             /**LIFT*/
-            if (gamepad2.left_stick_y != 0)
+            if (gamepad2.left_stick_y > 0)
+            {
+                liftMotorLeft.setPower(liftMotorPower * 0.5);
+                liftMotorRight.setPower(liftMotorPower * 0.5);
+            }
+
+            else if (gamepad2.left_stick_y < 0)
             {
                 liftMotorLeft.setPower(liftMotorPower);
                 liftMotorRight.setPower(liftMotorPower);

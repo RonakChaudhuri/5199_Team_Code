@@ -104,20 +104,20 @@ public class BPlatform extends LinearOpMode
 
 
         moveDistance(.8, -3.5, 1000);
-        moveDistanceStrafe(.8, 24, 1000);
-        moveDistance(.4, -29, 3000);
-        platformServo.setPosition(.365);
+        moveDistanceStrafe(.8, 19, 1000);
+        moveDistance(.4, -32, 3000);
+        platformServo.setPosition(.38);
         sleep(1000);
         //moveDistanceStrafe(.8, 3, 1000);
-        moveDistance(.8, 20, 1000);
+        moveDistance(.8, 22, 1000);
         turnLeftDistance(-.5, 12, 1000);
         moveDistance(.4, 14, 1000);
         turnLeftDistance(-.5, 47, 1800);
-        moveDistance (0.4, -16, 1000);
+        moveDistance (0.4, -19, 2000);
         //moveDistanceStrafe(.4, 20, 3000);
         platformServo.setPosition(0);
         sleep(1000);
-        moveDistanceStrafe(.5, 7, 1000);
+        moveDistanceStrafe(.5, 13, 1000);
         moveDistance (.6, 40, 3000);
 
 

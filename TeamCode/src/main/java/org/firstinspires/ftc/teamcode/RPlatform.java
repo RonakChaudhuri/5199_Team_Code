@@ -104,21 +104,21 @@ public class RPlatform extends LinearOpMode {
 
 
         moveDistance(.8, -3.5, 1000);
-        moveDistanceStrafe(.8, -20, 1000);
-        moveDistance(.4, -29, 3000);
-        platformServo.setPosition(.365);
+        moveDistanceStrafe(.8, -21, 1000);
+        moveDistance(.4, -31, 3000);
+        platformServo.setPosition(.38);
         sleep(1000);
         //moveDistanceStrafe(.8, -3, 1000);
-        moveDistance(.8, 20, 1000);
+        moveDistance(.8, 21, 1000);
         //moveDistanceStrafe(.4, 32, 3000);
         turnRightDistance(-.5, 12, 1000);
         moveDistance(.4, 22, 1500);
-        turnRightDistance(-.5, 45, 2000);
+        turnRightDistance(-.5, 42, 2000);
         //moveDistanceStrafe(.4, 20, 3000);
         platformServo.setPosition(0);
-        moveDistance (0.4, -16, 1500);
+        moveDistance (0.4, -20, 2000);
         sleep(1000);
-        moveDistanceStrafe(.5, -5, 1000);
+        moveDistanceStrafe(.5, -12, 1000);
         moveDistance(.6, 40, 3000);
 
     }
