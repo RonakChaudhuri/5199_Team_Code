@@ -30,7 +30,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -143,7 +142,7 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
         if (opModeIsActive())
         {
             tfod.shutdown();
-            moveDistance(.8, -13);
+            moveDistance(.8, 13);
 
             initTfod();
             tfod.activate();
@@ -182,15 +181,15 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                 {
                                     telemetry.addLine("Stone");
                                     telemetry.update();
-                                    moveDistanceStrafe(1.3, -11.6, 800);
+                                    moveDistanceStrafe(1.3, 11.6, 800);
                                     turnLeftDistance(.8, 1.5, 400);
 
                                     //turnRightDistance(.5, 1);
                                     index++;
                                     if(index == 2)
                                     {
-                                        moveDistance(.5, -3);
-                                        moveDistanceStrafe(.5, -.8, 300);
+                                        moveDistance(.5, 3);
+                                        moveDistanceStrafe(.5, .8, 300);
                                     }
                                     if(index >4)
                                     {
@@ -205,40 +204,59 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                     skystone =  true;
                                     telemetry.addLine("Skystone     ");
                                     telemetry.update();
-                                    moveDistance(.5, 18); //forward
-                                    leftIntakeMotor.setPower(-2);
-                                    rightIntakeMotor.setPower(-2);
-                                    moveDistance(.5, 4); //forward
-                                    sleep(1000);//pickup
+                                    moveDistanceStrafe(.7, -17, 1000);
+                                    //moveDistanceSleep (0.5, 8, 800);
+                                    turnRightDistance(.7, 12, 500);
+                                    moveDistance(.5, 20); //forward
+                                    leftIntakeMotor.setPower(0.7);
+                                    rightIntakeMotor.setPower(0.7);
+                                    moveDistance(.5, 10); //forward
+                                    sleep(500);
                                     leftIntakeMotor.setPower(0);
                                     rightIntakeMotor.setPower(0);
+                                    turnLeftDistance(.7, 12, 500);
                                     //moveDistance(.3, 12);  //backward
-                                    moveDistance(.5, -10);
+                                    moveDistance(.5, -18);
                                     turnLeftDistance(.8, 23, 800);
                                     moveDistance(.8, -28 - (11.7*index)); //-35
-                                    //input placing code
+                                    leftIntakeMotor.setPower(-0.7);
+                                    rightIntakeMotor.setPower(-0.7);
+                                    sleep(500);
+                                    leftIntakeMotor.setPower(0);
+                                    rightIntakeMotor.setPower(0);
                                     sleep(1000);                  //drop off
                                     if(index == 0)
                                     {
 
-                                        moveDistance(.8, 28); //35 move to the backmost stone
+                                        moveDistance(.8, -28); //35 move to the backmost stone
                                         turnRightDistance(.5, 23, 1500);
-                                        moveDistanceStrafe(1.3, -34.8, 1500);
+                                        moveDistanceStrafe(1.3, 34.8, 1500);
                                         //turnLeftDistance(.8, 1, 200);
                                         //moveDistanceStrafe(1.3, -10.0, 500);
                                         //turnLeftDistance(.8, 1, 200);
                                         //moveDistanceStrafe(1.3, -10.0, 500);
                                         turnLeftDistance(.8, 2, 500);
-                                        moveDistance(.8, -14); //forward
-                                        leftIntakeMotor.setPower(-2);
-                                        rightIntakeMotor.setPower(-2);
-                                        moveDistance(.5, -4); //forward
-                                        sleep(1000);
-                                        moveDistance(.5, 10);
+                                        moveDistanceStrafe(.7, -17, 1000);
+                                        //moveDistanceSleep (0.5, 8, 800);
+                                        turnRightDistance(.7, 12, 500);
+                                        moveDistance(.5, 20); //forward
+                                        leftIntakeMotor.setPower(0.7);
+                                        rightIntakeMotor.setPower(0.7);
+                                        moveDistance(.5, 10); //forward
+                                        sleep(500);
+                                        leftIntakeMotor.setPower(0);
+                                        rightIntakeMotor.setPower(0);
+                                        turnLeftDistance(.7, 12, 500);
+                                        //moveDistance(.3, 12);  //backward
+                                        moveDistance(.5, -18);
                                         turnLeftDistance(.8, 23,800);
                                         index = 3;
                                         moveDistance(.5, -30 - (11.6*index));//-35
-                                        //input placement code
+                                        leftIntakeMotor.setPower(-0.7);
+                                        rightIntakeMotor.setPower(-0.7);
+                                        sleep(500);
+                                        leftIntakeMotor.setPower(0);
+                                        rightIntakeMotor.setPower(0);
                                         sleep(1000);                  //drop off
                                         moveDistance(.8, 8);
 
@@ -246,28 +264,74 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                     else if(index == 1)
                                     {
 
-                                        moveDistance(.8, 39.77); //46.77 move to the backmost stone
+                                        moveDistance(.8, -39.77); //46.77 move to the backmost stone
                                         turnRightDistance(.5, 23, 1500);
-                                        moveDistanceStrafe(1.3, -34.8, 1500);
+                                        moveDistanceStrafe(1.3, 34.8, 1500);
                                         //turnLeftDistance(.5, 1, 500);
                                         //moveDistanceStrafe(1.3, -10.1, 1200);
                                         //turnLeftDistance(.5, 1, 500);
                                        // moveDistanceStrafe(.5, -10.1, 1200);
                                         turnLeftDistance(.8, 2, 500);
-                                        moveDistance(.5, -14); //forward
-                                        leftIntakeMotor.setPower(-2);
-                                        rightIntakeMotor.setPower(-2);
-                                        moveDistance(.5, -4); //forward
-                                        sleep(1000);
-                                        moveDistance(.5, 10);
+                                        moveDistanceStrafe(.7, -17, 1000);
+                                        //moveDistanceSleep (0.5, 8, 800);
+                                        turnRightDistance(.7, 12, 500);
+                                        moveDistance(.5, 20); //forward
+                                        leftIntakeMotor.setPower(0.7);
+                                        rightIntakeMotor.setPower(0.7);
+                                        moveDistance(.5, 10); //forward
+                                        sleep(500);
+                                        leftIntakeMotor.setPower(0);
+                                        rightIntakeMotor.setPower(0);
+                                        turnLeftDistance(.7, 12, 500);
+                                        //moveDistance(.3, 12);  //backward
+                                        moveDistance(.5, -18);
                                         turnLeftDistance(.5, 23,1500);
                                         moveDistanceStrafe(.8, 14, 800);
                                         index = 4;
                                         moveDistance(.5, -30 - (11.6*index));//-35
-                                        //input placement code
+                                        leftIntakeMotor.setPower(-0.7);
+                                        rightIntakeMotor.setPower(-0.7);
+                                        sleep(500);
+                                        leftIntakeMotor.setPower(0);
+                                        rightIntakeMotor.setPower(0);
                                         sleep(1000);                  //drop off
                                         moveDistance(.8, 8);
 
+                                    }
+                                    else if(index == 2)
+                                    {
+                                        moveDistance(.8, -51.44); //46.77 move to the backmost stone
+                                        turnRightDistance(.5, 23, 1500);
+                                        moveDistanceStrafe(1.3, 34.8, 1500);
+                                        //turnLeftDistance(.5, 1, 500);
+                                        //moveDistanceStrafe(1.3, -10.1, 1200);
+                                        //turnLeftDistance(.5, 1, 500);
+                                        // moveDistanceStrafe(.5, -10.1, 1200);
+                                        turnLeftDistance(.8, 2, 500);
+                                        moveDistanceStrafe(.7, -17, 1000);
+                                        //moveDistanceSleep (0.5, 8, 800);
+                                        turnRightDistance(.7, 12, 500);
+                                        moveDistance(.5, 20); //forward
+                                        leftIntakeMotor.setPower(0.7);
+                                        rightIntakeMotor.setPower(0.7);
+                                        moveDistance(.5, 10); //forward
+                                        sleep(500);
+                                        leftIntakeMotor.setPower(0);
+                                        rightIntakeMotor.setPower(0);
+                                        turnLeftDistance(.7, 12, 500);
+                                        //moveDistance(.3, 12);  //backward
+                                        moveDistance(.5, -18);
+                                        turnLeftDistance(.5, 23,1500);
+                                        moveDistanceStrafe(.8, 14, 800);
+                                        index = 5;
+                                        moveDistance(.5, -30 - (11.6*index));//-35
+                                        leftIntakeMotor.setPower(-0.7);
+                                        rightIntakeMotor.setPower(-0.7);
+                                        sleep(500);
+                                        leftIntakeMotor.setPower(0);
+                                        rightIntakeMotor.setPower(0);
+                                        sleep(1000);                  //drop off
+                                        moveDistance(.8, 8);
                                     }
                                     else
                                     {
