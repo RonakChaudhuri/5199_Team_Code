@@ -309,7 +309,7 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
 
                                         //Stone Picked Up
 
-                                        
+
                                         moveDistanceStrafe(.8, 14, 800);
                                         index = 5;
                                         moveDistance(.5, -30 - (11.6*index));//-35
