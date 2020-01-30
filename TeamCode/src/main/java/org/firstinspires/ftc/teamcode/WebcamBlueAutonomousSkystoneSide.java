@@ -169,14 +169,7 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                             if(updatedRecognitions.size() > 0)
                             {
                                 detected = true;
-//                                if(firstIteration)
-//                                {
-//                                    moveDistance(.5, -15);
-//                                    //moveDistanceStrafe(0.5, -4, 700);
-//                                    firstIteration = false;
-//                                    sleep(1000);
-//                                    webcam = true;
-//                                }
+//
                                 if(recognition.getLabel().equals("Stone") && count ==0 || ((recognition.getLabel().equals("Skystone")  && recognition.getLabel().equals("Stone"))))
                                 {
                                     telemetry.addLine("Stone");
@@ -184,7 +177,6 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                     moveDistanceStrafe(1.3, 11.6, 800);
                                     turnLeftDistance(.8, 1.5, 400);
 
-                                    //turnRightDistance(.5, 1);
                                     index++;
                                     if(index == 2)
                                     {
@@ -205,7 +197,6 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                     telemetry.addLine("Skystone     ");
                                     telemetry.update();
                                     moveDistanceStrafe(.7, -17, 1000);
-                                    //moveDistanceSleep (0.5, 8, 800);
                                     turnRightDistance(.7, 12, 500);
                                     moveDistance(.5, 20); //forward
                                     leftIntakeMotor.setPower(0.7);
@@ -215,9 +206,12 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                     leftIntakeMotor.setPower(0);
                                     rightIntakeMotor.setPower(0);
                                     turnLeftDistance(.7, 12, 500);
-                                    //moveDistance(.3, 12);  //backward
                                     moveDistance(.5, -18);
                                     turnLeftDistance(.8, 23, 800);
+
+                                    //Stone Picked Up
+
+
                                     moveDistance(.8, -28 - (11.7*index)); //-35
                                     leftIntakeMotor.setPower(-0.7);
                                     rightIntakeMotor.setPower(-0.7);
@@ -231,13 +225,8 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                         moveDistance(.8, -28); //35 move to the backmost stone
                                         turnRightDistance(.5, 23, 1500);
                                         moveDistanceStrafe(1.3, 34.8, 1500);
-                                        //turnLeftDistance(.8, 1, 200);
-                                        //moveDistanceStrafe(1.3, -10.0, 500);
-                                        //turnLeftDistance(.8, 1, 200);
-                                        //moveDistanceStrafe(1.3, -10.0, 500);
                                         turnLeftDistance(.8, 2, 500);
                                         moveDistanceStrafe(.7, -17, 1000);
-                                        //moveDistanceSleep (0.5, 8, 800);
                                         turnRightDistance(.7, 12, 500);
                                         moveDistance(.5, 20); //forward
                                         leftIntakeMotor.setPower(0.7);
@@ -247,9 +236,12 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                         leftIntakeMotor.setPower(0);
                                         rightIntakeMotor.setPower(0);
                                         turnLeftDistance(.7, 12, 500);
-                                        //moveDistance(.3, 12);  //backward
                                         moveDistance(.5, -18);
                                         turnLeftDistance(.8, 23,800);
+
+                                        //Stone Picked Up
+
+
                                         index = 3;
                                         moveDistance(.5, -30 - (11.6*index));//-35
                                         leftIntakeMotor.setPower(-0.7);
@@ -267,13 +259,8 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                         moveDistance(.8, -39.77); //46.77 move to the backmost stone
                                         turnRightDistance(.5, 23, 1500);
                                         moveDistanceStrafe(1.3, 34.8, 1500);
-                                        //turnLeftDistance(.5, 1, 500);
-                                        //moveDistanceStrafe(1.3, -10.1, 1200);
-                                        //turnLeftDistance(.5, 1, 500);
-                                       // moveDistanceStrafe(.5, -10.1, 1200);
                                         turnLeftDistance(.8, 2, 500);
                                         moveDistanceStrafe(.7, -17, 1000);
-                                        //moveDistanceSleep (0.5, 8, 800);
                                         turnRightDistance(.7, 12, 500);
                                         moveDistance(.5, 20); //forward
                                         leftIntakeMotor.setPower(0.7);
@@ -283,9 +270,12 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                         leftIntakeMotor.setPower(0);
                                         rightIntakeMotor.setPower(0);
                                         turnLeftDistance(.7, 12, 500);
-                                        //moveDistance(.3, 12);  //backward
                                         moveDistance(.5, -18);
                                         turnLeftDistance(.5, 23,1500);
+
+                                        //Stone Picked Up
+
+
                                         moveDistanceStrafe(.8, 14, 800);
                                         index = 4;
                                         moveDistance(.5, -30 - (11.6*index));//-35
@@ -303,13 +293,8 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                         moveDistance(.8, -51.44); //46.77 move to the backmost stone
                                         turnRightDistance(.5, 23, 1500);
                                         moveDistanceStrafe(1.3, 34.8, 1500);
-                                        //turnLeftDistance(.5, 1, 500);
-                                        //moveDistanceStrafe(1.3, -10.1, 1200);
-                                        //turnLeftDistance(.5, 1, 500);
-                                        // moveDistanceStrafe(.5, -10.1, 1200);
                                         turnLeftDistance(.8, 2, 500);
                                         moveDistanceStrafe(.7, -17, 1000);
-                                        //moveDistanceSleep (0.5, 8, 800);
                                         turnRightDistance(.7, 12, 500);
                                         moveDistance(.5, 20); //forward
                                         leftIntakeMotor.setPower(0.7);
@@ -319,9 +304,12 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                         leftIntakeMotor.setPower(0);
                                         rightIntakeMotor.setPower(0);
                                         turnLeftDistance(.7, 12, 500);
-                                        //moveDistance(.3, 12);  //backward
                                         moveDistance(.5, -18);
                                         turnLeftDistance(.5, 23,1500);
+
+                                        //Stone Picked Up
+
+                                        
                                         moveDistanceStrafe(.8, 14, 800);
                                         index = 5;
                                         moveDistance(.5, -30 - (11.6*index));//-35
@@ -339,21 +327,7 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                     }
 
 
-
-                                    //moveDistanceStrafe(.4, -10);
-                                    //turnRightDistance(.5, 13);
-                                    //sleep(1000);
-                                    //if(recognition.getLabel().equals("Stone"))
-                                    //{
-                                   //     turnLeftDistance(.5, 13);
-                                   // }
-                                   // else
-                                    //{
-                                    //    turnLeftDistance(.5, 36);
-                                    //    moveDistance(.5, -60);
-                                    //}
                                     sleep(1500);
-                                    //index = 4;
                                     count++;
 
 
@@ -364,7 +338,7 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                     telemetry.addLine("Nothing Detected");
                                     turnLeftDistance(.5, 1, 300);
                                 }
-                                //telemetry.addLine("LABEL = " + label);
+
 
                             }
                         }
@@ -374,47 +348,6 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                 }
 
             }
-//            while(!detected)
-//            {
-//                if(detected)
-//                {
-//
-//                    if (stone)
-//                    {
-//                        moveDistanceStrafe(.5, -10);
-//                    }
-//                    if (skystone)
-//                    {
-//                        moveDistance(.5, -10);
-//                    }
-//
-//
-//                     telemetry.addLine("DETECTED");
-//
-//                }
-//
-//            }
-
-//                moveDistance(.4, -30);
-//                leftServo.setPosition(.58);
-//                rightServo.setPosition(.3);
-//                moveDistance(.4, 5);
-//                turnLeftDistance(.4, -23);
-//                moveDistance(.4, -35);
-//                leftServo.setPosition(0);
-//                rightServo.setPosition(0);
-//                moveDistance(.4,10);
-
-//            moveDistance(.4, -10);
-//            leftServo.setPosition(.58);
-//            rightServo.setPosition(.3);
-//            moveDistance(.4, 3);
-//            turnLeftDistance(.4, -23);
-//            moveDistance(.4, -10);
-//            leftServo.setPosition(0);
-//            rightServo.setPosition(0);
-//            moveDistance(.4,4);
-//
 
 
 

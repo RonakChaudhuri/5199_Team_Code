@@ -168,7 +168,7 @@ public class TeleOp4 extends LinearOpMode {
             double strafe = gamepad1.right_stick_x;
             double motorOpenG1 = gamepad1.left_trigger;
             double motorCloseG1 = gamepad1.right_trigger;
-            double lift = gamepad2.left_stick_y;
+            double lift = Math.pow(gamepad2.left_stick_y, 3);
             double grabberServoLeftPos = grabberServoLeft.getPosition();
             double grabberServoRightPos = grabberServoRight.getPosition();
 
@@ -285,17 +285,17 @@ public class TeleOp4 extends LinearOpMode {
             /**LIFT*/
             if (gamepad2.left_stick_y > 0)
             {
-                liftMotorLeft.setPower(liftMotorPower * 0.5);
-                liftMotorRight.setPower(liftMotorPower * 0.5);
+                liftMotorLeft.setPower(liftMotorPower * 0.7 - 0.15);
+                liftMotorRight.setPower(liftMotorPower * 0.7 - 0.15);
             }
             else if (gamepad2.left_stick_y < 0)
             {
-                liftMotorLeft.setPower(liftMotorPower);
-                liftMotorRight.setPower(liftMotorPower);
+                liftMotorLeft.setPower(liftMotorPower * 0.8 - 0.15);
+                liftMotorRight.setPower(liftMotorPower * 0.8 - 0.15);
             }
             else
             {
-                liftMotorLeft.setPower(0);
+                liftMotorLeft.setPower(0); // -0.2 , remove braking, add encoder bounds
                 liftMotorRight.setPower(0);
             }
 //            if (gamepad2.left_stick_y < 0 /*&& !limitSwitch.getState()*/)
