@@ -285,13 +285,13 @@ public class TeleOp4 extends LinearOpMode {
             /**LIFT*/
             if (gamepad2.left_stick_y > 0)
             {
-                liftMotorLeft.setPower(liftMotorPower * 0.7 - 0.30);
-                liftMotorRight.setPower(liftMotorPower * 0.7 - 0.30);
+                liftMotorLeft.setPower(liftMotorPower * 0.7 + 0.15);
+                liftMotorRight.setPower(liftMotorPower * 0.7 + 0.15);
             }
             else if (gamepad2.left_stick_y < 0)
             {
-                liftMotorLeft.setPower(liftMotorPower * 0.8 - 0.15);
-                liftMotorRight.setPower(liftMotorPower * 0.8 - 0.15);
+                liftMotorLeft.setPower(liftMotorPower * 0.9 - 0.30);
+                liftMotorRight.setPower(liftMotorPower * 0.9 - 0.30);
             }
             else
             {
@@ -347,15 +347,15 @@ public class TeleOp4 extends LinearOpMode {
             }
             telemetry.addData("Platform Servo Position: ", platformServo.getPosition());
 
-            if(clawServo.getPosition() == .4)
+            if(clawServo.getPosition() == .6)
             {
                 telemetry.addLine("Claw Open");
             }
-            if(clawServo.getPosition() == .55)
+            if(clawServo.getPosition() == .8)
             {
                 telemetry.addLine("Claw Closed");
             }
-            if(clawServo.getPosition() == .7)
+            if(clawServo.getPosition() == .92)
             {
                 telemetry.addLine("Feeder Bot Activated");
             }

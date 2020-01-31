@@ -30,7 +30,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -53,9 +52,9 @@ import java.util.List;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@Autonomous(name = "Blue Skystone Webcam", group = "Concept")
-@Disabled
-public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
+@Autonomous(name = "Blue One Skystone Webcam", group = "Concept")
+//@Disabled
+public class WebcamBlueAutonomousOneSkystoneSide extends LinearOpMode
 {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
@@ -179,11 +178,6 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                     //turnLeftDistance(.8, 1.5, 400);
 
                                     index++;
-                                    if(index == 2)
-                                    {
-                                        moveDistance(.5, 3);
-                                        moveDistanceStrafe(.5, .8, 300);
-                                    }
                                     if(index >4)
                                     {
                                         sleep(30000);
@@ -192,7 +186,7 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
 
                                 }
 //
-                                else if(recognition.getLabel().equals("Skystone") && count < 1 && !recognition.getLabel().equals("Stone"))
+                                else if(recognition.getLabel().equals("Skystone") && !recognition.getLabel().equals("Stone"))
                                 {
                                     skystone =  true;
                                     telemetry.addLine("Skystone     ");
@@ -200,8 +194,6 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                     moveDistanceStrafe (0.7, 25, 1750);
                                     turnLeftDistance(0.7, 22.5, 1000);
                                     moveDistanceStrafe(0.7, 28, 2000);
-//                                    moveDistanceStrafe(.7, -9, 1000);
-//                                    turnRightDistance(.7, 7, 500);
                                     moveDistance(.5, 6); //forward
                                     leftIntakeMotor.setPower(0.9);
                                     rightIntakeMotor.setPower(0.9);
@@ -211,134 +203,22 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                     rightIntakeMotor.setPower(0);
                                     moveDistance(0.7, -6);
                                     moveDistanceStrafe (0.7, -25, 2000);
-                                    //turnRightDistance(.7, 23, 500);
-                                    //moveDistance(.5, 18);
-                                    //turnLeftDistance(.8, 23, 800);
 
 
                                     //Stone Picked Up
 
 
-                                    moveDistance(.8, 50 + (11.7*index)); //-35
+                                    moveDistance(.8, 50 + (11.7*index));
+                                    sleep(1500);
                                     leftIntakeMotor.setPower(-0.7);
                                     rightIntakeMotor.setPower(-0.7);
                                     sleep(500);
                                     leftIntakeMotor.setPower(0);
                                     rightIntakeMotor.setPower(0);
                                     sleep(1000);                  //drop off
-                                    if(index == 0)
-                                    {
-
-                                        moveDistance(.8, -28); //35 move to the backmost stone
-                                        turnRightDistance(.5, 23, 1500);
-                                        moveDistanceStrafe(1.3, 34.8, 1500);
-                                        turnLeftDistance(.8, 2, 500);
-
-                                        moveDistanceStrafe (0.7, 25, 1750);
-                                        turnLeftDistance(0.7, 23, 1000);
-                                        moveDistanceStrafe(0.7, 28, 2000);
-                                        moveDistance(.5, 6); //forward
-                                        leftIntakeMotor.setPower(0.9);
-                                        rightIntakeMotor.setPower(0.9);
-                                        moveDistance(.5, 6); //forward
-                                        sleep(1400);
-                                        leftIntakeMotor.setPower(0);
-                                        rightIntakeMotor.setPower(0);
-                                        moveDistance(0.7, -6);
-                                        moveDistanceStrafe (0.7, -12, 1000);
-
-                                        //Stone Picked Up
+                                    moveDistance(.8, -15);
 
 
-                                        index = 3;
-                                        moveDistance(.5, 30 + (11.6*index));//-35
-                                        leftIntakeMotor.setPower(-0.7);
-                                        rightIntakeMotor.setPower(-0.7);
-                                        sleep(500);
-                                        leftIntakeMotor.setPower(0);
-                                        rightIntakeMotor.setPower(0);
-                                        sleep(1000);                  //drop off
-                                        moveDistance(.8, 8);
-
-                                    }
-                                    else if(index == 1)
-                                    {
-
-                                        moveDistance(.8, -39.77); //46.77 move to the backmost stone
-                                        turnRightDistance(.5, 23, 1500);
-                                        moveDistanceStrafe(1.3, 34.8, 1500);
-                                        turnLeftDistance(.8, 2, 500);
-
-                                        moveDistanceStrafe (0.7, 25, 1750);
-                                        turnLeftDistance(0.7, 23, 1000);
-                                        moveDistanceStrafe(0.7, 28, 2000);
-                                        moveDistance(.5, 6); //forward
-                                        leftIntakeMotor.setPower(0.9);
-                                        rightIntakeMotor.setPower(0.9);
-                                        moveDistance(.5, 6); //forward
-                                        sleep(1400);
-                                        leftIntakeMotor.setPower(0);
-                                        rightIntakeMotor.setPower(0);
-                                        moveDistance(0.7, -6);
-                                        moveDistanceStrafe (0.7, -12, 1000);
-
-                                        //Stone Picked Up
-
-
-                                        moveDistanceStrafe(.8, 14, 800);
-                                        index = 4;
-                                        moveDistance(.5, 30 + (11.6*index));//-35
-                                        leftIntakeMotor.setPower(-0.7);
-                                        rightIntakeMotor.setPower(-0.7);
-                                        sleep(500);
-                                        leftIntakeMotor.setPower(0);
-                                        rightIntakeMotor.setPower(0);
-                                        sleep(1000);                  //drop off
-                                        moveDistance(.8, 8);
-
-                                    }
-                                    else if(index == 2)
-                                    {
-                                        moveDistance(.8, -51.44); //46.77 move to the backmost stone
-                                        turnRightDistance(.5, 23, 1500);
-                                        moveDistanceStrafe(1.3, 34.8, 1500);
-                                        turnLeftDistance(.8, 2, 500);
-
-                                        moveDistanceStrafe (0.7, 25, 1750);
-                                        turnLeftDistance(0.7, 23, 1000);
-                                        moveDistanceStrafe(0.7, 28, 2000);
-                                        moveDistance(.5, 6); //forward
-                                        leftIntakeMotor.setPower(0.9);
-                                        rightIntakeMotor.setPower(0.9);
-                                        moveDistance(.5, 6); //forward
-                                        sleep(1000);
-                                        leftIntakeMotor.setPower(0);
-                                        rightIntakeMotor.setPower(0);
-                                        moveDistance(0.7, -6);
-                                        moveDistanceStrafe (0.7, -16, 1500);
-
-                                        //Stone Picked Up
-
-
-                                        moveDistanceStrafe(.8, 14, 800);
-                                        index = 5;
-                                        moveDistance(.5, 30 + (11.6*index));//-35
-                                        leftIntakeMotor.setPower(-0.7);
-                                        rightIntakeMotor.setPower(-0.7);
-                                        sleep(500);
-                                        leftIntakeMotor.setPower(0);
-                                        rightIntakeMotor.setPower(0);
-                                        sleep(1000);                  //drop off
-                                        moveDistance(.8, 8);
-                                    }
-                                    else
-                                    {
-                                        moveDistance(.5, 8);
-                                    }
-
-
-                                    sleep(1500);
-                                    count++;
 
 
                                 }
