@@ -285,8 +285,8 @@ public class TeleOp4 extends LinearOpMode {
             /**LIFT*/
             if (gamepad2.left_stick_y > 0)
             {
-                liftMotorLeft.setPower(liftMotorPower * 0.7 - 0.20);
-                liftMotorRight.setPower(liftMotorPower * 0.7 - 0.20);
+                liftMotorLeft.setPower(liftMotorPower * 0.7 - 0.30);
+                liftMotorRight.setPower(liftMotorPower * 0.7 - 0.30);
             }
             else if (gamepad2.left_stick_y < 0)
             {

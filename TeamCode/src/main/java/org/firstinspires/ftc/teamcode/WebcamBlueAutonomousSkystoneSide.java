@@ -205,11 +205,11 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                     leftIntakeMotor.setPower(0.9);
                                     rightIntakeMotor.setPower(0.9);
                                     moveDistance(.5, 6); //forward
-                                    sleep(1400);
+                                    sleep(1000);
                                     leftIntakeMotor.setPower(0);
                                     rightIntakeMotor.setPower(0);
                                     moveDistance(0.7, -6);
-                                    moveDistanceStrafe (0.7, -22, 1750);
+                                    moveDistanceStrafe (0.7, -25, 2000);
                                     //turnRightDistance(.7, 23, 500);
                                     //moveDistance(.5, 18);
                                     //turnLeftDistance(.8, 23, 800);
@@ -218,7 +218,7 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                     //Stone Picked Up
 
 
-                                    moveDistance(.8, 38 + (11.7*index)); //-35
+                                    moveDistance(.8, 50 + (11.7*index)); //-35
                                     leftIntakeMotor.setPower(-0.7);
                                     rightIntakeMotor.setPower(-0.7);
                                     sleep(500);
@@ -310,11 +310,11 @@ public class WebcamBlueAutonomousSkystoneSide extends LinearOpMode
                                         leftIntakeMotor.setPower(0.9);
                                         rightIntakeMotor.setPower(0.9);
                                         moveDistance(.5, 6); //forward
-                                        sleep(1400);
+                                        sleep(1000);
                                         leftIntakeMotor.setPower(0);
                                         rightIntakeMotor.setPower(0);
                                         moveDistance(0.7, -6);
-                                        moveDistanceStrafe (0.7, -12, 1000);
+                                        moveDistanceStrafe (0.7, -16, 1500);
 
                                         //Stone Picked Up
 
