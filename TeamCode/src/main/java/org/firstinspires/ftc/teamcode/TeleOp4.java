@@ -104,8 +104,8 @@ public class TeleOp4 extends LinearOpMode {
     static final double     COUNTS_PER_MOTOR_REV_PIVOT    = 696.5; //235.2
     static final double     DRIVE_GEAR_REDUCTION_PIVOT    = 1.75;
     static final double     PIVOT_DIAMETER_INCHES   = .023622;
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV_PIVOT * DRIVE_GEAR_REDUCTION_PIVOT) /
-            (PIVOT_DIAMETER_INCHES * 3.1415);
+    static final double     COUNTS_PER_INCH    = (COUNTS_PER_MOTOR_REV_PIVOT * DRIVE_GEAR_REDUCTION_PIVOT) /
+                                                    (PIVOT_DIAMETER_INCHES * 3.1415);
 
 
     @Override
@@ -285,8 +285,8 @@ public class TeleOp4 extends LinearOpMode {
             /**LIFT*/
             if (gamepad2.left_stick_y > 0)
             {
-                liftMotorLeft.setPower(liftMotorPower * 0.7 - 0.15);
-                liftMotorRight.setPower(liftMotorPower * 0.7 - 0.15);
+                liftMotorLeft.setPower(liftMotorPower * 0.7 - 0.20);
+                liftMotorRight.setPower(liftMotorPower * 0.7 - 0.20);
             }
             else if (gamepad2.left_stick_y < 0)
             {
