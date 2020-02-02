@@ -147,9 +147,9 @@ public class TeleOp4 extends LinearOpMode {
         grabberServoRight.setDirection(Servo.Direction.REVERSE);
         leftIntakeMotor.setDirection(DcMotor.Direction.REVERSE);
         platformServo.setPosition(0);
-        grabberServoLeft.setPosition(0.77);
-        grabberServoRight.setPosition(0.77);
-        clawServo.setPosition(0.6);
+        grabberServoLeft.setPosition(0.79);
+        grabberServoRight.setPosition(0.79);
+        clawServo.setPosition(0.69);
 
         waitForStart();
         runtime.reset();
@@ -184,13 +184,13 @@ public class TeleOp4 extends LinearOpMode {
             /**GAMEPAD1 INTAKE*/
             if(gamepad1.left_trigger > 0)
             {
-                leftIntakeMotor.setPower(-intakeMotorOpenPowerG1 * 1.5);
-                rightIntakeMotor.setPower(-intakeMotorOpenPowerG1 * 1.5);
+                leftIntakeMotor.setPower(-intakeMotorOpenPowerG1 * 0.75);
+                rightIntakeMotor.setPower(-intakeMotorOpenPowerG1 * 0.75);
             }
             else if(gamepad1.right_trigger > 0)
             {
-                leftIntakeMotor.setPower(intakeMotorClosePowerG1 * 1.5);
-                rightIntakeMotor.setPower(intakeMotorClosePowerG1 * 1.5);
+                leftIntakeMotor.setPower(intakeMotorClosePowerG1);
+                rightIntakeMotor.setPower(intakeMotorClosePowerG1);
             }
             else
             {
@@ -236,8 +236,8 @@ public class TeleOp4 extends LinearOpMode {
             }
             if(gamepad2.left_bumper /*&& !limitSwitch.getState()*/)
             {
-                grabberServoRight.setPosition(0.77);
-                grabberServoLeft.setPosition(0.77);
+                grabberServoRight.setPosition(0.79);
+                grabberServoLeft.setPosition(0.79);
             }
 
             if(gamepad2.left_trigger > 0 && grabberServoRightPos <= 0.77 && grabberServoLeftPos <= 0.77)
@@ -275,7 +275,7 @@ public class TeleOp4 extends LinearOpMode {
             }
             if (gamepad2.b)
             {
-                clawServo.setPosition (0.6);
+                clawServo.setPosition (0.69);
             }
             if(gamepad1.b)
             {
@@ -285,13 +285,13 @@ public class TeleOp4 extends LinearOpMode {
             /**LIFT*/
             if (gamepad2.left_stick_y > 0)
             {
-                liftMotorLeft.setPower(liftMotorPower * 0.7 + 0.15);
-                liftMotorRight.setPower(liftMotorPower * 0.7 + 0.15);
+                liftMotorLeft.setPower(liftMotorPower * 0.7);
+                liftMotorRight.setPower(liftMotorPower * 0.7);
             }
             else if (gamepad2.left_stick_y < 0)
             {
-                liftMotorLeft.setPower(liftMotorPower * 0.9 - 0.30);
-                liftMotorRight.setPower(liftMotorPower * 0.9 - 0.30);
+                liftMotorLeft.setPower(liftMotorPower * 0.95 - 0.40);
+                liftMotorRight.setPower(liftMotorPower * 0.95 - 0.40);
             }
             else
             {
@@ -347,7 +347,7 @@ public class TeleOp4 extends LinearOpMode {
             }
             telemetry.addData("Platform Servo Position: ", platformServo.getPosition());
 
-            if(clawServo.getPosition() == .6)
+            if(clawServo.getPosition() == .69)
             {
                 telemetry.addLine("Claw Open");
             }

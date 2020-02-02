@@ -170,15 +170,15 @@ public class WebcamBlueAutonomousOneSkystoneSide extends LinearOpMode
                             {
                                 detected = true;
 //
-                                if(recognition.getLabel().equals("Stone") && count ==0 || ((recognition.getLabel().equals("Skystone")  && recognition.getLabel().equals("Stone"))))
+                                if(recognition.getLabel().equals("Stone") && count ==0)
                                 {
                                     telemetry.addLine("Stone");
                                     telemetry.update();
-                                    moveDistanceStrafe(1.3, 11.6, 800);
+                                    moveDistanceStrafe(1.3, 11, 800);
                                     //turnLeftDistance(.8, 1.5, 400);
 
                                     index++;
-                                    if(index >4)
+                                    if(index >3)
                                     {
                                         sleep(30000);
                                     }
@@ -186,37 +186,38 @@ public class WebcamBlueAutonomousOneSkystoneSide extends LinearOpMode
 
                                 }
 //
-                                else if(recognition.getLabel().equals("Skystone") && !recognition.getLabel().equals("Stone"))
+                                else if(recognition.getLabel().equals("Skystone"))
                                 {
                                     skystone =  true;
                                     telemetry.addLine("Skystone     ");
                                     telemetry.update();
-                                    moveDistanceStrafe (0.7, 25, 1750);
+                                    moveDistanceStrafe (0.7, 25.4, 1750);
                                     turnLeftDistance(0.7, 22.5, 1000);
-                                    moveDistanceStrafe(0.7, 28, 2000);
+                                    moveDistanceStrafe(0.7, 27.7, 2000);
                                     moveDistance(.5, 6); //forward
                                     leftIntakeMotor.setPower(0.9);
                                     rightIntakeMotor.setPower(0.9);
                                     moveDistance(.5, 6); //forward
-                                    sleep(1000);
+                                    sleep(700);
                                     leftIntakeMotor.setPower(0);
                                     rightIntakeMotor.setPower(0);
                                     moveDistance(0.7, -6);
-                                    moveDistanceStrafe (0.7, -25, 2000);
+                                    moveDistanceStrafe (0.7, -17, 2000);
 
 
                                     //Stone Picked Up
 
 
-                                    moveDistance(.8, 50 + (11.7*index));
+                                    moveDistance(.8, 47 + (11.7*index));
                                     sleep(1500);
                                     leftIntakeMotor.setPower(-0.7);
                                     rightIntakeMotor.setPower(-0.7);
-                                    sleep(500);
+                                    sleep(1000);
                                     leftIntakeMotor.setPower(0);
                                     rightIntakeMotor.setPower(0);
                                     sleep(1000);                  //drop off
                                     moveDistance(.8, -15);
+                                    sleep(30000);
 
 
 

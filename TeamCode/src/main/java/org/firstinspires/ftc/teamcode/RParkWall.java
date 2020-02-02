@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -49,7 +50,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="RedParkWallSkystone", group="Linear Opmode")
-//@Disabled
+@Disabled
 public class RParkWall extends LinearOpMode
 {
 
@@ -107,8 +108,8 @@ public class RParkWall extends LinearOpMode
         waitForStart();
         runtime.reset();
 
-        moveDistance(.8, 3);
-        moveDistanceStrafe(.4, 10);
+        moveDistance(.8, 5);
+        //moveDistanceStrafe(.4, 10);
 
 
 

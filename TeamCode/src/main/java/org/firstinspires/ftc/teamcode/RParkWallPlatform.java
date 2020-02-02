@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -49,7 +50,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="RedParkWallPlatform", group="Linear Opmode")
-//@Disabled
+@Disabled
 public class RParkWallPlatform extends LinearOpMode
 {
 
@@ -107,8 +108,8 @@ public class RParkWallPlatform extends LinearOpMode
         waitForStart();
         runtime.reset();
 
-        moveDistance(.8, 3);
-        moveDistanceStrafe(.4, -10);
+        moveDistance(.8, 5);
+        //moveDistanceStrafe(.4, -10);
 
 
 
